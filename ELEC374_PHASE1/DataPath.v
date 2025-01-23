@@ -1,22 +1,19 @@
 module DataPath(
-	input wire clock, clear,
-	input wire [31:0] A, 
-	input wire [31:0] RegisterAImmediate,
-	input wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out,
+	input wire [31:0] clock, clear, R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out,
 				  R9out, R10out, R11out, R12out, R13out, R14out, R15out, RZout,
-				  RYout, RHIout, RLOout, RPCout, RIRout, RMARin;
+				  RYout, RHIout, RLOout, RPCout, RIRout, RMARout,
+				  
 	input wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in,
 				  R9in, R10in, R11in, R12in, R13in, R14in, R15in, RZin,
-				  RYin, RHIin, RLOin, RPCin, RIRin, RMARin;
+				  RYin, RHIin, RLOin, RPCin, RIRin, RMARin
 );
 
 wire [31:0] BusMuxOut, BusMuxInR0, BusMuxInR1, BusMuxInR2,
 				BusMuxInR3, BusMuxInR4, BusMuxInR5, BusMuxInR6, BusMuxInR7,
 				BusMuxInR8, BusMuxInR9, BusMuxInR10, BusMuxInR11, BusMuxInR12,
 				BusMuxInR13, BusMuxInR14, BusMuxInR15, BusMuxInRZ, BusMuxInRY, 
-				BusMuxInRHI, BusMuxInRLO, BusMuxInRPC, BusMuxInRIR, BusMuxInRMAR, BusMuxInRZHI, BusMuxInRZLO; 
-
-wire [31:0] Zregin;
+				BusMuxInRHI, BusMuxInRLO, BusMuxInRPC, BusMuxInRIR, BusMuxInRMAR,
+				BusMuxInRZHI, BusMuxInRZLO; 
 
 //Devices
 register R0(clear, clock, R0in, BusMuxOut, BusMuxInR0);
@@ -44,9 +41,6 @@ register RIR(clear, clock, RIRin, BusMuxOut, BusMuxInRIR);
 
 register RMAR(clear, clock, RMARin, BusMuxOut, BusMuxInRMAR);
 
-register RZHI(clear, clock, RZHIin, BusMuxOut, BusMuxInRZHI);
-register RZLO(clear, clock, RZLOin, BusMuxOut, BusMuxInRZLO);
-
 // adder
 adder add(A, BusMuxOut, Zregin);
 register RZHI(clear, clock, RZHIin, BusMuxOut, BusMuxInRZHI);
@@ -56,15 +50,39 @@ register RY(clear, clock, RYin, Zregin, BusMuxInRY);
 //Bus
 //Bus bus(BusMuxInRZ, BusMuxInRA, BusMuxInRB, RZout, RAout, RBout, BusMuxOut);
 //Start
-Bus bus(BusMuxInR0, BusMuxInR1, BusMuxInR2, BusMuxInR3, BusMuxInR4, BusMuxInR5, BusMuxInR6, BusMuxInR7,
-	BusMuxInR8, BusMuxInR9, BusMuxInR10, BusMuxInR11, BusMuxInR12, BusMuxInR13, BusMuxInR14, BusMuxInR15, BusMuxInH1,
-	BusMuxInRLO, BusMuxInRPC, BusMuxInRIR, BusMuxInRZHI, BusMuxInRZLO,
+Bus bus(
+	BusMuxInR0, BusMuxInR1, BusMuxInR2, BusMuxInR3,
+	BusMuxInR4, BusMuxInR5, BusMuxInR6, BusMuxInR7,
+	BusMuxInR8, BusMuxInR9, BusMuxInR10, BusMuxInR11,
+	BusMuxInR12, BusMuxInR13, BusMuxInR14, BusMuxInR15,
+	
+	BusMuxInHI, // HI register (input from the bus)
+	BusMuxInRLO, // LO register
+	BusMuxInRPC, // Program Counter
+	BusMuxInRIR, // Instruction register
+	BusMuxInRIR, // IR register
+	BusMuxInRMAR, // MAR register
+	BusMuxInRY, // Y register
+	BusMuxInRB, // B register
 
-	RZout, R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out,
-	R14out, R15out, RHIout, RLOout, RPCout, RIRout, RMARout, RZHIout, RZLOout, RYout,
+	R0out, R1out, R2out, R3out,
+	R4out, R5out, R6out, R7out,
+	R8out, R9out, R10out, R11out,
+	R12out, R13out, R14out, R15out,
+	
+	RZout, // Z register output
+	RHIout, // HI output
+	RLOout, // LO output
+	RPCout, // PC output
+	RIRout, // IR output
+	RMARout, // MAR output
+	RZHIout, // Z HI output
+	RZLOout, // Z LO output
+	RYout, // Y output
 
 
-	BusMuxOut);
+	BusMuxOut
+);
 
 
 
