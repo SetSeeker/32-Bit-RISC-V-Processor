@@ -1,72 +1,69 @@
-module DataPath(
-	input wire clock, clear,
-	input wire [31:0] A, 
-	input wire [31:0] RegisterAImmediate,
-	input wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out,
-				  R9out, R10out, R11out, R12out, R13out, R14out, R15out, RZout,
-				  RYout, RHIout, RLOout, RPCout, RIRout, RMARin;
-	input wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in,
-				  R9in, R10in, R11in, R12in, R13in, R14in, R15in, RZin,
-				  RYin, RHIin, RLOin, RPCin, RIRin, RMARin;
+module DataPath #(parameter DATA_WIDTH = 32)(
+	input Clock, Clear,
+	input R3in, R4in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
+	input IncPC, Read, AND,
+	input[DATA_WIDTH-1:0] Mdatain,
+	//input [4:0] sel,
+	//input [3:0] control,
+	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out,
+	R11out, R12out, R13out, R14out, R15out, PCout, Zlowout, MDRout
 );
 
-wire [31:0] BusMuxOut, BusMuxInR0, BusMuxInR1, BusMuxInR2,
-				BusMuxInR3, BusMuxInR4, BusMuxInR5, BusMuxInR6, BusMuxInR7,
-				BusMuxInR8, BusMuxInR9, BusMuxInR10, BusMuxInR11, BusMuxInR12,
-				BusMuxInR13, BusMuxInR14, BusMuxInR15, BusMuxInRZ, BusMuxInRY, 
-				BusMuxInRHI, BusMuxInRLO, BusMuxInRPC, BusMuxInRIR, BusMuxInRMAR, BusMuxInRZHI, BusMuxInRZLO; 
+//PCout, Zlowout, MDRout, R3out, R7out, MARin, Zin, PCin, MDRin, IRin, Yin, IncPC, Read, AND, R3in, R4in, R7in, Mdatain
 
-wire [31:0] Zregin;
+wire [DATA_WIDTH-1:0] R3, R4, R7, alu_result;
 
 //Devices
-register R0(clear, clock, R0in, BusMuxOut, BusMuxInR0);
-register R1(clear, clock, R1in, BusMuxOut, BusMuxInR1);
-register R2(clear, clock, R2in, BusMuxOut, BusMuxInR2);
-register R3(clear, clock, R3in, BusMuxOut, BusMuxInR3);
-register R4(clear, clock, R4in, BusMuxOut, BusMuxInR4);
-register R5(clear, clock, R5in, BusMuxOut, BusMuxInR5);
-register R6(clear, clock, R6in, BusMuxOut, BusMuxInR6);
-register R7(clear, clock, R7in, BusMuxOut, BusMuxInR7);
-register R8(clear, clock, R8in, BusMuxOut, BusMuxInR8);
-register R9(clear, clock, R9in, BusMuxOut, BusMuxInR9);
-register R10(clear, clock, R10in, BusMuxOut, BusMuxInR10);
-register R11(clear, clock, R11in, BusMuxOut, BusMuxInR11);
-register R12(clear, clock, R12in, BusMuxOut, BusMuxInR12);
-register R13(clear, clock, R13in, BusMuxOut, BusMuxInR13);
-register R14(clear, clock, R14in, BusMuxOut, BusMuxInR14);
-register R15(clear, clock, R15in, BusMuxOut, BusMuxInR15);
+register #(DATA_WIDTH) reg3 (
+	.clock(clock),
+	.clear(clear),
+	.enable(R3in),
+	.data_in(Mdatain),
+	.data_out(R3)
+);
 
-register RHI(clear, clock, RHIin, BusMuxOut, BusMuxInRHI);
-register RLO(clear, clock, RLOin, BusMuxOut, BusMuxInRLO);
+register #(DATA_WIDTH) reg7 (
+	.clock(clock),
+	.clear(clear),
+	.enable(R7in),
+	.data_in(Mdatain),
+	.data_out(R7)
+);
 
-register RPC(clear, clock, RPCin, BusMuxOut, BusMuxInRPC);
-register RIR(clear, clock, RIRin, BusMuxOut, BusMuxInRIR);
+// ALU
+ALU #(DATA_WIDTH) AND_OP (
+	.a(R3),
+	.b(R7),
+	.control(4'd4),
+	.result(alu_result)
+);
 
-register RMAR(clear, clock, RMARin, BusMuxOut, BusMuxInRMAR);
-
-register RZHI(clear, clock, RZHIin, BusMuxOut, BusMuxInRZHI);
-register RZLO(clear, clock, RZLOin, BusMuxOut, BusMuxInRZLO);
-
-// adder
-adder add(A, BusMuxOut, Zregin);
-register RZHI(clear, clock, RZHIin, BusMuxOut, BusMuxInRZHI);
-register RZLO(clear, clock, RZLOin, BusMuxOut, BusMuxInRZLO);
-register RY(clear, clock, RYin, Zregin, BusMuxInRY);
+register #(DATA_WIDTH) reg4 (
+	.clock(clock),
+	.clear(clear),
+	.enable(R4in),
+	.data_in(alu_result),
+	.data_out(R4)
+);
 
 //Bus
-//Bus bus(BusMuxInRZ, BusMuxInRA, BusMuxInRB, RZout, RAout, RBout, BusMuxOut);
-//Start
-Bus bus(BusMuxInR0, BusMuxInR1, BusMuxInR2, BusMuxInR3, BusMuxInR4, BusMuxInR5, BusMuxInR6, BusMuxInR7,
-	BusMuxInR8, BusMuxInR9, BusMuxInR10, BusMuxInR11, BusMuxInR12, BusMuxInR13, BusMuxInR14, BusMuxInR15, BusMuxInH1,
-	BusMuxInRLO, BusMuxInRPC, BusMuxInRIR, BusMuxInRZHI, BusMuxInRZLO,
-
-	RZout, R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out,
-	R14out, R15out, RHIout, RLOout, RPCout, RIRout, RMARout, RZHIout, RZLOout, RYout,
-
-
-	BusMuxOut);
-
-
-
+Bus #(DATA_WIDTH) bus(
+	.R0(R0),
+	.R1(R1),
+	.R2(R2),
+	.R3(R3),
+	.R4(R4),
+	.R5(R5),
+	.R6(R6),
+	.R7(R7),
+	.R8(R8),
+	.R9(R9),
+	.R10(R10),
+	.R11(R11),
+	.R12(R12),
+	.R13(R13),
+	.R15(R15),
+	.bus_out(Mdatain)
+);
 
 endmodule
