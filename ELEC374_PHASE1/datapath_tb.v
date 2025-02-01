@@ -4,6 +4,7 @@ module datapath_tb;
 	 reg PCout, Zlowout, MDRout, R3out, R7out; // add any other signals to see in your simulation
 	 reg MARin, Zin, PCin, MDRin, IRin, Yin;
 	 reg IncPC, Read, AND, R3in, R4in, R7in;
+	 reg LOin, HIin, MUL, R2out, R6out; //nick multiply signals needed
 	 reg Clock, Clear;
 	 reg [31:0] Mdatain;
 	 parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
