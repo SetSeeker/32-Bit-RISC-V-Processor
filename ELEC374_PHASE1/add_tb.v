@@ -1,11 +1,11 @@
 // add_tb.v file: Testbench for mul R2, R6
 `timescale 1ns/10ps
 
-module mul_tb;
+module add_tb;
     // Control signals
     reg PCout, Zlowout, Zhighout, MDRout, R2out, R6out;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, LOin, HIin;
-    reg IncPC, Read, MUL;
+    reg IncPC, Read, ADD;
     reg Clock;
     reg [31:0] Mdatain;
 
@@ -42,8 +42,7 @@ module mul_tb;
             T2: Present_state = T3;
             T3: Present_state = T4;
             T4: Present_state = T5;
-            T5: Present_state = T6;
-            T6: Present_state = Default; // Reset to Default after completion
+            T5: Present_state = Default; // Reset to Default after completion
         endcase
     end
 
@@ -55,7 +54,7 @@ module mul_tb;
                 PCout <= 0; Zlowout <= 0; Zhighout <= 0; MDRout <= 0;
                 R2out <= 0; R6out <= 0; MARin <= 0; Zin <= 0;
                 PCin <= 0; MDRin <= 0; IRin <= 0; Yin <= 0;
-                LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; MUL <= 0;
+                LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; ADD <= 0;
                 Mdatain <= 32'h00000000;
             end
 
@@ -81,21 +80,17 @@ module mul_tb;
             end
 
             T4: begin
-                // Step T4: R6out, MUL, Zin
+                // Step T4: R6out, ADD, Zin
                 R6out <= 1;
                 
                 Zin <= 1;
             end
 
             T5: begin
-                // Step T5: Zlowout, LOin
-                Zlowout <= 1; LOin <= 1;
+                // Step T5: Zlowout, R2in
+                Zlowout <= 1; R2out <= 1;
             end
 
-            T6: begin
-                // Step T6: Zhighout, HIin
-                Zhighout <= 1; HIin <= 1;
-            end
         endcase
     end
 endmodule
