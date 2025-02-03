@@ -1,0 +1,25 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Fri Jan 31 06:06:22 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/Coding/FPGA/ELEC374_PHASE1/shl_tb.vcd"
+[dumpfile_mtime] "Fri Jan 31 06:03:23 2025"
+[dumpfile_size] 1239
+[savefile] "/Users/simonskripchenko/Documents/Coding/FPGA/ELEC374_PHASE1/shl_tb.gtkw"
+[timestart] 0
+[size] 1280 600
+[pos] -1 -1
+*-14.286033 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[treeopen] shl_tb.
+[sst_width] 240
+[signals_width] 169
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@420
+shl_tb.DATA_WIDTH
+@22
+shl_tb.data_in[31:0]
+shl_tb.data_out[31:0]
+shl_tb.shift_amount[4:0]
+[pattern_trace] 1
+[pattern_trace] 0
