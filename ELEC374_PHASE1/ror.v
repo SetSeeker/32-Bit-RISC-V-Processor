@@ -4,6 +4,6 @@ module ror #(parameter DATA_WIDTH = 32) (
     output wire [DATA_WIDTH-1:0] data_out
 );
 
-    assign data_out = (data_in >> rotate_amount)| (data_in << (DATA_WIDTH-rotate_amount));
+    assign data_out = (data_in >> rotate_amount) | (data_in << (DATA_WIDTH-rotate_amount));
 
 endmodule
