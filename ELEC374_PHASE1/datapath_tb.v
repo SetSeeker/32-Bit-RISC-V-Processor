@@ -117,14 +117,14 @@ always @(Present_state) // do the required job in each state
 		end
 	endcase
   end
-// MAC code for simulations
-	initial begin
-        $dumpfile("datapath_tb.vcd");
-        $dumpvars();
-    end
-initial begin
-    #300;  // Run for 1000 time units
-    $display("Simulation complete.");
-    $finish;
-end
+// // MAC code for simulations
+// 	initial begin
+//         $dumpfile("datapath_tb.vcd");
+//         $dumpvars();
+//     end
+// initial begin
+//     #300;  // Run for 1000 time units
+//     $display("Simulation complete.");
+//     $finish;
+// end
 endmodule 
