@@ -24,7 +24,7 @@ module add_tb;
     // Instantiate the existing Datapath module
     Datapath DUT(
         PCout, Zlowout, Zhighout, MDRout, R2out, R6out, MARin, Zin, PCin, MDRin, IRin, Yin, 
-        IncPC, Read, MUL, LOin, HIin, Clock, Mdatain
+        IncPC, Read, ADD, LOin, HIin, Clock, Mdatain
     );
 
     // Clock generation
