@@ -4,27 +4,25 @@ module MDR #(parameter DATA_WIDTH = 32) (
 	output reg[DATA_WIDTH-1:0] BusMuxIn_MDR
 );
 
-reg[DATA_WIDTH-1:0] MDMuxout;
+	reg[DATA_WIDTH-1:0] MDMuxout;
 
-// MDMux
-always @(*) begin
-	case(Read)
-		1'd0: MDMuxout = BusMuxOut; // 0
-		1'd1: MDMuxout = Mdatain; // 1
-		default: MDMuxout = 0;
-	endcase
-end
+	// MDMux
+	always @(*) begin
+		case(Read)
+			1'd0: MDMuxout = BusMuxOut; // 0
+			1'd1: MDMuxout = Mdatain; // 1
+			default: MDMuxout = 0;
+		endcase
+	end
 
-//MDR
-always @ (posedge Clock)
-	begin 
-		if (Clear) begin
-			BusMuxIn_MDR <= 0; // clear
-		end
-		else if (MDRin) begin
-			BusMuxIn_MDR <= MDMuxout;	// load data
-		end
-end
-		
-
+	//MDR
+	always @ (posedge Clock)
+		begin 
+			if (Clear) begin
+				BusMuxIn_MDR <= 0; // clear
+			end
+			else if (MDRin) begin
+				BusMuxIn_MDR <= MDMuxout;	// load data
+			end
+	end
 endmodule

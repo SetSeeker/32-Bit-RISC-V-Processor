@@ -1,7 +1,7 @@
 module ALU #(parameter DATA_WIDTH = 32)(
 	input [DATA_WIDTH-1:0] a, b,
 	input [3:0] control,
-	output reg [DATA_WIDTH-1:0] Z
+	output reg [DATA_WIDTH-1:0] Z_reg
 );
 
 	// Block A: Add/Sub/Mul/Div
@@ -42,7 +42,6 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		.b(b),
 		.data_out(or_result)
 	);
-
 
 	shr #(DATA_WIDTH) SHR ( // shift right
 		.data_in(a),
@@ -112,7 +111,10 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	end
 
 	// MUX to select between A and B based on the range of control value
-	always *(@) begin
-		assign Z = (control =< 4'd3) ? A_result : B_result;
+	always @(*) begin
+    if (control <= 4'd3)
+        Z_reg = A_result;
+    else
+        Z_reg = B_result;
 	end
 endmodule
