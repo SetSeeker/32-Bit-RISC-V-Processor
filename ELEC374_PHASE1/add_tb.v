@@ -6,6 +6,7 @@ module add_tb;
     reg PCout, Zlowout, Zhighout, MDRout, R2out, R6out;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, LOin, HIin;
     reg IncPC, Read, ADD, R3in, R4in, R7in;
+    reg R3out, R7out;
     reg Clock;
     reg [31:0] Mdatain;
 
@@ -23,7 +24,7 @@ module add_tb;
 
     // Instantiate the existing Datapath module
     Datapath DUT(
-        PCout, Zlowout, Zhighout, MDRout, R2out, R6out, MARin, Zin, PCin, MDRin, IRin, Yin, 
+        PCout, Zlowout, Zhighout, MDRout, R3in, R7in, R4out, MARin, Zin, PCin, MDRin, IRin, Yin, 
         IncPC, Read, ADD, LOin, HIin, Clock, Mdatain
     );
 
