@@ -12,6 +12,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 						  ror_result, rol_result, neg_result, not_result;
 
 	reg [DATA_WIDTH-1:0] A_result, B_result;
+	
 	// Block A (Add/Sub/Mul/Div)
 	// add #(DATA_WIDTH) ADD ( // addition
 
