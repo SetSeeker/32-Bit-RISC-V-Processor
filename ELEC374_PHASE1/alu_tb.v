@@ -103,9 +103,9 @@ module alu_tb;
         $finish;
     end
 
-    // Dump waveform for GTKWave
-    initial begin
-        $dumpfile("alu_tb.vcd");
-        $dumpvars(0, alu_tb);
-    end
+    // // Dump waveform for GTKWave
+    // initial begin
+    //     $dumpfile("alu_tb.vcd");
+    //     $dumpvars(0, alu_tb);
+    // end
 endmodule
