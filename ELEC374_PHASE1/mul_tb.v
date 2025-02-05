@@ -83,7 +83,7 @@ module mul_tb;
             T4: begin
                 // Step T4: R6out, MUL, Zin
                 R6out <= 1;
-                
+                MUL <= 1;
                 Zin <= 1;
             end
 

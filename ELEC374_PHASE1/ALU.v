@@ -27,9 +27,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	// );
 
-	// mul #(DATA_WIDTH) MUL ( // multiply
-
-	// );
+	mul #(DATA_WIDTH) MUL ( // multiply
+		.a(a),
+		.b(b),
+		.data_out(or_result)
+	);
 
 	// div #(DATA_WIDTH) DIV ( // divide 
 
