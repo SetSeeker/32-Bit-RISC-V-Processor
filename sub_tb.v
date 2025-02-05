@@ -1,7 +1,7 @@
 // add_tb.v file: Testbench for add R4, R3 and R7
 `timescale 1ns/10ps
 
-module add_tb;
+module sub_tb;
     // Control signals
     reg PCout, Zlowout, Zhighout, MDRout, R2out, R6out;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, LOin, HIin;
@@ -105,7 +105,7 @@ module add_tb;
 
             T1: begin
                 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                Mdatain <= 32'h2A2A8000; // Opcode for "add R4, R3, R7"
+                Mdatain <= 32'h2A2A8800; // Opcode for "sub R4, R3, R7" //This could be wrong
             end
 
             T2: begin
@@ -117,7 +117,7 @@ module add_tb;
             end
 
             T4: begin
-                R7out <= 1; ADD <= 1; Zin <= 1;
+                R7out <= 1; SUB <= 1; Zin <= 1;
             end
 
             T5: begin

@@ -13,45 +13,45 @@ module alu_tb;
         .a(a),
         .b(b),
         .control(control),
-        .result(result)
+        .Z_reg(result)                     // Ensure this matches the ALU output port
     );
 
     initial begin
         $display("Starting ALU Testbench...");
         
-        // AND Operation (control = 0)
+        // ADD Operation (control = 0)
+        a = 32'd25; 
+        b = 32'd17;
+        control = 4'd0;
+        #10;
+        $display("ADD Operation: A=%d, B=%d, Result=%d", a, b, result);
+
+        // SUB Operation (control = 1)
+        control = 4'd1;
+        #10;
+        $display("SUB Operation: A=%d, B=%d, Result=%d", a, b, result);
+
+        // MUL Operation (control = 2)
+        control = 4'd2;
+        #10;
+        $display("MUL Operation: A=%d, B=%d, Result=%d", a, b, result);
+
+        // DIV Operation (control = 3)
+        control = 4'd3;
+        #10;
+        $display("DIV Operation: A=%d, B=%d, Result=%d", a, b, result);
+
+        // AND Operation (control = 4)
         a = 32'h0F0F0F0F; 
         b = 32'h00FF00FF;
-        control = 4'd0;
+        control = 4'd4;
         #10;
         $display("AND Operation: A=%h, B=%h, Result=%h", a, b, result);
 
-        // OR Operation (control = 1)
-        control = 4'd1;
+        // OR Operation (control = 5)
+        control = 4'd5;
         #10;
         $display("OR Operation: A=%h, B=%h, Result=%h", a, b, result);
-
-        // // ADD Operation (control = 2)
-        // a = 32'd25; 
-        // b = 32'd17;
-        // control = 4'd2;
-        // #10;
-        // $display("ADD Operation: A=%d, B=%d, Result=%d", a, b, result);
-
-        // // SUB Operation (control = 3)
-        // control = 4'd3;
-        // #10;
-        // $display("SUB Operation: A=%d, B=%d, Result=%d", a, b, result);
-
-        // // MUL Operation (control = 4)
-        // control = 4'd4;
-        // #10;
-        // $display("MUL Operation: A=%d, B=%d, Result=%d", a, b, result);
-
-        // // DIV Operation (control = 5)
-        // control = 4'd5;
-        // #10;
-        // $display("DIV Operation: A=%d, B=%d, Result=%d", a, b, result);
 
         // SHR Operation (Shift Right, control = 6)
         a = 32'b10011000; 
@@ -103,9 +103,9 @@ module alu_tb;
         $finish;
     end
 
-    // Dump waveform for GTKWave
-    initial begin
-        $dumpfile("alu_tb.vcd");
-        $dumpvars(0, alu_tb);
-    end
+    // // Dump waveform for GTKWave
+    // initial begin
+    //     $dumpfile("alu_tb.vcd");
+    //     $dumpvars(0, alu_tb);
+    // end
 endmodule
