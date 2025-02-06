@@ -17,6 +17,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           PC, In_Port, C_sign_extended,
                           BusMuxOut, BusMuxIn_MDR;
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
+                          BusMuxOut, BusMuxIn_MDR;
+	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
 	//Devices
 	register #(DATA_WIDTH) reg0 (
@@ -90,11 +92,22 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clear(Clear),
         .enable(Zin), 
         .data_in(Z_high),
+        .data_in(Z_high),
         .data_out(HI)
     );
 
-    // LO Register
-    register #(DATA_WIDTH) lo_register (
+    // // LO Register
+    // register #(DATA_WIDTH) lo_register (
+    //     .clock(Clock),
+    //     .clear(Clear),
+    //     .enable(Zin), 
+    //     .data_in(alu_result),
+    //     .data_out(LO)
+    // );
+
+    // Z High and Z Low Registers
+
+	register #(DATA_WIDTH) z_low_register (
         .clock(Clock),
         .clear(Clear),
         .enable(Zin),
@@ -111,14 +124,14 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_out(In_Port)
     );
 
-    // Constant Sign-Extended Register
-    register #(DATA_WIDTH) c_sign_extended_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(IRin),
-        .data_in(Mdatain),
-        .data_out(C_sign_extended)
-    );
+    // // Constant Sign-Extended Register
+    // register #(DATA_WIDTH) c_sign_extended_register (
+    //     .clock(Clock),
+    //     .clear(Clear),
+    //     .enable(IRin),
+    //     .data_in(Mdatain),
+    //     .data_out(C_sign_extended)
+    // );
 
 	// ALU
 	ALU #(DATA_WIDTH) alu (
@@ -126,12 +139,14 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.b(R7),
 		.control(control),
 		.Z_reg(ALU_result)
+		.Z_reg(ALU_result)
 	);
 
 	register #(DATA_WIDTH) reg4 (
 		.clock(clock),
 		.clear(clear),
 		.enable(R4in),
+		.data_in(Z_low),
 		.data_in(Z_low),
 		.data_out(R4)
 	);
