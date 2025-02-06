@@ -1,7 +1,7 @@
 module ALU #(parameter DATA_WIDTH = 32)(
 	input [DATA_WIDTH-1:0] a, b,
 	input [3:0] control,
-	output reg [DATA_WIDTH-1:0] Z_reg
+	output reg [(DATA_WIDTH*2)-1:0] Z_reg
 );
 
 	// Block A: Add/Sub/Mul/Div
@@ -33,7 +33,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	// );
 
 	// Unit B (Shift/Rotate/AND/OR/Neg/NOT)
-		and_op #(DATA_WIDTH) AND ( // and
+	and_op #(DATA_WIDTH) AND ( // and
 		.a(a),
 		.b(b),
 		.data_out(and_result)

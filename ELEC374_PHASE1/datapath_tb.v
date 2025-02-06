@@ -29,7 +29,6 @@ DataPath DUT(
 	.IncPC(IncPC), 
 	.Read(Read),
 	.control(control), // may need to be deleted and replaced by control
-	.R2in(R2in),
 	.R3in(R3in),
 	.R4in(R4in),
 	.R6in(R6in),
@@ -72,7 +71,7 @@ always @(Present_state) // do the required job in each state
 			 R3in <= 0; R4in <= 0; R7in <= 0; Mdatain <= 32'h00000000;
 		end
 		Reg_load1a: begin
-			 Mdatain <= 32'h00000022;
+			 Mdatain <= 32'b11111100000000000000000000001010;
 			 Read = 0; MDRin = 0; // the first zero is there for completeness
 			 Read <= 1; MDRin <= 1; // Took out #10 for '1', as it may not be needed
 			 #15 Read <= 0; MDRin <= 0; // for your current implementation
@@ -82,7 +81,7 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value 0x22
 		end
 		Reg_load2a: begin
-			 Mdatain <= 32'h00000024;
+			 Mdatain <= 3;
 			 Read <= 1; MDRin <= 1;
 			 #15 Read <= 0; MDRin <= 0;
 		end
@@ -113,7 +112,7 @@ always @(Present_state) // do the required job in each state
 			R3out <= 1; Yin <= 1;
 		end
 		T4: begin
-			R7out <= 1; control <= 4'd5; Zin <= 1;
+			R7out <= 1; control <= 4'd9; Zin <= 1;
 		end
 		T5: begin
 			Zlowout <= 1; R4in <= 1;
@@ -122,7 +121,7 @@ always @(Present_state) // do the required job in each state
   end
 // MAC code for simulations
 	initial begin
-        $dumpfile("datapath_tb.vcd");
+        $dumpfile("datapath_tb.vcd"); // GTKWave
         $dumpvars();
     end
 initial begin
