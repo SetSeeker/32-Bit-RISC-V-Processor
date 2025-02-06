@@ -28,7 +28,7 @@ DataPath DUT(
 	.Yin(Yin),
 	.IncPC(IncPC), 
 	.Read(Read),
-	.control(control), // may need to be deleted and replaced by control
+	.control(control), 
 	.R3in(R3in),
 	.R4in(R4in),
 	.R6in(R6in),
