@@ -18,12 +18,28 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           alu_result, BusMuxOut, BusMuxIn_MDR;
 
 	//Devices
+	register #(DATA_WIDTH) reg2 (
+		.clock(Clock),
+		.clear(Clear),
+		.enable(R3in),
+		.data_in(Mdatain),
+		.data_out(R2)
+	);
+
 	register #(DATA_WIDTH) reg3 (
 		.clock(Clock),
 		.clear(Clear),
 		.enable(R3in),
 		.data_in(Mdatain),
 		.data_out(R3)
+	);
+
+	register #(DATA_WIDTH) reg6 (
+		.clock(Clock),
+		.clear(Clear),
+		.enable(R3in),
+		.data_in(Mdatain),
+		.data_out(R6)
 	);
 
 	register #(DATA_WIDTH) reg7 (
