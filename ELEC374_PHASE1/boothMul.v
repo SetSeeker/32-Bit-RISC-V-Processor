@@ -45,7 +45,7 @@ module booth_multiplier #(parameter DATA_WIDTH = 32) (
         endcase
     end
 
-    // Concatenate A and Q to form the final product
+    // Concatenate to form final product
     assign data_out = {A, Q};
 
 endmodule

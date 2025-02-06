@@ -22,7 +22,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	// );
 
-	booth_multiplier #(DATA_WIDTH) booth_unit (
+	booth_multiplier #(DATA_WIDTH) MUL (
         .a(a),
         .b(b),
         .data_out(mul_result)
