@@ -22,11 +22,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	// );
 
-	mul #(DATA_WIDTH) MUL ( // multiply
-		.a(a),
-		.b(b),
-		.data_out(or_result)
-	);
+	booth_multiplier #(DATA_WIDTH) booth_unit (
+        .a(a),
+        .b(b),
+        .data_out(mul_result)
+    );
 
 	// div #(DATA_WIDTH) DIV ( // divide 
 
