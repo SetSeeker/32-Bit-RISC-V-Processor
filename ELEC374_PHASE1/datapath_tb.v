@@ -3,7 +3,7 @@
 module datapath_tb;
 	 reg PCout, Zlowout, MDRout, R3out, R7out; 
 	 reg MARin, Zin, PCin, MDRin, IRin, Yin;
-	 reg IncPC, Read, R3in, R4in, R7in;
+	 reg IncPC, Read, R2in, R3in, R4in, R6in, R7in;
 	 reg LOin, HIin; 
 	 reg Clock, Clear;
 	 reg [31:0] Mdatain;
@@ -29,8 +29,10 @@ DataPath DUT(
 	.IncPC(IncPC), 
 	.Read(Read),
 	.control(control), // may need to be deleted and replaced by control
+	.R2in(R2in),
 	.R3in(R3in),
-	.R4in(R4in), 
+	.R4in(R4in),
+	.R6in(R6in),
 	.R7in(R7in), 
 	.Mdatain(Mdatain)
 	);

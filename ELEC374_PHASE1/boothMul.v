@@ -14,6 +14,8 @@ module booth_multiplier #(parameter DATA_WIDTH = 32) (
         Q_1 = 0;
     end
 
+    and()
+
     // Excute Booth's algorithm logic
     always @(*) begin
         case ({Q[0], Q_1})  // Booth’s recoding based on current bit pair
