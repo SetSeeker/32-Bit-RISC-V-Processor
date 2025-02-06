@@ -1,6 +1,6 @@
 module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
-	input R3in, R4in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
+	input R3in, R4in, R6in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
 	input IncPC, Read,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [3:0] control,

@@ -113,7 +113,7 @@ always @(Present_state) // do the required job in each state
 			R3out <= 1; Yin <= 1;
 		end
 		T4: begin
-			R7out <= 1; control <= 4'd9; Zin <= 1;
+			R7out <= 1; control <= 4'd2; Zin <= 1;
 		end
 		T5: begin
 			Zlowout <= 1; R4in <= 1;
