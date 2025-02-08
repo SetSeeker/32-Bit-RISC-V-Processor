@@ -27,6 +27,14 @@ module mul_tb;
         IncPC, Read, MUL, LOin, HIin, Clock, Mdatain
     );
 
+    // Instantiate Booth Multiplier
+    wire [63:0] mul_result;  // 64-bit output
+    booth_multiplier #(32) booth_multiplier_instance (
+        .a(DUT.R2),
+        .b(DUT.R6),
+        .data_out(mul_result)
+    );
+
     // Clock generation
     initial begin
         Clock = 0;

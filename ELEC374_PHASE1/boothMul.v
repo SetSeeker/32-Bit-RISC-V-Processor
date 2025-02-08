@@ -1,51 +1,43 @@
-module booth_multiplier #(parameter DATA_WIDTH = 32) (
-    input [DATA_WIDTH-1:0] a, // Multiplicand
-    input [DATA_WIDTH-1:0] b,   // Multiplier
-    output [2*DATA_WIDTH-1:0] data_out    //product
+module booth_multiplier #(parameter DATA_WIDTH = 32)(
+    input [DATA_WIDTH-1:0] a,      // Multiplier (2's complement)
+    input [DATA_WIDTH-1:0] b,      // Multiplicand (2's complement)
+    output reg [(DATA_WIDTH*2)-1:0] data_out  // Product
 );
-    reg [DATA_WIDTH-1:0] A, Q;      // Accumulator and Multiplier
-    reg [DATA_WIDTH-1:0] M;         // Multiplicand
-    reg Q_1;                        // Previous Q bit
-    
+
+    // Internal signals for Booth's algorithm
+    reg [DATA_WIDTH-1:0] A, Q, M, Q_1;  // A, Q, M, Q-1
+    reg [DATA_WIDTH-1:0] negative_M;     // Negative of M
+    integer i;
+
+    // Initialize values for Booth's algorithm
     always @(*) begin
-        A = 0;
-        Q = b;
-        M = a;
-        Q_1 = 0;
+        // Booth's algorithm initialization
+        A = 0;                   // A is initialized to 0
+        Q = b;                   // Q is initialized to multiplicand
+        Q_1 = 0;                 // Q-1 is initialized to 0
+        M = a;                   // M is initialized to multiplier
+        negative_M = ~a + 1;     // Negative of M for subtraction
+
+        // Perform Booth's algorithm
+        for (i = 0; i < DATA_WIDTH; i = i + 1) begin
+            case ({Q[0], Q_1})
+                2'b01: begin  // Add M to A
+                    A = A + M;
+                end
+                2'b10: begin  // Subtract M from A
+                    A = A + negative_M;
+                end
+                2'b00, 2'b11: begin
+                    // Do nothing
+                end
+            endcase
+
+            // Arithmetic right shift (Q, A, Q-1)
+            Q_1 = Q[0];
+            Q = {A[0], Q[DATA_WIDTH-1:1]};  // Right shift Q
+            A = {A[DATA_WIDTH-1], A[DATA_WIDTH-1:1]}; // Right shift A
+        end
+        // Concatenate A and Q to form the product
+        data_out = {A, Q};
     end
-
-
-    // Excute Booth's algorithm logic
-    always @(*) begin
-        case ({Q[0], Q_1})  // Booth’s recoding based on current bit pair
-            2'b00: begin
-                // No operation, just shift
-                A = A << 1;
-                Q = {A[31], Q[31:1]};
-                Q_1 = Q[0];
-            end
-            2'b01: begin
-                // Add multiplicand
-                A = (A + M) << 1;
-                Q = {A[31], Q[31:1]};
-                Q_1 = Q[0];
-            end
-            2'b10: begin
-                // Subtract multiplicand
-                A = (A - M) << 1;
-                Q = {A[31], Q[31:1]};
-                Q_1 = Q[0];
-            end
-            2'b11: begin
-                // No operation, just shift
-                A = A << 1;
-                Q = {A[31], Q[31:1]};
-                Q_1 = Q[0];
-            end
-        endcase
-    end
-
-    // Concatenate to form final product
-    assign data_out = {A, Q};
-
 endmodule
