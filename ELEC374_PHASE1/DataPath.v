@@ -1,6 +1,6 @@
 module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
-	input R3in, R4in, R6in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
+	input R2in, R3in, R4in, R6in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
 	input IncPC, Read,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [3:0] control,
@@ -15,8 +15,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           R10, R11, R12, R13, R14, R15,
                           HI, LO, Z_high, Z_low,
                           PC, In_Port, C_sign_extended,
-                          BusMuxOut, BusMuxIn_MDR;
-	wire [(DATA_WIDTH*2)-1:0] ALU_result;
                           BusMuxOut, BusMuxIn_MDR;
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
@@ -92,7 +90,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clear(Clear),
         .enable(Zin), 
         .data_in(Z_high),
-        .data_in(Z_high),
         .data_out(HI)
     );
 
@@ -104,16 +101,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     //     .data_in(alu_result),
     //     .data_out(LO)
     // );
-
-    // Z High and Z Low Registers
-
-	register #(DATA_WIDTH) z_low_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(Zin),
-        .data_in(Z_low),
-        .data_out(LO)
-    );
 
     // In_Port (For I/O Operations)
     register #(DATA_WIDTH) in_port_register (
@@ -139,14 +126,12 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.b(R7),
 		.control(control),
 		.Z_reg(ALU_result)
-		.Z_reg(ALU_result)
 	);
 
 	register #(DATA_WIDTH) reg4 (
 		.clock(clock),
 		.clear(clear),
 		.enable(R4in),
-		.data_in(Z_low),
 		.data_in(Z_low),
 		.data_out(R4)
 	);
