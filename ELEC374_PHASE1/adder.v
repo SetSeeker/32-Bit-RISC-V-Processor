@@ -14,7 +14,7 @@ module cla_4 #(parameter DATA_WIDTH = 32)(
 	assign sum = xor(P, C);
 	
 	
-//	assign C[0] = cin;
+	assign C[0] = cin;
 	assign C[1] = or(G[0], and(P[0],C[0]));
 	assign C[2] = or(G[1], or(and(P[1],G[0]), and(P[1],P[0],C[0])));
 	assign C[3] = or( or(G[2], and(P[2],G[1])), or( and(P[2],P[1],G[0]), and(P[2],P[1],P[0],G[0])) );
@@ -22,6 +22,7 @@ module cla_4 #(parameter DATA_WIDTH = 32)(
 	
 	assign sum = and(P, C[3:0]); 
 	assign cout = C[4];
+endmodule
 
 	
 	
