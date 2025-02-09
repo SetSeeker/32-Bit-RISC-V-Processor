@@ -201,7 +201,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(Zin), 
-        .data_in(alu_result),
+        .data_in(Z_low),
         .data_out(LO)
     );
 
