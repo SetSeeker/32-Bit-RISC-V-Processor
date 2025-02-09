@@ -1,41 +1,43 @@
-// and datapath_tb.v file: <This is the filename>
 `timescale 1ns/10ps
 module datapath_tb;
-	 reg PCout, Zlowout, MDRout, R3out, R7out; 
-	 reg MARin, Zin, PCin, MDRin, IRin, Yin;
-	 reg IncPC, Read, R2in, R3in, R4in, R6in, R7in;
-	 reg LOin, HIin; 
-	 reg Clock, Clear;
-	 reg [31:0] Mdatain;
-	 reg [3:0] control;
-	 parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
-				 Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
-				 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
-	 reg [3:0] Present_state = Default;
-DataPath DUT(
-	.Clock(Clock),
-	.Clear(Clear), 
-	.PCout(PCout), 
-	.Zlowout(Zlowout),
-	.MDRout(MDRout),
-	.R3out(R3out),
-	.R7out(R7out),
-	.MARin(MARin),
-	.Zin(Zin),
-	.PCin(PCin),
-	.MDRin(MDRin),
-	.IRin(IRin),
-	.Yin(Yin),
-	.IncPC(IncPC), 
-	.Read(Read),
-	.control(control),
-	.R2in(R2in),
-	.R3in(R3in),
-	.R4in(R4in),
-	.R6in(R6in),
-	.R7in(R7in), 
-	.Mdatain(Mdatain)
-	);
+    reg PCout, Zlowout, MDRout, R3out, R7out; 
+    reg MARin, Zin, PCin, MDRin, IRin, Yin;
+    reg IncPC, Read, R2in, R3in, R4in, R6in, R7in;
+    reg LOin, HIin; 
+    reg Clock, Clear;
+    reg [15:0] enable_reg;
+    reg [31:0] Mdatain;
+    reg [3:0] control;
+    parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
+              Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
+              T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
+    reg [3:0] Present_state = Default;
+
+    DataPath DUT (
+        .Clock(Clock),
+        .Clear(Clear), 
+        .PCout(PCout), 
+        .Zlowout(Zlowout),
+        .MDRout(MDRout),
+        .R3out(R3out),
+        .R7out(R7out),
+        .MARin(MARin),
+        .Zin(Zin),
+        .PCin(PCin),
+        .MDRin(MDRin),
+        .IRin(IRin),
+        .Yin(Yin),
+        .IncPC(IncPC), 
+        .Read(Read),
+        .control(control),
+        .R2in(R2in),
+        .R3in(R3in),
+        .R4in(R4in),
+        .R6in(R6in),
+        .R7in(R7in), 
+        .enable(enable_reg),
+        .Mdatain(Mdatain)
+    );
 // add test logic here
 initial
  begin
@@ -69,7 +71,7 @@ always @(Present_state) // do the required job in each state
 			 PCin <=0; MDRin <= 0; IRin <= 0; Yin <= 0;
 			 IncPC <= 0; Read <= 0; control <= 4'd0;
 			 Clear <= 0;
-			 R3in <= 0; R4in <= 0; R7in <= 0; Mdatain <= 32'h00000000;
+			 R3in <= 0; R4in <= 0; R7in <= 0; enable_reg <= 16'b0; Mdatain <= 32'h00000000;
 		end
 		Reg_load1a: begin
 			 Mdatain <= 32'b11111100000000000000000000001010;
@@ -78,8 +80,8 @@ always @(Present_state) // do the required job in each state
 			 #15 Read <= 0; MDRin <= 0; // for your current implementation
 		end
 		Reg_load1b: begin
-			 #5 MDRout <= 1; R3in <= 1;
-			 #15 MDRout <= 0; R3in <= 0; // initialize R3 with the value 0x22
+			 #5 MDRout <= 1; enable_reg <= (1 << 3);
+			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R3 with the value 0x22
 		end
 		Reg_load2a: begin
 			 Mdatain <= 3;
@@ -87,8 +89,8 @@ always @(Present_state) // do the required job in each state
 			 #15 Read <= 0; MDRin <= 0;
 		end
 		Reg_load2b: begin
-			 #5 MDRout <= 1; R7in <= 1;
-			 #15 MDRout <= 0; R7in <= 0; // initialize R7 with the value 0x24
+			 #5 MDRout <= 1; enable_reg <= (1 << 7);
+			 #15 MDRout <= 0; enable_reg <= 16'd0; // initialize R7 with the value 0x24
 		end
 		Reg_load3a: begin
 			 Mdatain <= 32'h0000001;
@@ -96,8 +98,8 @@ always @(Present_state) // do the required job in each state
 			 #15 Read <= 0; MDRin <= 0;
 		end
 		Reg_load3b: begin
-			 MDRout <= 1; R4in <= 1;
-			 #15 MDRout <= 0; R4in <= 0; // initialize R4 with the value 0x28
+			 MDRout <= 1; enable_reg <= (1 << 4);
+			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R4 with the value 0x28
 		end
 		T0: begin // see if you need to de-assert these signals
 			 PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
@@ -116,18 +118,18 @@ always @(Present_state) // do the required job in each state
 			R7out <= 1; control <= 4'd2; Zin <= 1;
 		end
 		T5: begin
-			Zlowout <= 1; R4in <= 1;
+			Zlowout <= 1; enable_reg <= (1 << 4);
 		end
 	endcase
   end
 // MAC code for simulations
-	initial begin
-        $dumpfile("datapath_tb.vcd"); // GTKWave
-        $dumpvars();
-    end
-initial begin
-    #300;  // Run for 1000 time units
-    $display("Simulation complete.");
-    $finish;
-end
+// 	initial begin
+//         $dumpfile("datapath_tb.vcd"); // GTKWave
+//         $dumpvars();
+//     end
+// initial begin
+//     #300;  // Run for 1000 time units
+//     $display("Simulation complete.");
+//     $finish;
+// end
 endmodule 

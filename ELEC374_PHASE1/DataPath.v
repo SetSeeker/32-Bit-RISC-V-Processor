@@ -2,6 +2,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
 	input R2in, R3in, R4in, R6in, R7in, Zin, PCin, MDRin, IRin, Yin, MARin,
 	input IncPC, Read,
+    input [15:0] enable,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [3:0] control,
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
@@ -10,7 +11,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
           In_Port_out, C_sign_extended_out
 );
 
-	wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 
+    wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 
                           R5, R6, R7, R8, R9, 
                           R10, R11, R12, R13, R14, R15,
                           HI, LO, Z_high, Z_low,
@@ -19,45 +20,147 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
 	//Devices
+    // the following for loop gives me a warning on a MAC, but I will try running it in quartus and see if it works
+    // genvar i;
+    // generate
+    //     for (i = 0; i < 16; i = i + 1) begin
+    //         register #(DATA_WIDTH) reg_inst (
+    //             .clock(Clock),
+    //             .clear(Clear),
+    //             .enable(test_name[i]),
+    //             .data_in(Mdatain),
+    //             .data_out(test_name_output[i])
+    //         );
+    //     end
+    // endgenerate
+
 	register #(DATA_WIDTH) reg0 (
-		.clock(Clock),
-		.clear(Clear),
-		.enable(R0in),
-		.data_in(Mdatain),
-		.data_out(R0)
-	);
+    .clock(Clock),
+    .clear(Clear),
+    .enable(enable[0]),
+    .data_in(Mdatain),
+    .data_out(R0)
+    );
 
-	register #(DATA_WIDTH) reg2 (
-		.clock(Clock),
-		.clear(Clear),
-		.enable(R2in),
-		.data_in(Mdatain),
-		.data_out(R2)
-	);
+    register #(DATA_WIDTH) reg1 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[1]),
+        .data_in(Mdatain),
+        .data_out(R1)
+    );
 
-	register #(DATA_WIDTH) reg3 (
-		.clock(Clock),
-		.clear(Clear),
-		.enable(R3in),
-		.data_in(Mdatain),
-		.data_out(R3)
-	);
+    register #(DATA_WIDTH) reg2 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[2]),
+        .data_in(Mdatain),
+        .data_out(R2)
+    );
 
-	register #(DATA_WIDTH) reg6 (
-		.clock(Clock),
-		.clear(Clear),
-		.enable(R6in),
-		.data_in(Mdatain),
-		.data_out(R6)
-	);
+    register #(DATA_WIDTH) reg3 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[3]),
+        .data_in(Mdatain),
+        .data_out(R3)
+    );
 
-	register #(DATA_WIDTH) reg7 (
-		.clock(Clock),
-		.clear(Clear),
-		.enable(R7in),
-		.data_in(Mdatain),
-		.data_out(R7)
-	);
+    register #(DATA_WIDTH) reg4 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[4]),
+        .data_in(Mdatain),
+        .data_out(R4)
+    );
+
+    register #(DATA_WIDTH) reg5 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[5]),
+        .data_in(Mdatain),
+        .data_out(R5)
+    );
+
+    register #(DATA_WIDTH) reg6 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[6]),
+        .data_in(Mdatain),
+        .data_out(R6)
+    );
+
+    register #(DATA_WIDTH) reg7 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[7]),
+        .data_in(Mdatain),
+        .data_out(R7)
+    );
+
+    register #(DATA_WIDTH) reg8 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[8]),
+        .data_in(Mdatain),
+        .data_out(R8)
+    );
+
+    register #(DATA_WIDTH) reg9 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[9]),
+        .data_in(Mdatain),
+        .data_out(R9)
+    );
+
+    register #(DATA_WIDTH) reg10 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[10]),
+        .data_in(Mdatain),
+        .data_out(R10)
+    );
+
+    register #(DATA_WIDTH) reg11 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[11]),
+        .data_in(Mdatain),
+        .data_out(R11)
+    );
+
+    register #(DATA_WIDTH) reg12 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[12]),
+        .data_in(Mdatain),
+        .data_out(R12)
+    );
+
+    register #(DATA_WIDTH) reg13 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[13]),
+        .data_in(Mdatain),
+        .data_out(R13)
+    );
+
+    register #(DATA_WIDTH) reg14 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[14]),
+        .data_in(Mdatain),
+        .data_out(R14)
+    );
+
+    register #(DATA_WIDTH) reg15 (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(enable[15]),
+        .data_in(Mdatain),
+        .data_out(R15)
+    );
 
 	register #(DATA_WIDTH) pc_register (
         .clock(Clock),
@@ -94,13 +197,13 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     );
 
     // // LO Register
-    // register #(DATA_WIDTH) lo_register (
-    //     .clock(Clock),
-    //     .clear(Clear),
-    //     .enable(Zin), 
-    //     .data_in(alu_result),
-    //     .data_out(LO)
-    // );
+    register #(DATA_WIDTH) lo_register (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(Zin), 
+        .data_in(alu_result),
+        .data_out(LO)
+    );
 
     // In_Port (For I/O Operations)
     register #(DATA_WIDTH) in_port_register (
@@ -126,14 +229,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.b(R7),
 		.control(control),
 		.Z_reg(ALU_result)
-	);
-
-	register #(DATA_WIDTH) reg4 (
-		.clock(clock),
-		.clear(clear),
-		.enable(R4in),
-		.data_in(Z_low),
-		.data_out(R4)
 	);
 
 	// MDR
