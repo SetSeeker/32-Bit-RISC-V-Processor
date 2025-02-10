@@ -1,0 +1,1 @@
+Error (12006): Node instance "MUL" instantiates undefined entity "booth_multiplier". Ensure that required library paths are specified correctly, define the specified entity, or change the instantiation. If this entity represents Intel FPGA or third-party IP, generate the synthesis files for the IP.
