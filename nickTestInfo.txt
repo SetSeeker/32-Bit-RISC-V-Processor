@@ -1,1 +1,5 @@
 Error (12006): Node instance "MUL" instantiates undefined entity "booth_multiplier". Ensure that required library paths are specified correctly, define the specified entity, or change the instantiation. If this entity represents Intel FPGA or third-party IP, generate the synthesis files for the IP.
+
+Error (10228): Verilog HDL error at mul_tb.v(4): module "mul_tb" cannot be declared more than once
+Info (10499): HDL info at div_tb.v(4): see declaration for object "mul_tb"
+Info (12021): Found 0 design units, including 0 entities, in source file mul_tb.v
