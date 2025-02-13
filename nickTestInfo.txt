@@ -3,3 +3,6 @@ Error (12006): Node instance "MUL" instantiates undefined entity "booth_multipli
 Error (10228): Verilog HDL error at mul_tb.v(4): module "mul_tb" cannot be declared more than once
 Info (10499): HDL info at div_tb.v(4): see declaration for object "mul_tb"
 Info (12021): Found 0 design units, including 0 entities, in source file mul_tb.v
+
+Error (10119): Verilog HDL Loop Statement error at datapath_tb.v(45): loop with non-constant loop condition must terminate within 250 iterations
+Error (12153): Can't elaborate top-level user hierarchy
