@@ -9,7 +9,7 @@ module carry_lookahead_32bit #(parameter DATA_WIDTH = 32) (
     output [31:0] sum
 );
 
-    wire c0, c1, c2, c3, c4, c5, c6;
+    wire c0, c1, c2, c3, c4, c5, c6, c7;
     reg [31:0] b;
 
     always @(posedge Clock) begin
@@ -27,6 +27,8 @@ module carry_lookahead_32bit #(parameter DATA_WIDTH = 32) (
     cla_4 n5(d1[19:16], b[19:16], c3, sum[19:16], c4);
     cla_4 n6(d1[23:20], b[23:20], c4, sum[23:20], c5);
     cla_4 n7(d1[27:24], b[27:24], c5, sum[27:24], c6);
-    cla_4 n8(d1[31:28], b[31:28], c6, sum[31:28], cout);
+    cla_4 n8(d1[31:28], b[31:28], c6, sum[31:28], c7);
+
+    assign cout = c7;
 
 endmodule
