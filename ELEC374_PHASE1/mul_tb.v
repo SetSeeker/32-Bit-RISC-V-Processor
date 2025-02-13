@@ -29,7 +29,7 @@ module mul_tb;
 
     // Instantiate Booth Multiplier
     wire [63:0] mul_result;  // 64-bit output
-    booth_multiplier #(32) booth_multiplier_instance (
+    boothMul #(32) booth_multiplier (
         .a(DUT.R2),
         .b(DUT.R6),
         .data_out(mul_result)

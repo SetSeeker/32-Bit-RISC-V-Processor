@@ -1,4 +1,4 @@
-module booth_multiplier #(parameter DATA_WIDTH = 32)(
+module boothMul #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] a,      // Multiplier (2's complement)
     input [DATA_WIDTH-1:0] b,      // Multiplicand (2's complement)
     output reg [(DATA_WIDTH*2)-1:0] data_out  // Product
@@ -16,7 +16,7 @@ module booth_multiplier #(parameter DATA_WIDTH = 32)(
         Q = b;                   // Q is initialized to multiplicand
         Q_1 = 0;                 // Q-1 is initialized to 0
         M = a;                   // M is initialized to multiplier
-        negative_M = ~a + 1;     // Negative of M for subtraction
+        negative_M = -a;     // Negative of M for subtraction
 
         // Perform Booth's algorithm
         for (i = 0; i < DATA_WIDTH; i = i + 1) begin
