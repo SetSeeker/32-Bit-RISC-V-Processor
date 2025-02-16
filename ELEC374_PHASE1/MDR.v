@@ -13,8 +13,8 @@ module MDR #(parameter DATA_WIDTH = 32) (
 	// MDMux
 	always @(*) begin
 		case(Read)
-			1'd0: MDMuxout = BusMuxOut; // 0
-			1'd1: MDMuxout = Mdatain; // 1
+			1'd0: MDMuxout = BusMuxOut;
+			1'd1: MDMuxout = Mdatain;
 		endcase
 	end
 
