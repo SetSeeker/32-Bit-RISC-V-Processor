@@ -15,35 +15,36 @@ module Bus #(parameter DATA_WIDTH = 32)(
 	
 );
 
-reg [DATA_WIDTH-1:0] q;
+	reg [DATA_WIDTH-1:0] q;
 
-always @(*) begin // needs "else if" ask TA
-	if(R0out) q = R0;
-	if(R1out) q = R1;
-	if(R2out) q = R2;
-	if(R3out) q = R3;
-	if(R4out) q = R4;
-	if(R5out) q = R5;
-	if(R6out) q = R6;
-	if(R7out) q = R7;
-	if(R8out) q = R8;
-	if(R9out) q = R9;
-	if(R10out) q = R10;
-	if(R11out) q = R11;
-	if(R12out) q = R12;
-	if(R13out) q = R13;
-	if(R14out) q = R14;
-	if(R15out) q = R15;
-	if(MDRout) q = MDR;
-	if(HIout) q = HI;
-	if(LOout) q = LO;
-	if(Z_high_out) q = Z_high;
-	if(Z_low_out) q = Z_low;
-	if(PC_out) q = PC;
-	if(In_Port_out) q = In_Port;
-	if(C_sign_extended_out) q = C_sign_extended;
-end 
+	always @(*) begin 
+		q = 0; 
+		if (R0out) q = R0;
+		else if (R1out) q = R1;
+		else if (R2out) q = R2;
+		else if (R3out) q = R3;
+		else if (R4out) q = R4;
+		else if (R5out) q = R5;
+		else if (R6out) q = R6;
+		else if (R7out) q = R7;
+		else if (R8out) q = R8;
+		else if (R9out) q = R9;
+		else if (R10out) q = R10;
+		else if (R11out) q = R11;
+		else if (R12out) q = R12;
+		else if (R13out) q = R13;
+		else if (R14out) q = R14;
+		else if (R15out) q = R15;
+		else if (MDRout) q = MDR;
+		else if (HIout) q = HI;
+		else if (LOout) q = LO;
+		else if (Z_high_out) q = Z_high;
+		else if (Z_low_out) q = Z_low;
+		else if (PC_out) q = PC;
+		else if (In_Port_out) q = In_Port;
+		else if (C_sign_extended_out) q = C_sign_extended;
+	end 
 
-assign bus_out = q;
+	assign bus_out = q;
 
 endmodule

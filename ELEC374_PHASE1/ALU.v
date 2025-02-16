@@ -116,7 +116,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	// MUX to select between A and B based on the range of control value
 	always @(*) begin
 		if (control <= 4'd3)
-			Z_reg = A_result;
+			Z_reg = B_result;
 		else
 			Z_reg = B_result;
 	end
