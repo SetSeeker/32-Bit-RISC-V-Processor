@@ -149,8 +149,8 @@ always @(Present_state) // do the required job in each state
 			#15 R7out <= 0; Zin <= 0;
 		end
 		T5: begin
-			Zlowout <= 1; R4out <= 1; enable_reg <= (1 << 4);
-			#15 R4out <= 0; 
+		    enable_reg <= (1 << 4);
+			#15 Zlowout <= 1;
 			#25 Zlowout <= 0;
 		end
 	endcase
