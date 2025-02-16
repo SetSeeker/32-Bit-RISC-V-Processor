@@ -1,11 +1,11 @@
-// mul_tb.v file: Testbench for mul R2, R6
+// DIV_tb.v file: Testbench for DIV R2, R6
 `timescale 1ns/10ps
 
-module mul_tb;
+module div_tb;
     // Control signals
     reg PCout, Zlowout, Zhighout, MDRout, R2out, R6out;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, LOin, HIin;
-    reg IncPC, Read, MUL;
+    reg IncPC, Read, DIV;
     reg Clock;
     reg [31:0] Mdatain;
 
@@ -24,7 +24,7 @@ module mul_tb;
     // Instantiate the existing Datapath module
     Datapath DUT(
         PCout, Zlowout, Zhighout, MDRout, R2out, R6out, MARin, Zin, PCin, MDRin, IRin, Yin, 
-        IncPC, Read, MUL, LOin, HIin, Clock, Mdatain
+        IncPC, Read, DIV, LOin, HIin, Clock, Mdatain
     );
 
     // Clock generation
@@ -55,7 +55,7 @@ module mul_tb;
                 PCout <= 0; Zlowout <= 0; Zhighout <= 0; MDRout <= 0;
                 R2out <= 0; R6out <= 0; MARin <= 0; Zin <= 0;
                 PCin <= 0; MDRin <= 0; IRin <= 0; Yin <= 0;
-                LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; MUL <= 0;
+                LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; DIV <= 0;
                 Mdatain <= 32'h00000000;
             end
 
@@ -67,7 +67,7 @@ module mul_tb;
             T1: begin
                 // Step T1: Zlowout, PCin, Read, Mdatain[31..0], MDRin
                 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-                Mdatain <= 32'h00062020; // Opcode: mul R2, R6
+                Mdatain <= 32'h00062020; // Opcode: DIV R2, R6
             end
 
             T2: begin
