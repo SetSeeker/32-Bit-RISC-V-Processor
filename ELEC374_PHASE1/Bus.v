@@ -16,9 +16,12 @@ module Bus #(parameter DATA_WIDTH = 32)(
 );
 
 	reg [DATA_WIDTH-1:0] q;
+	
+	initial begin
+		q = 32'b0;
+	end
 
 	always @(*) begin 
-		q = 0; 
 		if (R0out) q = R0;
 		else if (R1out) q = R1;
 		else if (R2out) q = R2;

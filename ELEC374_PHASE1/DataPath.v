@@ -1,7 +1,7 @@
 module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
-	input Zin, PCin, MDRin, IRin, Yin, MARin,
-	input IncPC, Read,
+	input Zin, PCin, MDRin, IRin, Yin, MARin, LOin, HIin,
+	input Read,
     input [15:0] enable,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [3:0] control,
@@ -15,8 +15,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           R5, R6, R7, R8, R9, 
                           R10, R11, R12, R13, R14, R15,
                           HI, LO, Z_high, Z_low,
-                          PC, In_Port, C_sign_extended,
-                          BusMuxOut, BusMuxIn_MDR;
+                          PC, IR, In_Port, C_sign_extended, Y,
+                          BusMuxOut, BusMuxIn_MDR, MAR;
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
 	//Devices
@@ -38,7 +38,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     .clock(Clock),
     .clear(Clear),
     .enable(enable[0]),
-    .data_in(Mdatain),
+    .data_in(BusMuxOut),
     .data_out(R0)
     );
 
@@ -46,7 +46,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[1]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R1)
     );
 
@@ -54,7 +54,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[2]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R2)
     );
 
@@ -62,7 +62,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[3]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R3)
     );
 
@@ -70,7 +70,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[4]),
-        .data_in(Z_low),
+        .data_in(BusMuxOut),
         .data_out(R4)
     );
 
@@ -78,7 +78,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[5]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R5)
     );
 
@@ -86,7 +86,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[6]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R6)
     );
 
@@ -94,7 +94,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[7]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R7)
     );
 
@@ -102,7 +102,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[8]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R8)
     );
 
@@ -110,7 +110,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[9]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R9)
     );
 
@@ -118,7 +118,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[10]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R10)
     );
 
@@ -126,7 +126,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[11]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R11)
     );
 
@@ -134,7 +134,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[12]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R12)
     );
 
@@ -142,7 +142,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[13]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R13)
     );
 
@@ -150,7 +150,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[14]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R14)
     );
 
@@ -158,7 +158,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(enable[15]),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(R15)
     );
 
@@ -166,15 +166,23 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(PCin),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(PC)
+    );
+
+    register #(DATA_WIDTH) ir_register (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(IRin),
+        .data_in(BusMuxOut),
+        .data_out(IR)
     );
 
 	// Z High and Z Low Registers
 	register #(DATA_WIDTH) z_low_register (
         .clock(Clock),
         .clear(Clear),
-        .enable(Z_low_out),
+        .enable(Zin),
         .data_in(ALU_result[31:0]),
         .data_out(Z_low)
     );
@@ -182,7 +190,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) z_high_register (
         .clock(Clock),
         .clear(Clear),
-        .enable(Z_high_out),
+        .enable(Zin),
         .data_in(ALU_result[63:32]),
         .data_out(Z_high)
     );
@@ -191,8 +199,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) hi_register (
         .clock(Clock),
         .clear(Clear),
-        .enable(Zin), 
-        .data_in(Z_high),
+        .enable(HIin), 
+        .data_in(BusMuxOut),
         .data_out(HI)
     );
 
@@ -200,8 +208,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) lo_register (
         .clock(Clock),
         .clear(Clear),
-        .enable(Zin), 
-        .data_in(Z_low),
+        .enable(LOin), 
+        .data_in(BusMuxOut),
         .data_out(LO)
     );
 
@@ -219,14 +227,22 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(C_sign_extended_out),
-        .data_in(Mdatain),
+        .data_in(BusMuxOut),
         .data_out(C_sign_extended)
+    );
+
+    register #(DATA_WIDTH) y_register (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(Yin),
+        .data_in(BusMuxOut),
+        .data_out(Y)
     );
 
 	// ALU
 	ALU #(DATA_WIDTH) alu (
-		.a(R3),
-		.b(R7),
+		.a(Y),
+		.b(BusMuxOut),
 		.control(control),
 		.Z_reg(ALU_result)
 	);
@@ -241,6 +257,14 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.BusMuxIn_MDR(BusMuxIn_MDR),
 		.Mdatain(Mdatain)
 	);
+
+    register #(DATA_WIDTH) mar (
+        .clock(Clock),
+        .clear(Clear),
+        .enable(MARin),
+        .data_in(BusMuxOut),
+        .data_out(MAR)
+    );
 
 	//Bus
 	Bus #(DATA_WIDTH) bus(

@@ -12,7 +12,12 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	wire [DATA_WIDTH-1:0] and_result, or_result, shr_result, shra_result, shl_result,
 						  ror_result, rol_result, neg_result, not_result;
 
-	reg [(DATA_WIDTH*2)-1:0] A_result, B_result;
+	reg [(DATA_WIDTH*2)-1:0] A_result;
+	reg [DATA_WIDTH-1:0]  B_result, PC;
+
+	initial begin
+		PC = 0;
+	end
 	
 	// Block A (Add/Sub/Mul/Div)
 	// add #(DATA_WIDTH) ADD ( // addition
@@ -91,7 +96,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		case(control)
 			// 4'd0:	A_result = add_result;
 			// 4'd1:	A_result = sub_result;
-			4'd2:	A_result = mul_result; 
+			// 4'd2:	A_result = mul_result; 
 			// 4'd3:	A_result = div_result; 
 			default: A_result = 0;
 		endcase
@@ -111,12 +116,19 @@ module ALU #(parameter DATA_WIDTH = 32)(
 			4'd12:	B_result = not_result; 
 			default: B_result = 0;
 		endcase
+
+		// PC incrementor
+		case(control)
+			4'd13:	PC = PC + 4;
+		endcase
 	end
 
 	// MUX to select between A and B based on the range of control value
 	always @(*) begin
 		if (control <= 4'd3)
-			Z_reg = B_result;
+			Z_reg = A_result;
+		else if (control == 4'd13)
+			Z_reg = PC;
 		else
 			Z_reg = B_result;
 	end
