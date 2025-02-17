@@ -5,7 +5,7 @@ module datapath_tb;
         PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, C_sign_extended_out;
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
-    reg IncPC, Read;
+    reg Read;
     reg LOin, HIin; 
     reg Clock, Clear;
     reg [15:0] enable_reg;
@@ -45,7 +45,7 @@ module datapath_tb;
 		.In_Port_out(In_Port_out),
 		.C_sign_extended_out(C_sign_extended_out),
 
-        .LOin(LOin),
+		.LOin(LOin),
         .HIin(HIin),
         .MARin(MARin),
         .Zin(Zin),
@@ -53,7 +53,6 @@ module datapath_tb;
         .MDRin(MDRin),
         .IRin(IRin),
         .Yin(Yin),
-        .IncPC(IncPC), 
         .Read(Read),
         .control(control),
         .enable(enable_reg),
@@ -93,16 +92,16 @@ always @(Present_state) // do the required job in each state
 			R12out <= 0; R13out <= 0; R14out <= 0; R15out <= 0; 
 			PCout <= 0; Zlowout <= 0; MDRout <= 0; HIout <= 0; 
 			LOout <= 0; Z_high_out <= 0; C_sign_extended_out <= 0;
-			In_Port_out <= 0; LOin <= 0; HIin <= 0;
+			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
 			 IRin <= 0; Yin <= 0;
-			 IncPC <= 0; Read <= 0; control <= 4'd0;
+			 Read <= 0; control <= 4'd0;
 			 Clear <= 0;
 			 enable_reg <= 16'b0; Mdatain <= 32'h00000000;
 		end
 		Reg_load1a: begin
-			 Mdatain <= 32'b00000000000000000000000000001010;
+			 Mdatain <= 32'h00000022;
 			 #5 Read <= 1; MDRin <= 1; // Took out #10 for '1', as it may not be needed
 			 #15 Read <= 0; MDRin <= 0; // for your current implementation
 		end
@@ -111,7 +110,7 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R3 with the value 0x22
 		end
 		Reg_load2a: begin
-			 Mdatain <= 3;
+			 Mdatain <= 32'h00000024;
 			 #5 Read <= 1; MDRin <= 1; 
 			 #15 Read <= 0; MDRin <= 0;
 		end
@@ -120,39 +119,47 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; enable_reg <= 16'd0; // initialize R7 with the value 0x24
 		end
 		Reg_load3a: begin
-			 Mdatain <= 32'h0000001;
+			 Mdatain <= 32'h0000028;
 			 #5 Read <= 1; MDRin <= 1;
 			 #15 Read <= 0; MDRin <= 0;
 		end
 		Reg_load3b: begin
 			 MDRout <= 1; enable_reg <= (1 << 4);
-			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R4 with the value 0x28
+			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R4 with the value 0x28 
 		end
 		T0: begin // see if you need to de-assert these signals
-			  PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
-			 #15 PCout <= 0;
+			 PCout <= 1; MARin <= 1; control <= 4'd13; //Zin <= 1;
+			 #5 Zin <= 1;
+			 #10 MARin <= 0;  PCout <= 0;//Zin <= 1;
+			 #5 Zin <= 0;
 		end
 		T1: begin
-			 Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
-			 Mdatain <= 32'h2A2B8000; // opcode for “and R4, R3, R7”
-			 #15 Zlowout <= 0; PCout <= 0; MDRin <= 0;
+			Mdatain <= 32'h2A2B8000; Zlowout <= 1;
+			 #5 Read <= 1; PCin <= 1; MDRin <= 1;
+			 #5 //MDRin <= 1;
+			 #5 Zlowout <= 0;
+			 #5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
 		end
 		T2: begin
-			 MDRout <= 1; IRin <= 1;
-			 #15  MDRout <= 0; Read <= 0;
+			 MDRout <= 1;
+			 #5 MARin <= 1; IRin <= 1; 
+			 #10 MDRout <= 0;
+			 #5  MARin <= 0; IRin <= 0;
 		end
 		T3: begin
-			R3out <= 1; Yin <= 1;
+			#5 R3out <= 1; Yin <= 1;
 			#15 R3out <= 0; Yin <= 0;
 		end
 		T4: begin
-			R7out <= 1; control <= 4'd4; Zin <= 1;
-			#15 R7out <= 0; Zin <= 0;
+			R7out <= 1; control <= 4'd4; 
+			#5 Zin <= 1;
+			#10 R7out <= 0;
+			#5 Zin <= 0;
 		end
 		T5: begin
-		    enable_reg <= (1 << 4);
-			#15 Zlowout <= 1; LOin <= 1;
-			#25 Zlowout <= 0; LOin <= 0;
+		    enable_reg <= (1 << 4); Zlowout <= 1;
+			#15 Zlowout <= 0; LOin <= 1;
+			#15 LOin <= 0;
 		end
 	endcase
   end
@@ -161,9 +168,9 @@ always @(Present_state) // do the required job in each state
         $dumpfile("datapath_tb.vcd"); // GTKWave
         $dumpvars();
     end
-initial begin
-    #300;  // Run for 1000 time units
-    $display("Simulation complete.");
-    $finish;
-end
+	initial begin
+		#300;  // Run for 1000 time units
+		$display("Simulation complete.");
+		$finish;
+	end
 endmodule 
