@@ -78,7 +78,7 @@ module mul_tb;
             end
             Reg_load1b: begin
                 #5 MDRout <= 1; enable_reg <= (1 << 2);
-                #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R2 with the value 0x22
+                #15 MDRout <= 0; enable_reg <= 16'b1111111111101010; // initialize R2 with the value -0x22
             end
 
             Reg_load2a: begin
@@ -88,7 +88,7 @@ module mul_tb;
             end
             Reg_load2b: begin
                 #5 MDRout <= 1; enable_reg <= (1 << 6);
-                #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R6 with the value 0x24
+                #15 MDRout <= 0; enable_reg <= 16'd0; // initialize R6 with the value 0x24
             end
 
             T0: begin
