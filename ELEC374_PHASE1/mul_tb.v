@@ -1,4 +1,3 @@
-// mul_tb.v file: Testbench for mul R2, R6
 `timescale 1ns/10ps
 
 module mul_tb;
@@ -8,23 +7,22 @@ module mul_tb;
     reg IncPC, Read, MUL;
     reg Clock;
     reg [31:0] Mdatain;
+    reg [15:0] enable_reg;
 
     // State encoding
-    parameter Default = 4'b0000, 
-              T0 = 4'b0001, 
-              T1 = 4'b0010, 
-              T2 = 4'b0011,
-              T3 = 4'b0100, 
-              T4 = 4'b0101, 
-              T5 = 4'b0110, 
-              T6 = 4'b0111;
+    parameter
+        Default = 4'b0001,
+        Reg_load1a = 4'b0010, Reg_load1b = 4'b0011, Reg_load2a = 4'b0100, Reg_load2b = 4'b0101, Reg_load3a = 4'b0110, Reg_load3b = 4'b0111,
+        T0 = 4'b1000, T1 = 4'b1001, T2 = 4'b1010, T3 = 4'b1011, T4 = 4'b1100, T5 = 4'b1101, T6 = 4'b1110;
 
     reg [3:0] Present_state = Default;
 
     // Instantiate the existing Datapath module
     Datapath DUT(
-        PCout, Zlowout, Zhighout, MDRout, R2out, R6out, MARin, Zin, PCin, MDRin, IRin, Yin, 
-        IncPC, Read, MUL, LOin, HIin, Clock, Mdatain
+        .PCout(PCout), .Zlowout(Zlowout), .Zhighout(Zhighout), .MDRout(MDRout), 
+        .R2(R2out), .R6(R6out), .MARin(MARin), .Zin(Zin), .PCin(PCin), 
+        .MDRin(MDRin), .IRin(IRin), .Yin(Yin), .IncPC(IncPC), .Read(Read), 
+        .MUL(MUL), .LOin(LOin), .HIin(HIin), .Clock(Clock), .Mdatain(Mdatain)
     );
 
     // Instantiate Booth Multiplier
@@ -44,7 +42,13 @@ module mul_tb;
     // Finite state machine
     always @(posedge Clock) begin
         case (Present_state)
-            Default: Present_state = T0;
+            Default: Present_state = Reg_load1a;
+            Reg_load1a: Present_state = Reg_load1b;
+            Reg_load1b: Present_state = Reg_load2a;
+            Reg_load2a: Present_state = Reg_load2b;
+            Reg_load2b: Present_state = Reg_load3a;
+            Reg_load3a: Present_state = Reg_load3b;
+            Reg_load3b: Present_state = T0;
             T0: Present_state = T1;
             T1: Present_state = T2;
             T2: Present_state = T3;
@@ -65,6 +69,26 @@ module mul_tb;
                 PCin <= 0; MDRin <= 0; IRin <= 0; Yin <= 0;
                 LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; MUL <= 0;
                 Mdatain <= 32'h00000000;
+            end
+
+            Reg_load1a: begin
+                Mdatain <= 32'h00000022;
+                #5 Read <= 1; MDRin <= 1;
+                #15 Read <= 0; MDRin <= 0;
+            end
+            Reg_load1b: begin
+                #5 MDRout <= 1; enable_reg <= (1 << 2);
+                #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R2 with the value 0x22
+            end
+
+            Reg_load2a: begin
+                Mdatain <= 32'h00000024;
+                #5 Read <= 1; MDRin <= 1; 
+                #15 Read <= 0; MDRin <= 0;
+            end
+            Reg_load2b: begin
+                #5 MDRout <= 1; enable_reg <= (1 << 6);
+                #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R6 with the value 0x24
             end
 
             T0: begin
@@ -105,5 +129,14 @@ module mul_tb;
                 Zhighout <= 1; HIin <= 1;
             end
         endcase
+    end
+
+    // Simulation control
+    initial begin
+        $dumpfile("mul_tb.vcd"); // GTKWave
+        $dumpvars(0, mul_tb);
+        #300;  // Run for 300 time units
+        $display("Simulation complete.");
+        $finish;
     end
 endmodule
