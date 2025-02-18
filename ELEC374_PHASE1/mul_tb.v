@@ -130,13 +130,4 @@ module mul_tb;
             end
         endcase
     end
-
-    // Simulation control
-    initial begin
-        $dumpfile("mul_tb.vcd"); // GTKWave
-        $dumpvars(0, mul_tb);
-        #300;  // Run for 300 time units
-        $display("Simulation complete.");
-        $finish;
-    end
 endmodule
