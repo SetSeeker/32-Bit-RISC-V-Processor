@@ -13,10 +13,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
 						  ror_result, rol_result, neg_result, not_result;
 
 	reg [(DATA_WIDTH*2)-1:0] A_result;
-	reg [DATA_WIDTH-1:0]  B_result, PC;
+	reg [DATA_WIDTH-1:0]  B_result, PC, q;
 
 	initial begin
 		PC = 0;
+		q = 0;
 	end
 	
 	// Block A (Add/Sub/Mul/Div)
@@ -116,19 +117,15 @@ module ALU #(parameter DATA_WIDTH = 32)(
 			4'd12:	B_result = not_result; 
 			default: B_result = 0;
 		endcase
-
-		// PC incrementor
-		case(control)
-			4'd13:	PC = PC + 4;
-		endcase
 	end
+	
 
 	// MUX to select between A and B based on the range of control value
 	always @(*) begin
 		if (control <= 4'd3)
 			Z_reg = A_result;
 		else if (control == 4'd13)
-			Z_reg = PC;
+			Z_reg = PC + 1;
 		else
 			Z_reg = B_result;
 	end

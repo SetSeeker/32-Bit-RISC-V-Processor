@@ -131,15 +131,14 @@ always @(Present_state) // do the required job in each state
 			 PCout <= 1; MARin <= 1; control <= 4'd13; //Zin <= 1;
 			 #5 Zin <= 1;
 			 #10 MARin <= 0;  PCout <= 0;//Zin <= 1;
-			 #5 Zin <= 0;
+			 #5 Zin <= 0; control <= 4'd0;
 		end
 		T1: begin
 			Mdatain <= 32'h2A2B8000; Zlowout <= 1;
 			 #5 Read <= 1; PCin <= 1; MDRin <= 1;
 			 #5 //MDRin <= 1;
 			 #5 Zlowout <= 0;
-			 #5 PCout <= 0; Read <= 0; PCin <= 0;
-			 MDRin <= 0;
+			 #5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
 		end
 		T2: begin
 			 MDRout <= 1;
