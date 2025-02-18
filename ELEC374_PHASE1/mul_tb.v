@@ -2,12 +2,18 @@
 
 module mul_tb;
     // Control signals
-    reg PCout, Zlowout, Zhighout, MDRout, R2out, R6out;
-    reg MARin, Zin, PCin, MDRin, IRin, Yin, LOin, HIin;
-    reg IncPC, Read, MUL;
-    reg Clock;
-    reg [31:0] Mdatain;
+	reg R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
+        R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
+        PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
+        In_Port_out, C_sign_extended_out;
+    reg MARin, Zin, PCin, MDRin, IRin, Yin;
+    reg Read, MUL;
+    reg IncPC;
+    reg LOin, HIin; 
+    reg Clock, Clear;
     reg [15:0] enable_reg;
+    reg [31:0] Mdatain;
+    reg [3:0] control;
 
     // State encoding
     parameter
@@ -18,11 +24,12 @@ module mul_tb;
     reg [3:0] Present_state = Default;
 
     // Instantiate the existing Datapath module
-    Datapath DUT(
+    DataPath DUT(
         .PCout(PCout), .Zlowout(Zlowout), .Zhighout(Zhighout), .MDRout(MDRout), 
         .R2(R2out), .R6(R6out), .MARin(MARin), .Zin(Zin), .PCin(PCin), 
         .MDRin(MDRin), .IRin(IRin), .Yin(Yin), .IncPC(IncPC), .Read(Read), 
-        .MUL(MUL), .LOin(LOin), .HIin(HIin), .Clock(Clock), .Mdatain(Mdatain)
+        .MUL(MUL), .LOin(LOin), .HIin(HIin), .Clock(Clock), .Mdatain(Mdatain),
+        .enable(enable_reg), .control(control),
     );
 
     // Instantiate Booth Multiplier
@@ -64,11 +71,21 @@ module mul_tb;
         case (Present_state)
             Default: begin
                 // Initialize all control signals to 0
-                PCout <= 0; Zlowout <= 0; Zhighout <= 0; MDRout <= 0;
-                R2out <= 0; R6out <= 0; MARin <= 0; Zin <= 0;
-                PCin <= 0; MDRin <= 0; IRin <= 0; Yin <= 0;
-                LOin <= 0; HIin <= 0; IncPC <= 0; Read <= 0; MUL <= 0;
-                Mdatain <= 32'h00000000;
+			R0out <= 0; R1out <= 0; R2out <= 0; R3out <= 0; 
+			R4out <= 0; R5out <= 0; R6out <= 0; R7out <= 0; 
+			R8out <= 0; R9out <= 0; R10out <= 0; R11out <= 0; 
+			R12out <= 0; R13out <= 0; R14out <= 0; R15out <= 0; 
+			PCout <= 0; Zlowout <= 0; MDRout <= 0; HIout <= 0; 
+			LOout <= 0; Z_high_out <= 0; C_sign_extended_out <= 0;
+			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
+
+            IncPC <= 0; MUL <= 0; Zhighout <= 0;
+            
+			MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
+			IRin <= 0; Yin <= 0;
+			Read <= 0; control <= 4'd0;
+			Clear <= 0;
+			enable_reg <= 16'b0; Mdatain <= 32'h00000000;
             end
 
             Reg_load1a: begin
