@@ -1,4 +1,4 @@
-module booth_multiplier #(parameter DATA_WIDTH = 32)(
+module boothMul #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] a,  // Multiplier (signed)
     input [DATA_WIDTH-1:0] b,  // Multiplicand (signed)
     output reg [(DATA_WIDTH*2)-1:0] data_out // Product

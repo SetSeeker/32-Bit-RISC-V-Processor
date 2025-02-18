@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module datapath_tb;
+module not_neg_tb;
 	reg R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
         R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
         PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
