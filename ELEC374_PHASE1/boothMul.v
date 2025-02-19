@@ -22,12 +22,12 @@ module boothMul #(parameter DATA_WIDTH = 32)(
 
         // Convert to 2's complement if negative
         if (a_is_negative)
-            a_twos = -a; // 2's complement of 'a'
+            a_twos = ~a + 1; // 2's complement of 'a'
         else
             a_twos = a;
 
         if (b_is_negative)
-            b_twos = -b; // 2's complement of 'b'
+            b_twos = ~b + 1; // 2's complement of 'b'
         else
             b_twos = b;
 
@@ -59,7 +59,7 @@ module boothMul #(parameter DATA_WIDTH = 32)(
 
         // Adjust the result based on its sign
         if (result_sign)
-            data_out = -unsigned_result; // Convert to negative
+            data_out = ~unsigned_result + 1; // Convert to negative
         else
             data_out = unsigned_result;      // Keep as positive
     end
