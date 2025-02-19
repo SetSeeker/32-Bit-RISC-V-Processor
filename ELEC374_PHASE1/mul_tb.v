@@ -17,9 +17,9 @@ module mul_tb;
 
     // State encoding
     parameter
-        Default = 4'b0001,
-        Reg_load1a = 4'b0010, Reg_load1b = 4'b0011, Reg_load2a = 4'b0100, Reg_load2b = 4'b0101, Reg_load3a = 4'b0110, Reg_load3b = 4'b0111,
-        T0 = 4'b1000, T1 = 4'b1001, T2 = 4'b1010, T3 = 4'b1011, T4 = 4'b1100, T5 = 4'b1101, T6 = 4'b1110;
+        Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
+        Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
+        T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
 
     reg [3:0] Present_state = Default;
 
@@ -88,61 +88,56 @@ module mul_tb;
 
             Reg_load1a: begin
                 Mdatain <= 32'h00000022;
-                #5 Read <= 1; MDRin <= 1;
-                #15 Read <= 0; MDRin <= 0;
+                #10 Read <= 1; MDRin <= 1;   // Increased delay for proper signal propagation
+                #20 Read <= 0; MDRin <= 0;   // Ensuring proper signal deactivation
             end
             Reg_load1b: begin
-                #5 MDRout <= 1; enable <= (1 << 2);
-                #15 MDRout <= 0; enable <= 16'b0; // initialize R2 with the value -0x22
+                #10 MDRout <= 1; enable <= (1 << 2);
+                #20 MDRout <= 0; enable <= 16'b0; // initialize R2 with the value 0x22
+                $display("R2 = %h", DUT.R2);
             end
 
             Reg_load2a: begin
                 Mdatain <= 32'h00000024;
-                #5 Read <= 1; MDRin <= 1; 
-                #15 Read <= 0; MDRin <= 0;
+                #10 Read <= 1; MDRin <= 1;
+                #20 Read <= 0; MDRin <= 0;
             end
             Reg_load2b: begin
-                #5 MDRout <= 1; enable <= (1 << 6);
-                #15 MDRout <= 0; enable <= 16'd0; // initialize R6 with the value 0x24
+                #10 MDRout <= 1; enable <= (1 << 6);
+                #20 MDRout <= 0; enable <= 16'd0; // initialize R6 with the value 0x24
+                $display("R6 = %h", DUT.R6);
             end
 
             T0: begin
-                // Step T0: PCout, MARin, IncPC, Zin
                 PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;
+                #10 Zin <= 1;
+                #15 MARin <= 0; PCout <= 0; // Give more time for propagation
+                #10 Zin <= 0;
             end
 
             T1: begin
-                // Step T1: Zlowout, PCin, Read, Mdatain[31..0], MDRin
-                Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;
                 Mdatain <= 32'h00062020; // Opcode: mul R2, R6
-            end
-
-            T2: begin
-                // Step T2: MDRout, IRin
-                MDRout <= 1; IRin <= 1;
-            end
-
-            T3: begin
-                // Step T3: R2out, Yin
-                R2out <= 1; Yin <= 1;
+                Zlowout <= 1;
+                #10 Read <= 1; PCin <= 1; MDRin <= 1;
+                #15 Zlowout <= 0;
+                #10 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
             end
 
             T4: begin
-                // Step T4: R6out, MUL, Zin
-                R6out <= 1;
-                MUL <= 1;
-                Zin <= 1;
+                R6out <= 1; MUL <= 1; Zin <= 1;
+                #15 R6out <= 0; Zin <= 0; // Allow multiplication to complete
             end
 
             T5: begin
-                // Step T5: Zlowout, LOin
                 Zlowout <= 1; LOin <= 1;
+                #15 Zlowout <= 0; LOin <= 0;
             end
 
             T6: begin
-                // Step T6: Zhighout, HIin
                 Zhighout <= 1; HIin <= 1;
+                #15 Zhighout <= 0; HIin <= 0;
             end
+
         endcase
     end
 endmodule
