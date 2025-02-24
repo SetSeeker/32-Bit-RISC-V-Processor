@@ -87,13 +87,12 @@ module non_restoring_div #(parameter DATA_WIDTH = 32)(
                         end
                         quotient <= Q;
                         remainder <= A[DATA_WIDTH-1:0];
+                        data_out <= {quotient, remainder};
                         done <= 1'b1;
                         state <= IDLE;
-                        data_out <= {quotient, remainder};
                     end
                 end
             endcase
         end
     end
-
 endmodule
