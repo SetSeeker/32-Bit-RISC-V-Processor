@@ -21,9 +21,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	end
 	
 	// Block A (Add/Sub/Mul/Div)
-	// add #(DATA_WIDTH) ADD ( // addition
-
-	// );
+	collective_add #(DATA_WIDTH) ADD (
+		.d1(a),
+		.d2(b),
+		.sum(add_result)
+	);
 
 	// sub #(DATA_WIDTH) SUB ( // subtract
 
@@ -95,7 +97,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	// Block A control logic
 	always @(*) begin
 		case(control)
-			// 4'd0:	A_result = add_result;
+			4'd0:	A_result = add_result;
 			// 4'd1:	A_result = sub_result;
 			// 4'd2:	A_result = mul_result; 
 			// 4'd3:	A_result = div_result; 
@@ -122,11 +124,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	// MUX to select between A and B based on the range of control value
 	always @(*) begin
-		if (control <= 4'd3)
-			Z_reg = A_result;
+		if (control <= 4'd0)
+			Z_reg = B_result;
 		else if (control == 4'd13)
 			Z_reg = PC + 1;
 		else
-			Z_reg = B_result;
+			Z_reg = A_result;
 	end
 endmodule
