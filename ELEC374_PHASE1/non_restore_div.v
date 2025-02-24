@@ -1,98 +1,55 @@
-module non_restoring_div #(parameter DATA_WIDTH = 32)(
-    input [DATA_WIDTH-1:0] a,  // a (signed)
-    input [DATA_WIDTH-1:0] b,   // b (signed)
-    input clk,
-    input rst,
-    input start,
-    output reg [DATA_WIDTH-1:0] quotient,  // Quotient (signed)
-    output reg [DATA_WIDTH-1:0] remainder, // Remainder (signed)
-    output reg done
-    output reg [(DATA_WIDTH*2)-1:0] data_out
+module non_restore_div #(parameter DATA_WIDTH = 32)(
+    input [DATA_WIDTH-1:0] a,  // dividend
+    input [DATA_WIDTH-1:0] b,  // divisor
+    output reg [(DATA_WIDTH*2)-1:0] data_out // Quotient and remainder concatenated
 );
 
-    // Internal signals
-    reg [DATA_WIDTH-1:0] a_twos, b_twos; // 2's complement representation
-    reg [DATA_WIDTH:0] A, M;                          // Accumulator and b (with sign bit)
-    reg [DATA_WIDTH-1:0] Q;                           // a
-    reg result_sign;                                  // Final sign of the result
-    reg a_is_negative, b_is_negative;    // Sign flags
-    reg [5:0] count;                                  // Loop counter
-    reg state;
+    integer i;
+    reg [DATA_WIDTH-1:0] quotient;
+    reg [DATA_WIDTH-1:0] remainder;
+    reg [DATA_WIDTH-1:0] divisor;
+    reg [DATA_WIDTH*2-1:0] dividend;
+    reg dividend_sign;
+    reg divisor_sign;
 
-    parameter IDLE = 1'b0, EXECUTE = 1'b1;
+    // Detect the sign of the dividend and divisor
+    always @(*) begin
+        dividend_sign = a[DATA_WIDTH-1];  // MSB of the dividend
+        divisor_sign = b[DATA_WIDTH-1];   // MSB of the divisor
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            A <= 0;
-            M <= 0;
-            Q <= 0;
-            quotient <= 0;
-            remainder <= 0;
-            count <= 0;
-            done <= 0;
-            state <= IDLE;
-        end else begin
-            case (state)
-                IDLE: begin
-                    if (start) begin
-                        // Determine sign of inputs (MSB check)
-                        a_is_negative = a[DATA_WIDTH-1]; 
-                        b_is_negative = b[DATA_WIDTH-1]; 
+        // Take the absolute value of dividend and divisor (unsigned equivalent)
+        dividend = (dividend_sign) ? (~a + 1) : a;
+        divisor = (divisor_sign) ? (~b + 1) : b;
+        
+        quotient = 0;
+        remainder = 0;
 
-                        // Convert to 2's complement if negative
-                        if (a_is_negative)
-                            a_twos = ~a + 1; 
-                        else
-                            a_twos = a;
+        // Initialize the dividend to be shifted
+        dividend = dividend << DATA_WIDTH;
 
-                        if (b_is_negative)
-                            b_twos = ~b + 1; 
-                        else
-                            b_twos = b;
+        // Division process
+        for (i = 0; i < DATA_WIDTH; i = i + 1) begin
+            remainder = {remainder[DATA_WIDTH-2:0], dividend[DATA_WIDTH*2-1]};
+            dividend = dividend << 1;
 
-                        // Initialize non-restoring division algorithm
-                        A <= 0;
-                        M <= {b_twos[DATA_WIDTH-1], b_twos}; // Sign-extend b
-                        Q <= a_twos;
-                        count <= DATA_WIDTH;
-                        done <= 0;
-                        state <= EXECUTE;
-                    end
-                end
-                EXECUTE: begin
-                    if (count > 0) begin
-                        // Shift left
-                        A <= {A[DATA_WIDTH-1:0], Q[DATA_WIDTH-1]};
-                        Q <= {Q[DATA_WIDTH-2:0], 1'b0};
-
-                        // Conditional add or subtract
-                        if (A[DATA_WIDTH] == 1'b0) begin
-                            A <= A - M;
-                        end else begin
-                            A <= A + M;
-                        end
-
-                        // Update Q based on the result of addition/subtraction
-                        if (A[DATA_WIDTH] == 1'b0) begin
-                            Q[0] <= 1'b1;
-                        end else begin
-                            Q[0] <= 1'b0;
-                        end
-
-                        count <= count - 1;
-                    end else begin
-                        // Final correction if necessary
-                        if (A[DATA_WIDTH] == 1'b1) begin
-                            A <= A + M;
-                        end
-                        quotient <= Q;
-                        remainder <= A[DATA_WIDTH-1:0];
-                        data_out <= {quotient, remainder};
-                        done <= 1'b1;
-                        state <= IDLE;
-                    end
-                end
-            endcase
+            if (remainder >= divisor) begin
+                remainder = remainder - divisor;
+                quotient = quotient | (1 << (DATA_WIDTH-1-i));
+            end
         end
+        
+        // Adjust the sign of the quotient if the signs of dividend and divisor differ
+        if (dividend_sign ^ divisor_sign) begin
+            quotient = ~quotient + 1;  // Negate the quotient if signs differ
+        end
+
+        // If the dividend was negative, adjust the remainder sign accordingly
+        if (dividend_sign) begin
+            remainder = ~remainder + 1;  // Negate remainder if dividend was negative
+        end
+
+        // Concatenate the quotient and remainder
+        data_out = {quotient, remainder};
     end
-endmodule
+
+    endmodule
