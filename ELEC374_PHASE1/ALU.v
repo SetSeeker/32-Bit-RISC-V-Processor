@@ -4,12 +4,9 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	output reg [(DATA_WIDTH*2)-1:0] Z_reg
 );
 
-	// Block A: Add/Sub/Mul/Div
-	wire [DATA_WIDTH-1:0] add_result, sub_result;
 	wire [(DATA_WIDTH*2)-1:0] mul_result, div_result;
 
-	// Block B: Shift/Rotate/AND/OR/Neg/NOT
-	wire [DATA_WIDTH-1:0] and_result, or_result, shr_result, shra_result, shl_result,
+	wire [DATA_WIDTH-1:0] add_result, sub_result, and_result, or_result, shr_result, shra_result, shl_result,
 						  ror_result, rol_result, neg_result, not_result, pc_result;
 
 	reg [DATA_WIDTH-1:0]  result;
@@ -29,7 +26,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	collective_add #(DATA_WIDTH) PC (
 		.cin(0),
 		.cout(cout),
-		.d1(a),
+		.d1(b),
 		.d2(1),
 		.sum(pc_result)
 	);
@@ -87,12 +84,12 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	);
 
 	neg #(DATA_WIDTH) NEG ( // negate
-		.data_in(a),
+		.data_in(b),
 		.data_out(neg_result)
 	);
 
 	not_op #(DATA_WIDTH) NOT ( // not
-		.data_in(a),
+		.data_in(b),
 		.data_out(not_result)
 	);
 
@@ -101,8 +98,8 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		case(control)
 			4'd1:	result = {32'd0, add_result};
 			4'd2:	result = {32'd0, sub_result};
-			4'd3:	result = {32'd0, mul_result};
-			4'd4:	result = {32'd0, div_result};
+			4'd3:	result = mul_result;
+			4'd4:	result = div_result;
 			4'd5:   result = {32'd0, and_result};
 			4'd6:   result = {32'd0, or_result};
 			4'd7:   result = {32'd0, shr_result};
