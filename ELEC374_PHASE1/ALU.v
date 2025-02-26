@@ -47,6 +47,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	// Unit B (Shift/Rotate/AND/OR/Neg/NOT)
 	and_op #(DATA_WIDTH) AND ( // and
+	and_op #(DATA_WIDTH) AND ( // and
 		.a(a),
 		.b(b),
 		.data_out(and_result)
