@@ -59,31 +59,26 @@ module ALU #(parameter DATA_WIDTH = 32)(
 
 	shr #(DATA_WIDTH) SHR ( // shift right
 		.data_in(b),
-		.shift_amount(1),
 		.data_out(shr_result)
 	);
 
 	shra #(DATA_WIDTH) SHRA ( // shift right arithmetic
 		.data_in(b),
-		.shift_amount(1),
 		.data_out(shra_result)
 	);
 
 	shl #(DATA_WIDTH) SHL ( // shift left
 		.data_in(b),
-		.shift_amount(1),
 		.data_out(shl_result)
 	);
 
 	ror #(DATA_WIDTH) ROR ( // rotate right
 		.data_in(b),
-		//.rotate_amount(b),
 		.data_out(ror_result)
 	);
 
 	rol #(DATA_WIDTH) ROL ( // rotate left
 		.data_in(b),
-		//.rotate_amount(b),
 		.data_out(rol_result)
 	);
 
