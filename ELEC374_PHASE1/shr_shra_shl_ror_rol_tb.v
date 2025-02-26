@@ -154,15 +154,16 @@ always @(Present_state) // do the required job in each state
 			#15 R3out <= 0; Yin <= 0;
 		end
 		T4: begin
-			control <= 4'd10; 
+			control <= 4'd7; 
 			#5 Zin <= 1;
 			#10 //R7out <= 0;
 			#5 Zin <= 0;
 		end
 		T5: begin
 			enable_reg <= (1 << 4); Zlowout <= 1;
-			#10 Zlowout <= 0; LOin <= 1;
-			#10 LOin <= 0;
+			#5 LOin <= 1;
+			#10 Zlowout <= 0;
+			#5 LOin <= 0;
 			count <= count - 1;
             if (count > 1) begin
                 Present_state <= T4;
