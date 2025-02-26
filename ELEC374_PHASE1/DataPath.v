@@ -185,16 +185,12 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .enable(Zin),
         .data_in(ALU_result[31:0]),
         .data_out(Z_low)
-        .enable(Zin),
-        .data_in(ALU_result[31:0]),
-        .data_out(Z_low)
     );
 
     register #(DATA_WIDTH) z_high_register (
         .clock(Clock),
         .clear(Clear),
         .enable(Zin),
-        .data_in(ALU_result[63:32]),
         .data_in(ALU_result[63:32]),
         .data_out(Z_high)
     );
