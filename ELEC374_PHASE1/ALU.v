@@ -5,15 +5,16 @@ module ALU #(parameter DATA_WIDTH = 32)(
 );
 
 	// Block A: Add/Sub/Mul/Div
-	wire [DATA_WIDTH-1:0] add_result, sub_result;
+	wire [DATA_WIDTH-1:0] add_result, suresult;
 	wire [(DATA_WIDTH*2)-1:0] mul_result, div_result;
 
 	// Block B: Shift/Rotate/AND/OR/Neg/NOT
 	wire [DATA_WIDTH-1:0] and_result, or_result, shr_result, shra_result, shl_result,
 						  ror_result, rol_result, neg_result, not_result;
 
-	reg [(DATA_WIDTH*2)-1:0] A_result;
-	reg [DATA_WIDTH-1:0]  B_result, PC, q;
+	reg [DATA_WIDTH-1:0]  result, PC, q;
+
+	wire cout;
 
 	initial begin
 		PC = 0;
@@ -22,6 +23,8 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	
 	// Block A (Add/Sub/Mul/Div)
 	collective_add #(DATA_WIDTH) ADD (
+		.cin(0),
+		.cout(cout),
 		.d1(a),
 		.d2(b),
 		.sum(add_result)
@@ -37,7 +40,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
         .data_out(mul_result)
     );
 
-	// div #(DATA_WIDTH) DIV ( // divide 
+	// non_restore_div #(DATA_WIDTH) DIV ( // divide 
 
 	// );
 
@@ -55,32 +58,32 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	);
 
 	shr #(DATA_WIDTH) SHR ( // shift right
-		.data_in(a),
-		.shift_amount(b),
+		.data_in(b),
+		.shift_amount(1),
 		.data_out(shr_result)
 	);
 
 	shra #(DATA_WIDTH) SHRA ( // shift right arithmetic
-		.data_in(a),
-		.shift_amount(b),
+		.data_in(b),
+		.shift_amount(1),
 		.data_out(shra_result)
 	);
 
 	shl #(DATA_WIDTH) SHL ( // shift left
-		.data_in(a),
-		.shift_amount(b),
+		.data_in(b),
+		.shift_amount(1),
 		.data_out(shl_result)
 	);
 
 	ror #(DATA_WIDTH) ROR ( // rotate right
-		.data_in(a),
-		.rotate_amount(b),
+		.data_in(b),
+		//.rotate_amount(b),
 		.data_out(ror_result)
 	);
 
 	rol #(DATA_WIDTH) ROL ( // rotate left
-		.data_in(a),
-		.rotate_amount(b),
+		.data_in(b),
+		//.rotate_amount(b),
 		.data_out(rol_result)
 	);
 
@@ -97,38 +100,29 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	// Block A control logic
 	always @(*) begin
 		case(control)
-			4'd0:	A_result = add_result;
-			// 4'd1:	A_result = sub_result;
-			// 4'd2:	A_result = mul_result; 
-			// 4'd3:	A_result = div_result; 
-			default: A_result = 0;
-		endcase
-	// end
-
-	// // Block B control logic
-	// always @(*) begin
-		case(control)
-			4'd4:	B_result = and_result;
-			4'd5:	B_result = or_result;
-			4'd6:	B_result = shr_result;
-			4'd7:	B_result = shra_result; 
-			4'd8:	B_result = shl_result; 
-			4'd9:	B_result = ror_result; 
-			4'd10:	B_result = rol_result;
-			4'd11:	B_result = neg_result;
-			4'd12:	B_result = not_result; 
-			default: B_result = 0;
+			4'd1:	result = {32'd0, and_result};
+			4'd2:	result = {32'd0, and_result};
+			4'd3:	result = {32'd0, and_result};
+			4'd4:	result = {32'd0, and_result};
+			4'd5:   result = {32'd0, and_result};
+			4'd6:   result = {32'd0, or_result};
+			4'd7:   result = {32'd0, shr_result};
+			4'd8:   result = {32'd0, shra_result}; 
+			4'd9:   result = {32'd0, shl_result}; 
+			4'd10:  result = {32'd0, ror_result}; 
+			4'd11:  result = {32'd0, rol_result};
+			4'd12:  result = {32'd0, neg_result};
+			4'd13:  result = {32'd0, not_result};
+			default: result = 64'd0;
 		endcase
 	end
 	
 
 	// MUX to select between A and B based on the range of control value
 	always @(*) begin
-		if (control <= 4'd0)
-			Z_reg = B_result;
-		else if (control == 4'd13)
+		if (control == 4'd14)
 			Z_reg = PC + 1;
 		else
-			Z_reg = A_result;
+			Z_reg = result;
 	end
 endmodule
