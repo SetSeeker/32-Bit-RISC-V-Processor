@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module and_or_tb;
+module shr_shra_shl_ror_rol_tb;
 	reg R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
         R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
         PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
@@ -131,7 +131,7 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R4 with the value 0x28 
 		end
 		T0: begin // see if you need to de-assert these signals
-			 PCout <= 1; MARin <= 1; control <= 5'd14; //Zin <= 1;
+			 PCout <= 1; MARin <= 1; control <= 5'd19; //Zin <= 1;
 			 #5 Zin <= 1;
 			 #10 MARin <= 0;  PCout <= 0;//Zin <= 1;
 			 #5 Zin <= 0; control <= 4'd0;

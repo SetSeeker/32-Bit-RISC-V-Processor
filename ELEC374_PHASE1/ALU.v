@@ -27,12 +27,16 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		.cin(0),
 		.cout(cout),
 		.d1(b),
-		.d2(1),
+		.d2(4),
 		.sum(pc_result)
 	);
 
 	// sub #(DATA_WIDTH) SUB ( // subtract
-
+	// 	.cin(0),
+	// 	.cout(cout),
+	// 	.d1(a),
+	// 	.d2(b),
+	// 	.sum(sub_result)
 	// );
 
 	boothMul #(DATA_WIDTH) MUL (
@@ -42,7 +46,9 @@ module ALU #(parameter DATA_WIDTH = 32)(
     );
 
 	// non_restore_div #(DATA_WIDTH) DIV ( // divide 
-
+	// 	.a(a),
+    //     .b(b),
+    //     .data_out(div_result)
 	// );
 
 	// Unit B (Shift/Rotate/AND/OR/Neg/NOT)
@@ -116,9 +122,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 			default: result = 64'd0;
 		endcase
 	end
-	
 
-	// MUX to select between A and B based on the range of control value
 	always @(*) begin
 		Z_reg = result;
 	end
