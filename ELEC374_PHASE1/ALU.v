@@ -16,7 +16,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	
 	// Block A (Add/Sub/Mul/Div)
 	collective_add #(DATA_WIDTH) ADD (
-		.cin(0),
+		.cin(1'd0),
 		.cout(cout),
 		.d1(a),
 		.d2(b),
@@ -24,7 +24,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	);
 
 	collective_add #(DATA_WIDTH) PC (
-		.cin(0),
+		.cin(1'd0),
 		.cout(cout),
 		.d1(b),
 		.d2(4),
