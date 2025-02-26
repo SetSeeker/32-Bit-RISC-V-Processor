@@ -128,7 +128,7 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R4 with the value 0x28 
 		end
 		T0: begin // see if you need to de-assert these signals
-			 PCout <= 1; MARin <= 1; control <= 4'd14; //Zin <= 1;
+			 PCout <= 1; MARin <= 1; control <= 5'd14; //Zin <= 1;
 			 #5 Zin <= 1;
 			 #10 MARin <= 0;  PCout <= 0;//Zin <= 1;
 			 #5 Zin <= 0; control <= 4'd0;
@@ -151,7 +151,7 @@ always @(Present_state) // do the required job in each state
 			#15 R3out <= 0; Yin <= 0;
 		end
 		T4: begin
-			R7out <= 1; control <= 4'd0; 
+			R7out <= 1; control <= 5'd0; 
 			#5 Zin <= 1;
 			#10 R7out <= 0;
 			#5 Zin <= 0;

@@ -4,7 +4,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Read,
     input [15:0] enable,
 	input [DATA_WIDTH-1:0] Mdatain,
-	input [3:0] control,
+	input [4:0] control,
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
           R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
           PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,

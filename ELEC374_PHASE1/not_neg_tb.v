@@ -10,7 +10,7 @@ module not_neg_tb;
     reg Clock, Clear;
     reg [15:0] enable_reg;
     reg [31:0] Mdatain;
-    reg [3:0] control;
+    reg [4:0] control;
     parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
               Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
               T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
@@ -91,7 +91,7 @@ always @(Present_state) // do the required job in each state
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
 			 IRin <= 0; Yin <= 0;
-			 Read <= 0; control <= 4'd0;
+			 Read <= 0; control <= 5'd0;
 			 Clear <= 0;
 			 enable_reg <= 16'b0; Mdatain <= 32'h00000000;
 		end
@@ -105,7 +105,7 @@ always @(Present_state) // do the required job in each state
 			 #15 MDRout <= 0; enable_reg <= 16'b0; // initialize R3 with the value 0x22
 		end
 		T0: begin // see if you need to de-assert these signals
-			 PCout <= 1; MARin <= 1; control <= 4'd14; //Zin <= 1;
+			 PCout <= 1; MARin <= 1; control <= 5'd19; //Zin <= 1;
 			 #5 Zin <= 1;
 			 #10 MARin <= 0;  PCout <= 0;//Zin <= 1;
 			 #5 Zin <= 0;
@@ -124,7 +124,7 @@ always @(Present_state) // do the required job in each state
 			 #5  MARin <= 0; IRin <= 0;
 		end
 		T3: begin
-			R0out <= 1; control <= 4'd12; 
+			R0out <= 1; control <= 5'd17; 
 			#5 Zin <= 1;
 			#10 R0out <= 0;
 			#5 Zin <= 0;

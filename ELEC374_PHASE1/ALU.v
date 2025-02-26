@@ -1,6 +1,6 @@
 module ALU #(parameter DATA_WIDTH = 32)(
 	input [DATA_WIDTH-1:0] a, b,
-	input [3:0] control,
+	input [4:0] control,
 	output reg [(DATA_WIDTH*2)-1:0] Z_reg
 );
 
@@ -96,20 +96,23 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	// Block A control logic
 	always @(*) begin
 		case(control)
-			4'd1:	result = {32'd0, add_result};
-			4'd2:	result = {32'd0, sub_result};
-			4'd3:	result = mul_result;
-			4'd4:	result = div_result;
-			4'd5:   result = {32'd0, and_result};
-			4'd6:   result = {32'd0, or_result};
-			4'd7:   result = {32'd0, shr_result};
-			4'd8:   result = {32'd0, shra_result}; 
-			4'd9:   result = {32'd0, shl_result}; 
-			4'd10:  result = {32'd0, ror_result}; 
-			4'd11:  result = {32'd0, rol_result};
-			4'd12:  result = {32'd0, neg_result};
-			4'd13:  result = {32'd0, not_result};
-			4'd14:  result = {32'd0, pc_result};
+			5'd3:   result = {32'd0, add_result};
+			5'd4:   result = {32'd0, sub_result};
+			5'd5:   result = {32'd0, and_result};
+			5'd6:   result = {32'd0, or_result};
+			5'd7:   result = {32'd0, ror_result};
+			5'd8:   result = {32'd0, rol_result};
+			5'd9:   result = {32'd0, shr_result};
+			5'd10:  result = {32'd0, shra_result};
+			5'd11:  result = {32'd0, shl_result};
+			// 5'd12:  result = {32'd0, addi_result};
+			// 5'd13:  result = {32'd0, andi_result};
+			// 5'd14:  result = {32'd0, ori_result};
+			5'd15:  result = div_result;
+			5'd16:  result = mul_result;
+			5'd17:  result = {32'd0, neg_result};
+			5'd18:  result = {32'd0, not_result};
+			5'd19:  result = {32'd0, pc_result};
 			default: result = 64'd0;
 		endcase
 	end
