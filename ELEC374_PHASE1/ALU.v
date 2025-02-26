@@ -31,13 +31,13 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		.sum(pc_result)
 	);
 
-	// sub #(DATA_WIDTH) SUB ( // subtract
-	// 	.cin(0),
-	// 	.cout(cout),
-	// 	.d1(a),
-	// 	.d2(b),
-	// 	.sum(sub_result)
-	// );
+	subtract #(DATA_WIDTH) SUB (
+		.cin(1'd0),
+		.cout(cout),
+		.a(a),
+		.b(b),
+		.sum(sub_result)
+	);
 
 	boothMul #(DATA_WIDTH) MUL (
         .a(a),
@@ -45,11 +45,11 @@ module ALU #(parameter DATA_WIDTH = 32)(
         .data_out(mul_result)
     );
 
-	// non_restore_div #(DATA_WIDTH) DIV ( // divide 
-	// 	.a(a),
-    //     .b(b),
-    //     .data_out(div_result)
-	// );
+	non_restore_div #(DATA_WIDTH) DIV ( // divide 
+		.a(a),
+		.b(b),
+		.data_out(div_result)
+	);
 
 	// Unit B (Shift/Rotate/AND/OR/Neg/NOT)
 	and_op #(DATA_WIDTH) AND ( // and
