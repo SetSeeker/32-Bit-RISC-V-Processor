@@ -148,7 +148,7 @@ always @(Present_state) // do the required job in each state
 		T5: begin
 			Zlowout <= 1; LOin <= 1;
 			#15 Zlowout <= 0; LOin <= 0;
-			#5
+			#5;
 		end
 		T6: begin
 			Z_high_out <= 1; HIin <= 1;

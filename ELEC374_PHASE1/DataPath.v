@@ -15,29 +15,12 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           R5, R6, R7, R8, R9, 
                           R10, R11, R12, R13, R14, R15,
                           HI, LO, Z_high, Z_low,
-<<<<<<< Updated upstream
+
                           PC, IR, In_Port, C_sign_extended, Y,
                           BusMuxOut, BusMuxIn_MDR, MAR;
-=======
-                          PC, In_Port, C_sign_extended,
-                          BusMuxOut, BusMuxIn_MDR;
->>>>>>> Stashed changes
+								  
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
-	//Devices
-    // the following for loop gives me a warning on a MAC, but I will try running it in quartus and see if it works
-    // genvar i;
-    // generate
-    //     for (i = 0; i < 16; i = i + 1) begin
-    //         register #(DATA_WIDTH) reg_inst (
-    //             .clock(Clock),
-    //             .clear(Clear),
-    //             .enable(test_name[i]),
-    //             .data_in(Mdatain),
-    //             .data_out(test_name_output[i])
-    //         );
-    //     end
-    // endgenerate
 
 	register #(DATA_WIDTH) reg0 (
     .clock(Clock),
@@ -204,18 +187,12 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) hi_register (
         .clock(Clock),
         .clear(Clear),
-<<<<<<< Updated upstream
         .enable(HIin), 
         .data_in(BusMuxOut),
-=======
-        .enable(Zin), 
-        .data_in(Z_high),
->>>>>>> Stashed changes
         .data_out(HI)
     );
 
     // // LO Register
-<<<<<<< Updated upstream
     register #(DATA_WIDTH) lo_register (
         .clock(Clock),
         .clear(Clear),
@@ -224,34 +201,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_out(LO)
     );
 
-=======
-    // register #(DATA_WIDTH) lo_register (
-    //     .clock(Clock),
-    //     .clear(Clear),
-    //     .enable(Zin), 
-    //     .data_in(alu_result),
-    //     .data_out(LO)
-    // );
-
-    // Z High and Z Low Registers
-
-	register #(DATA_WIDTH) z_low_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(Zin),
-        .data_in(ALU_result[31:0]),
-        .data_out(Z_low)
-    );
-
-    register #(DATA_WIDTH) z_high_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(Zin),
-        .data_in(ALU_result[63:32]),
-        .data_out(Z_high)
-    );
-
->>>>>>> Stashed changes
     // In_Port (For I/O Operations)
     register #(DATA_WIDTH) in_port_register (
         .clock(Clock),
@@ -261,7 +210,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_out(In_Port)
     );
 
-<<<<<<< Updated upstream
     // Constant Sign-Extended Register
     register #(DATA_WIDTH) c_sign_extended_register (
         .clock(Clock),
@@ -270,7 +218,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_in(BusMuxOut),
         .data_out(C_sign_extended)
     );
-=======
+
     // // Constant Sign-Extended Register
     // register #(DATA_WIDTH) c_sign_extended_register (
     //     .clock(Clock),
@@ -279,7 +227,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     //     .data_in(Mdatain),
     //     .data_out(C_sign_extended)
     // );
->>>>>>> Stashed changes
 
     register #(DATA_WIDTH) y_register (
         .clock(Clock),
@@ -295,18 +242,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.b(BusMuxOut),
 		.control(control),
 		.Z_reg(ALU_result)
-<<<<<<< Updated upstream
-=======
-	);
-
-	register #(DATA_WIDTH) reg4 (
-		.clock(clock),
-		.clear(clear),
-		.enable(R4in),
-		.data_in(Z_low),
-		.data_in(Z_low),
-		.data_out(R4)
->>>>>>> Stashed changes
 	);
 
 	// MDR
