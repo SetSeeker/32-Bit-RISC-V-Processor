@@ -30,6 +30,9 @@ module non_restore_div #(parameter DATA_WIDTH = 32)(
         else
             divisor = b;
 
+        // Initialize the dividend to be shifted
+        dividend = {dividend, {(DATA_WIDTH){1'b0}}};
+
         quotient = 0;
         remainder = 0;
 
