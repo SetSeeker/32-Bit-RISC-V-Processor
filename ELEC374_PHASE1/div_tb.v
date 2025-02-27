@@ -10,7 +10,7 @@ module div_tb;
     reg Clock, Clear;
     reg [15:0] enable_reg;
     reg [31:0] Mdatain;
-    reg [5:0] control;
+    reg [4:0] control;
     parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
               Reg_load2b = 4'b0100, T0 = 4'b0101, T1 = 4'b0110, T2 = 4'b0111,
               T3 = 4'b1000, T4 = 4'b1001, T5 = 4'b1010, T6 = 4'b1011;
