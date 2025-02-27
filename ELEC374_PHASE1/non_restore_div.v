@@ -33,6 +33,8 @@ module non_restore_div #(parameter DATA_WIDTH = 32)(
         quotient = 0;
         remainder = 0;
 
+        dividend = {dividend, {(DATA_WIDTH){1'b0}}};
+
         // Non-Restoring Division Algorithm
         for (i = 0; i < DATA_WIDTH; i = i + 1) begin
             // Shift A and Q left one binary position

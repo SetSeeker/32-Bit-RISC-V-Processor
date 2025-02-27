@@ -27,7 +27,7 @@ module ALU #(parameter DATA_WIDTH = 32)(
 		.cin(1'd0),
 		.cout(cout),
 		.d1(b),
-		.d2(4),
+		.d2(1),
 		.sum(pc_result)
 	);
 
