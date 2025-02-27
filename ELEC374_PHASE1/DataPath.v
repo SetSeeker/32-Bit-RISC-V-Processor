@@ -304,6 +304,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.clear(clear),
 		.enable(R4in),
 		.data_in(Z_low),
+		.data_in(Z_low),
 		.data_out(R4)
 >>>>>>> Stashed changes
 	);
