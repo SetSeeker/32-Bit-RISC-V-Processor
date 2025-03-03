@@ -154,7 +154,7 @@ always @(Present_state) // do the required job in each state
 			#15 R3out <= 0; Yin <= 0;
 		end
 		T4: begin
-			control <= 5'd7; 
+			control <= 5'd11; 
 			#5 Zin <= 1;
 			#10 //R7out <= 0;
 			#5 Zin <= 0;

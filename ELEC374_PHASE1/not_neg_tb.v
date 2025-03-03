@@ -124,7 +124,7 @@ always @(Present_state) // do the required job in each state
 			 #5  MARin <= 0; IRin <= 0;
 		end
 		T3: begin
-			R0out <= 1; control <= 5'd17; 
+			R0out <= 1; control <= 5'd18; 
 			#5 Zin <= 1;
 			#10 R0out <= 0;
 			#5 Zin <= 0;
