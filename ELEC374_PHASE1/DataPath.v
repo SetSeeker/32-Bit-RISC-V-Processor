@@ -8,7 +8,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
           R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
           PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
-          In_Port_out, C_sign_extended_out
+          In_Port_out, C_sign_extended_out, RAM_read, RAM_write
 );
 
     wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 
@@ -17,7 +17,9 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           HI, LO, Z_high, Z_low,
 
                           PC, IR, In_Port, C_sign_extended, Y,
-                          BusMuxOut, BusMuxIn_MDR, MAR;
+                          BusMuxOut, BusMuxIn_MDR;
+    
+    wire [DATA_WIDTH/4:0] MAR_address_out;
 								  
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
@@ -255,13 +257,21 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.Mdatain(Mdatain)
 	);
 
-    register #(DATA_WIDTH) mar (
+    MAR #(DATA_WIDTH) mar (
         .clock(Clock),
         .clear(Clear),
         .enable(MARin),
         .data_in(BusMuxOut),
-        .data_out(MAR)
+        .data_out(MAR_address_out)
     );
+
+    // RAM #(DATA_WIDTH) ram (
+    //     .read(RAM_read),
+    //     .write(RAM_write),
+    //     .data_in(BusMuxIn_MDR),
+    //     .data_out(BusMuxIn_MDR),
+    //     .address(MAR_address_out)
+    // );
 
 	//Bus
 	Bus #(DATA_WIDTH) bus(
