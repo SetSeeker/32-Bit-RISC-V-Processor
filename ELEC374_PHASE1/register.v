@@ -16,5 +16,5 @@ always @ (posedge clock)
 				q <= data_in;	// load data
 			end
 		end
-	assign	data_out = q[DATA_WIDTH-1:0];
+	assign data_out = (q == 32'd0) ? ((~BAout) & q) : q;
 endmodule
