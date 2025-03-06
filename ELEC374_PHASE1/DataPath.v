@@ -23,6 +23,19 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 								  
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
+    // Select_Encode #(DATA_WIDTH) select_encode (
+    // .IR(),
+    // .Gra(),
+    // .Grb(),
+    // .Grc(),
+    // .Rin(),
+    // .Rout(),
+    // .BAout(),
+    // .Rin_out(),
+    // .Rout_out(),
+    // .C_sign_extended()
+    // );
+
 
 	register #(DATA_WIDTH) reg0 (
     .clock(Clock),
