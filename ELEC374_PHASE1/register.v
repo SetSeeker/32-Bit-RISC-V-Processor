@@ -1,5 +1,5 @@
 module register #(parameter DATA_WIDTH = 32, INIT = 32'h0)(
-	input clear, clock, enable, 
+	input clear, clock, enable, BAout, 
 	input [DATA_WIDTH-1:0] data_in,
 	output wire [DATA_WIDTH-1:0] data_out
 );
@@ -16,5 +16,6 @@ always @ (posedge clock)
 				q <= data_in;	// load data
 			end
 		end
-	assign	data_out = q[DATA_WIDTH-1:0];
+	//Add extra logic to check for R0
+	assign data_out = (q == 32'd0) ? ((~BAout) & q) : q;
 endmodule
