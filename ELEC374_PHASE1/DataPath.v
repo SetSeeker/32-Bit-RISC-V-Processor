@@ -2,13 +2,15 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
 	input Zin, PCin, MDRin, IRin, Yin, MARin, LOin, HIin,
 	input Read,
-    input [15:0] enable,
+    input [15:0] in_enable, out_enable,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [4:0] control,
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
           R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
           PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
-          In_Port_out, C_sign_extended_out, RAM_read, RAM_write
+          In_Port_out, C_sign_extended_out, RAM_read, RAM_write,
+          Gra, Grb, Grc, Rin, Rout, BAout,
+    input [DATA_WIDTH-1:0] PC_tb_value
 );
 
     wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 
@@ -16,31 +18,30 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           R10, R11, R12, R13, R14, R15,
                           HI, LO, Z_high, Z_low,
 
-                          PC, IR, In_Port, C_sign_extended, Y,
-                          BusMuxOut, BusMuxIn_MDR;
+                          IR, In_Port, C_sign_extended, Y,
+                          PC, BusMuxOut, BusMuxIn_MDR, Data;
     
     wire [DATA_WIDTH/4:0] MAR_address_out;
 								  
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
-    // Select_Encode #(DATA_WIDTH) select_encode (
-    // .IR(),
-    // .Gra(),
-    // .Grb(),
-    // .Grc(),
-    // .Rin(),
-    // .Rout(),
-    // .BAout(),
-    // .Rin_out(),
-    // .Rout_out(),
-    // .C_sign_extended()
-    // );
-
+    Select_Encode #(DATA_WIDTH) select_encode (
+    .IR(IR),
+    .Gra(Gra),
+    .Grb(Grb),
+    .Grc(Grc),
+    .Rin(Rin),
+    .Rout(Rout),
+    .BAout(BAout),
+    .Rin_out(in_enable),
+    .Rout_out(out_enable)
+    //.C_sign_extended(C_sign_extended)
+    );
 
 	register #(DATA_WIDTH) reg0 (
     .clock(Clock),
     .clear(Clear),
-    .enable(enable[0]),
+    .enable(in_enable[0]),
     .data_in(BusMuxOut),
     .data_out(R0)
     );
@@ -48,7 +49,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg1 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[1]),
+        .enable(in_enable[1]),
         .data_in(BusMuxOut),
         .data_out(R1)
     );
@@ -56,7 +57,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg2 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[2]),
+        .enable(in_enable[2]),
         .data_in(BusMuxOut),
         .data_out(R2)
     );
@@ -64,7 +65,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg3 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[3]),
+        .enable(in_enable[3]),
         .data_in(BusMuxOut),
         .data_out(R3)
     );
@@ -72,7 +73,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg4 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[4]),
+        .enable(in_enable[4]),
         .data_in(BusMuxOut),
         .data_out(R4)
     );
@@ -80,7 +81,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg5 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[5]),
+        .enable(in_enable[5]),
         .data_in(BusMuxOut),
         .data_out(R5)
     );
@@ -88,7 +89,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg6 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[6]),
+        .enable(in_enable[6]),
         .data_in(BusMuxOut),
         .data_out(R6)
     );
@@ -96,7 +97,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg7 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[7]),
+        .enable(in_enable[7]),
         .data_in(BusMuxOut),
         .data_out(R7)
     );
@@ -104,7 +105,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg8 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[8]),
+        .enable(in_enable[8]),
         .data_in(BusMuxOut),
         .data_out(R8)
     );
@@ -112,7 +113,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg9 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[9]),
+        .enable(in_enable[9]),
         .data_in(BusMuxOut),
         .data_out(R9)
     );
@@ -120,7 +121,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg10 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[10]),
+        .enable(in_enable[10]),
         .data_in(BusMuxOut),
         .data_out(R10)
     );
@@ -128,7 +129,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg11 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[11]),
+        .enable(in_enable[11]),
         .data_in(BusMuxOut),
         .data_out(R11)
     );
@@ -136,7 +137,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg12 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[12]),
+        .enable(in_enable[12]),
         .data_in(BusMuxOut),
         .data_out(R12)
     );
@@ -144,7 +145,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg13 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[13]),
+        .enable(in_enable[13]),
         .data_in(BusMuxOut),
         .data_out(R13)
     );
@@ -152,7 +153,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg14 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[14]),
+        .enable(in_enable[14]),
         .data_in(BusMuxOut),
         .data_out(R14)
     );
@@ -160,15 +161,16 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     register #(DATA_WIDTH) reg15 (
         .clock(Clock),
         .clear(Clear),
-        .enable(enable[15]),
+        .enable(in_enable[15]),
         .data_in(BusMuxOut),
         .data_out(R15)
     );
 
-	register #(DATA_WIDTH) pc_register (
+	PC #(DATA_WIDTH) pc_register (
         .clock(Clock),
         .clear(Clear),
         .enable(PCin),
+        .PC_tb_value(PC_tb_value),
         .data_in(BusMuxOut),
         .data_out(PC)
     );
@@ -267,7 +269,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.BusMuxOut(BusMuxOut),
 		.MDRin(MDRin),
 		.BusMuxIn_MDR(BusMuxIn_MDR),
-		.Mdatain(Mdatain)
+		.Mdatain(Data)
 	);
 
     MAR #(DATA_WIDTH) mar (
@@ -278,13 +280,13 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_out(MAR_address_out)
     );
 
-    // RAM #(DATA_WIDTH) ram (
-    //     .read(RAM_read),
-    //     .write(RAM_write),
-    //     .data_in(BusMuxIn_MDR),
-    //     .data_out(BusMuxIn_MDR),
-    //     .address(MAR_address_out)
-    // );
+    RAM #(DATA_WIDTH) ram (
+        .read(RAM_read),
+        .write(RAM_write),
+        .data_in(BusMuxIn_MDR),
+        .data_out(Data),
+        .address(MAR_address_out)
+    );
 
 	//Bus
 	Bus #(DATA_WIDTH) bus(

@@ -6,12 +6,13 @@ module RAM #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH/4:0] address
 );
 
-    initial begin // will be removed later
-        data_out = 0;
-    end
-
-    parameter size = 2**(DATA_WIDTH/4);
+    parameter size = 2**(9);
     reg [DATA_WIDTH-1:0] memory [0:size-1];
+
+    initial begin
+        data_out = 32'b0;
+        $readmemh("mem_init.hex", memory);
+    end
 
     always @(*) begin
         if (write) begin
