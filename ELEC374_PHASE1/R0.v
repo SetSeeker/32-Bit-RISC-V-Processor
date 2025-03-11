@@ -16,5 +16,6 @@ always @ (posedge clock)
 				q <= data_in;	// load data
 			end
 		end
-    assign data_out = BAout ? q : {DATA_WIDTH{1'b0}};
+	// data_out logic
+    assign data_out = BAout ? {DATA_WIDTH{1'b0}} : q;
 endmodule
