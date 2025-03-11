@@ -5,9 +5,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     input [15:0] in_enable, out_enable,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [4:0] control,
-	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
-          R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
-          PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
+	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
           In_Port_out, Cout, RAM_read, RAM_write,
           Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable,
     input [DATA_WIDTH-1:0] PC_tb_value
@@ -22,7 +20,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           PC, BusMuxOut, BusMuxIn_MDR, Data;
     
     wire [DATA_WIDTH/4:0] MAR_address_out;
-								  
+
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 
     Select_Encode #(DATA_WIDTH) select_encode (
@@ -39,9 +37,10 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     .C_sign_extended(C_sign_extended)
     );
 
-	register #(DATA_WIDTH) reg0 (
+	R0 #(DATA_WIDTH) reg0 (
     .clock(Clock),
     .clear(Clear),
+    .BAout(BAout),
     .enable(in_enable[0]),
     .data_in(BusMuxOut),
     .data_out(R0)
@@ -299,7 +298,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.C_sign_extended(C_sign_extended),
 		.MDR(BusMuxIn_MDR),
 
-        .R0out(R0out),
+        .R0out(out_enable[0]),
         .R1out(out_enable[1]),
         .R2out(out_enable[2]),
         .R3out(out_enable[3]),

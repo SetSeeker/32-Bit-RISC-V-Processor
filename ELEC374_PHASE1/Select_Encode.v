@@ -15,19 +15,19 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
         C_sign_extended = 32'd0;
 
         case(IR[31:27])
-            5'b00000, 5'b00001, 5'b00010: begin // ld, ldi, st
+            5'b00000, 5'b00001, 5'b00010: begin
                 if (Gra) reg_to_enable = IR[26:23];
                 if (Grb) reg_to_enable = IR[22:19];
                 if (Cout) C_sign_extended = {{13{IR[18]}}, IR[18:0]};
-
-                if (Rin)  Rin_out = (1 << reg_to_enable); 
+                if (Rin)  Rin_out = (1 << reg_to_enable);
                 if (BAout) begin
-                    if (IR[22:19] != 0)
+                    if (IR[22:19] == 4'd0)
+                       Rout_out = 16'd1; 
+                    else
                         Rout_out = (1 << IR[22:19]);
-                    end else if (Rout) begin
+                end else if (Rout) begin
                         Rout_out = (1 << reg_to_enable);
-                //if (Rout) Rout_out = (1 << reg_to_enable);
-            end
+                end
             end
 
             5'b00011, 5'b00100, 5'b00101, 5'b00110, 5'b00111,

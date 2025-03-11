@@ -119,8 +119,8 @@ begin
         Reg_load1d: begin
             Grb <= 1; BAout <= 1;
             #5 Yin <= 1;
-			#5 Grb <= 0;
-            #10 Yin <= 0; BAout <= 0;
+			#10 Grb <= 0; BAout <= 0;
+            #5 Yin <= 0;
         end
         Reg_load1e: begin
             Cout <= 1; control <= 5'd3;
@@ -164,16 +164,16 @@ begin
             #15 Cout <= 0; Zin <= 0;
         end
         T5: begin
-            Zlowout <= 1;
-			#5 Rin <= 1; Gra <= 1;
-			#10 Zlowout <= 0;
-			#5 Rin <= 0; Gra <= 0;
+            #5 Zlowout <= 1; MARin <= 1;
+            #15 Zlowout <= 0; MARin <= 0;
         end
         T6: begin
-            
+            #5 Read <= 1; RAM_read <= 1; MDRin <= 1;
+            #15 Read <= 0; RAM_read <= 0; MDRin <= 0;
         end
         T7: begin
-            
+            #5 MDRout <= 1; Gra <=1; Rin <= 1;
+            #15 MDRout <= 0; Gra <=0; Rin <= 0;
         end
         endcase
     end
