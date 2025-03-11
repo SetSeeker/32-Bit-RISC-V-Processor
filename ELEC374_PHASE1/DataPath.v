@@ -8,8 +8,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
           R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
           PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
-          In_Port_out, C_sign_extended_out, RAM_read, RAM_write,
-          Gra, Grb, Grc, Rin, Rout, BAout,
+          In_Port_out, Cout, RAM_read, RAM_write,
+          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable,
     input [DATA_WIDTH-1:0] PC_tb_value
 );
 
@@ -34,8 +34,9 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     .Rout(Rout),
     .BAout(BAout),
     .Rin_out(in_enable),
-    .Rout_out(out_enable)
-    //.C_sign_extended(C_sign_extended)
+    .Rout_out(out_enable),
+    .Cout(Cout),
+    .C_sign_extended(C_sign_extended)
     );
 
 	register #(DATA_WIDTH) reg0 (
@@ -170,6 +171,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(PCin),
+        .PC_tb_enable(PC_tb_enable),
         .PC_tb_value(PC_tb_value),
         .data_in(BusMuxOut),
         .data_out(PC)
@@ -226,24 +228,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_in(Mdatain),
         .data_out(In_Port)
     );
-
-    // Constant Sign-Extended Register
-    register #(DATA_WIDTH) c_sign_extended_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(C_sign_extended_out),
-        .data_in(BusMuxOut),
-        .data_out(C_sign_extended)
-    );
-
-    // // Constant Sign-Extended Register
-    // register #(DATA_WIDTH) c_sign_extended_register (
-    //     .clock(Clock),
-    //     .clear(Clear),
-    //     .enable(IRin),
-    //     .data_in(Mdatain),
-    //     .data_out(C_sign_extended)
-    // );
 
     register #(DATA_WIDTH) y_register (
         .clock(Clock),
@@ -316,21 +300,21 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.MDR(BusMuxIn_MDR),
 
         .R0out(R0out),
-        .R1out(R1out),
-        .R2out(R2out),
-        .R3out(R3out),
-        .R4out(R4out),
-        .R5out(R5out),
-        .R6out(R6out),
-        .R7out(R7out),
-        .R8out(R8out),
-        .R9out(R9out),
-        .R10out(R10out),
-        .R11out(R11out),
-        .R12out(R12out),
-        .R13out(R13out),
-        .R14out(R14out),
-        .R15out(R15out),
+        .R1out(out_enable[1]),
+        .R2out(out_enable[2]),
+        .R3out(out_enable[3]),
+        .R4out(out_enable[4]),
+        .R5out(out_enable[5]),
+        .R6out(out_enable[6]),
+        .R7out(out_enable[7]),
+        .R8out(out_enable[8]),
+        .R9out(out_enable[9]),
+        .R10out(out_enable[10]),
+        .R11out(out_enable[11]),
+        .R12out(out_enable[12]),
+        .R13out(out_enable[13]),
+        .R14out(out_enable[14]),
+        .R15out(out_enable[15]),
         .MDRout(MDRout),
         .HIout(HIout),
         .LOout(LOout),
@@ -338,7 +322,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .Z_low_out(Z_low_out),
         .PC_out(PCout),
         .In_Port_out(In_Port_out),
-        .C_sign_extended_out(C_sign_extended_out),
+        .C_sign_extended_out(Cout),
 
 		.bus_out(BusMuxOut)
 	);

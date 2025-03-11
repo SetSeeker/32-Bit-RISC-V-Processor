@@ -1,7 +1,7 @@
 module Select_Encode #(parameter DATA_WIDTH = 32)(
     input  wire [DATA_WIDTH-1:0] IR,
     input  wire Gra, Grb, Grc,
-    input  wire Rin, Rout, BAout,
+    input  wire Rin, Rout, BAout, Cout,
     output reg [15:0] Rin_out, Rout_out,
     output reg [DATA_WIDTH-1:0] C_sign_extended
 );
@@ -12,15 +12,22 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
         Rin_out = 16'd0;
         Rout_out = 16'd0;
         reg_to_enable = 4'd0;
+        C_sign_extended = 32'd0;
 
         case(IR[31:27])
             5'b00000, 5'b00001, 5'b00010: begin // ld, ldi, st
                 if (Gra) reg_to_enable = IR[26:23];
                 if (Grb) reg_to_enable = IR[22:19];
-                C_sign_extended = {{13{IR[18]}}, IR[18:0]};
+                if (Cout) C_sign_extended = {{13{IR[18]}}, IR[18:0]};
 
                 if (Rin)  Rin_out = (1 << reg_to_enable); 
-                if (Rout) Rout_out = (1 << reg_to_enable);
+                if (BAout) begin
+                    if (IR[22:19] != 0)
+                        Rout_out = (1 << IR[22:19]);
+                    end else if (Rout) begin
+                        Rout_out = (1 << reg_to_enable);
+                //if (Rout) Rout_out = (1 << reg_to_enable);
+            end
             end
 
             5'b00011, 5'b00100, 5'b00101, 5'b00110, 5'b00111,
@@ -36,7 +43,7 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
             5'b01100, 5'b01101, 5'b01110: begin // addi, andi, ori
                 if (Gra) reg_to_enable = IR[26:23];
                 if (Grb) reg_to_enable = IR[22:19];
-                C_sign_extended = {{13{IR[18]}}, IR[18:0]};
+                if (Cout) C_sign_extended = {{13{IR[18]}}, IR[18:0]};
 
                 if (Rin)  Rin_out = (1 << reg_to_enable); 
                 if (Rout) Rout_out = (1 << reg_to_enable);

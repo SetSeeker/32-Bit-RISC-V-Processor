@@ -3,19 +3,19 @@ module de_tb;
 	reg R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, 
         R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out, 
         PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
-        In_Port_out, C_sign_extended_out;
+        In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
     reg Read, Write;
     reg RAM_read, RAM_write;
     reg LOin, HIin; 
     reg Clock, Clear;
-    reg Gra, Grb, Grc, Rin, Rout, BAout;
+    reg Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable;
     reg [15:0] in_enable;
     reg [15:0] out_enable;
     reg [31:0] Mdatain, PC;
     reg [4:0] control;
-    parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
-              Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
+    parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load1c = 4'b0011,
+              Reg_load1d = 4'b0100, Reg_load1e = 4'b0101, Reg_load1f = 4'b0110, T0 = 4'b0111,
               T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101,
               T7 = 4'b1110;
     reg [3:0] Present_state = Default;
@@ -47,7 +47,7 @@ module de_tb;
 		.Z_high_out(Z_high_out),
 		.Z_low_out(Zlowout),
 		.In_Port_out(In_Port_out),
-		.C_sign_extended_out(C_sign_extended_out),
+		.Cout(Cout),
 
         .Gra(Gra),
         .Grb(Grb),
@@ -56,6 +56,7 @@ module de_tb;
         .Rout(Rout),
         .BAout(BAout),
         .PC_tb_value(PC),
+        .PC_tb_enable(PC_tb_enable),
 
 		.LOin(LOin),
         .HIin(HIin),
@@ -69,8 +70,6 @@ module de_tb;
         .RAM_read(RAM_read),
         .RAM_write(RAM_write),
         .control(control),
-        .in_enable(in_enable),
-        .out_enable(out_enable),
         .Mdatain(Mdatain)
     );
 // add test logic here
@@ -82,7 +81,13 @@ end
 always @(posedge Clock) // finite state machine; if clock rising-edge
  begin
 	case (Present_state)
-		Default : Present_state = T0;
+        Default : Present_state = Reg_load1a;
+		Reg_load1a : Present_state = Reg_load1b;
+		Reg_load1b : Present_state = Reg_load1c;
+        Reg_load1c : Present_state = Reg_load1d;
+        Reg_load1d : Present_state = Reg_load1e;
+        Reg_load1e : Present_state = Reg_load1f;
+        Reg_load1f : Present_state = T0;
 		T0 : Present_state = T1;
 		T1 : Present_state = T2;
 		T2 : Present_state = T3;
@@ -102,23 +107,59 @@ begin
 			R8out <= 0; R9out <= 0; R10out <= 0; R11out <= 0; 
 			R12out <= 0; R13out <= 0; R14out <= 0; R15out <= 0; 
 			PCout <= 0; Zlowout <= 0; MDRout <= 0; HIout <= 0; 
-			LOout <= 0; Z_high_out <= 0; C_sign_extended_out <= 0;
+			LOout <= 0; Z_high_out <= 0; Cout <= 0;
 			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
 			 IRin <= 0; Yin <= 0;
 			 Read <= 0; Write <= 0; control <= 5'd0;
-			 Clear <= 0; RAM_read <= 0; RAM_write <= 0;
+			 Clear <= 0; RAM_read <= 0; RAM_write <= 0; PC_tb_enable <= 0;
 
              Gra <= 0; Grb <= 0; Grc <= 0; Rin <= 0; Rout <= 0; BAout <= 0;
 			 in_enable <= 16'b0; out_enable <= 16'b0; Mdatain <= 32'h00000000;
              PC <= 32'h0;
 		end
-		T0: begin
-			 PC <= 32'h54; PCout <= 1; control <= 5'd19;
+        Reg_load1a: begin
+             PC <= 32'b0; PC_tb_enable <= 1; PCout <= 1; control <= 5'd19;
 			 #5 Zin <= 1; MARin <= 1;
-			 #10 PCout <= 0;//Zin <= 1;
+			 #10 PCout <= 0; PC_tb_enable <= 0;//Zin <= 1;
 			 #5 Zin <= 0; control <= 5'd0; MARin <= 0;
+		end
+		Reg_load1b: begin
+			 Read <= 1; Zlowout <= 1;
+			 #5 RAM_read <= 1; PCin <= 1; MDRin <= 1;
+			 #5 //MDRin <= 1;
+			 #5 Zlowout <= 0; RAM_read <= 0;
+			 #5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
+		end
+        Reg_load1c: begin
+			 MDRout <= 1;
+			 #5  IRin <= 1; 
+			 #10 MDRout <= 0;
+			 #5  IRin <= 0;
+        end
+        Reg_load1d: begin
+            Grb <= 1; R0out <= 1;
+            #5 Yin <= 1;
+			#5 Grb <= 0;
+            #10 Yin <= 0; R0out <= 0;
+        end
+        Reg_load1e: begin
+            Cout <= 1; control <= 5'd3;
+            #5 Zin <= 1;
+            #15 Zin <= 0; Cout <= 0;
+        end
+        Reg_load1f: begin
+            Zlowout <= 1;
+			#5 Rin <= 1; Gra <= 1;
+			#10 Zlowout <= 0;
+			#5 Rin <= 0; Gra <= 0;
+        end
+		T0: begin
+			 PCout <= 1; control <= 5'd19; MARin <= 1;
+			 #5 Zin <= 1; MARin <= 1;
+			 #10 PCout <= 0;
+			 #5 MARin <= 0; Zin <= 0; control <= 5'd0;
 		end
 		T1: begin
 			 RAM_read <= 1; Zlowout <= 1;
@@ -134,14 +175,21 @@ begin
 			 #5  MARin <= 0; IRin <= 0;
         end
         T3: begin
-            #5 Grb <= 1; Rout <= 1; Yin <= 1;
-			#15 Grb <= 0; Rout <= 0; Yin <= 0;
+            Grb <= 1; BAout <= 1;
+            #5 Yin <= 1;
+			#5 Grb <= 0;
+            #10 Yin <= 0; BAout <= 0;
         end
         T4: begin
-            
+            Cout <= 1; control <= 5'd3;
+            #5 Zin <= 1;
+            #15 Cout <= 0; Zin <= 0;
         end
         T5: begin
-            
+            Zlowout <= 1;
+			#5 Rin <= 1; Gra <= 1;
+			#10 Zlowout <= 0;
+			#5 Rin <= 0; Gra <= 0;
         end
         T6: begin
             
@@ -154,7 +202,7 @@ begin
 
     // Waveform dump for simulation viewing (e.g., GTKWave)
     initial begin
-        $dumpfile("datapath_tb.vcd");
+        $dumpfile("de_tb.vcd");
         $dumpvars;
     end
 
