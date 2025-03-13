@@ -17,6 +17,7 @@ module RAM #(parameter DATA_WIDTH = 32)(
     always @(*) begin
         if (write) begin
             memory[address] <= data_in;
+            $display("Write: Address=%h, Data In=%h, Memory at Address=%h", address, data_in, memory[address]);
         end 
         else if (read) begin
             data_out <= memory[address];
