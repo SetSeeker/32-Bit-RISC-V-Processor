@@ -15,7 +15,7 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
         C_sign_extended = 32'd0;
 
         case(IR[31:27])
-            5'b00000, 5'b00001, 5'b00010: begin
+            5'b00000, 5'b00001, 5'b00010: begin // ld, ldi, st
                 if (Gra) reg_to_enable = IR[26:23];
                 if (Grb) reg_to_enable = IR[22:19];
                 if (Cout) C_sign_extended = {{13{IR[18]}}, IR[18:0]};
