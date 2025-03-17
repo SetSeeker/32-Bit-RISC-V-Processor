@@ -75,7 +75,6 @@ always @(posedge Clock) // finite state machine; if clock rising-edge
 		T3 : Present_state = T4;
 		T4 : Present_state = T5;
         T5 : Present_state = T6;
-        T6 : Present_state = T7;
 	endcase
  end
 
@@ -171,7 +170,7 @@ begin
             Zlowout <= 1;
             #5 if (CONin) begin
                 PCin <= 1;
-                control <= 5'd19; // Assuming control 19 is for PC + 1 + C (sign-extended)
+                PCin <= PC + 1; // + C sign extended
             end
             #10 Zlowout <= 0;
             #5 PCin <= 0;
