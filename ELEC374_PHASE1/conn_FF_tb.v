@@ -1,8 +1,10 @@
 `timescale 1ns/10ps
+// Conditional branch instructions
 module conn_FF_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin;
+    // reg CON; should be in Datapath
     reg Read, Write;
     reg RAM_read, RAM_write;
     reg LOin, HIin; 
@@ -51,7 +53,8 @@ module conn_FF_tb;
         .RAM_read(RAM_read),
         .RAM_write(RAM_write),
         .control(control),
-        .Mdatain(Mdatain)
+        .Mdatain(Mdatain),
+        .CONin(CONin)
     );
 // add test logic here
 initial
@@ -168,7 +171,7 @@ begin
         end
         T6: begin
             Zlowout <= 1;
-            #5 if (CONin) begin
+            #5 if (CON) begin
                 PCin <= 1;
                 PCin <= PC + 1; // + C sign extended
             end

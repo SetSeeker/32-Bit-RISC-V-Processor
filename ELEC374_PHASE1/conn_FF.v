@@ -4,7 +4,7 @@ module CON_FF#(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] IR,
     input [DATA_WIDTH-1:0] BusMuxOut,
     input CONin,
-    output CON
+    output reg CON
     );
 
 reg [3:0] Ra;
@@ -46,8 +46,7 @@ end
 always @ (posedge CONin) begin
     #2 //System delay (bus prop delay)
     CONout = D;
+    CON = CONout;
 end
-
-assign CON = CONout;
 
 endmodule
