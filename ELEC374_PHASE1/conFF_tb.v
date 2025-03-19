@@ -3,7 +3,8 @@
 module conFF_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
-    reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin, CON;
+    reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin;
+	 wire CON;
     // reg CON; should be in Datapath
     reg Read, Write;
     reg RAM_read, RAM_write;
@@ -93,7 +94,7 @@ begin
 			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
-			 IRin <= 0; Yin <= 0; CONin <= 0; CON <= 0;
+			 IRin <= 0; Yin <= 0; CONin <= 0;
 			 Read <= 0; Write <= 0; control <= 5'd0;
 			 Clear <= 0; RAM_read <= 0; RAM_write <= 0; PC_tb_enable <= 0;
 
@@ -138,17 +139,17 @@ begin
 			#5 Rin <= 0; Gra <= 0;
         end
 		T0: begin
-			 PCout <= 1; control <= 5'd19; MARin <= 1;
+          PCout <= 1; control <= 5'd19;
 			 #5 Zin <= 1; MARin <= 1;
-			 #10 PCout <= 0;
-			 #5 MARin <= 0; Zin <= 0; control <= 5'd0;
+			 #10 PCout <= 0; PC_tb_enable <= 0;//Zin <= 1;
+			 #5 Zin <= 0; control <= 5'd0; MARin <= 0;
 		end
 		T1: begin
 			 RAM_read <= 1; Zlowout <= 1;
 			 #5 Read <= 1; PCin <= 1; MDRin <= 1;
 			 #5 //MDRin <= 1;
 			 #5 Zlowout <= 0; RAM_read <= 0;
-			 #5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
+			 #5 Read <= 0; PCin <= 0; MDRin <= 0;
 		end
         T2: begin
 			 MDRout <= 1;
@@ -159,7 +160,7 @@ begin
         T3: begin
             Gra <= 1; Rout <= 1;
             #5 CONin <= 1;
-			#5 Gra <= 0;
+			   #5 Gra <= 0;
             #10 CONin <= 0; Rout <= 0;
         end
         T4: begin
@@ -174,15 +175,15 @@ begin
         end
         T6: begin
             Zlowout <= 1; control <= 5'd19;
-            #5 Zin <= 1; 
-            #15 Cout <= 0; Zin <= 0;
+				#5 Zin <= 1; 
+            #15 Zlowout <= 0; Zin <= 0;
         end
         T7: begin
-            Zlowout <= 1;
+            #5 Zlowout <= 1;
             #5 if (CON) begin
                 PCin <= 1;
             end
-            #10 Zlowout <= 0;
+            #5 Zlowout <= 0;
             #5 PCin <= 0;
         end
         endcase

@@ -62,6 +62,7 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
 
                 if (Rin)  Rin_out = (1 << reg_to_enable); 
                 if (Rout) Rout_out = (1 << reg_to_enable);
+					 if (Cout) C_sign_extended = {{13{IR[18]}}, IR[18:0]};
             end
 
             5'b10100, 5'b10101: begin // jal, jr

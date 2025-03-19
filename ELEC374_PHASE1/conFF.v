@@ -15,7 +15,7 @@ reg sigDig;
 integer i;
 reg D;
 reg CONout = 0;
-initial CON =0;
+initial CON = 0;
 
 always @ (IR, BusMuxOut) begin    
     Ra = IR[26:23];

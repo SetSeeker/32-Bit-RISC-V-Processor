@@ -7,8 +7,9 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input [4:0] control,
 	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
           In_Port_out, Cout, RAM_read, RAM_write,
-          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CON, CONin,
-    input [DATA_WIDTH-1:0] PC_tb_value
+          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CONin,
+    input [DATA_WIDTH-1:0] PC_tb_value,
+	 input wire CON
 );
 
     wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 
