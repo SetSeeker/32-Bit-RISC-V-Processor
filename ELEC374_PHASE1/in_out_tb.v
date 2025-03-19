@@ -31,6 +31,8 @@ module in_out_tb;
 		.Z_low_out(Zlowout),
 		.In_Port_out(In_Port_out),
 		.Cout(Cout),
+		.Out_port(Out_port),
+		.In_port(Inport),
 
         .Gra(Gra),
         .Grb(Grb),
@@ -92,7 +94,7 @@ begin
 
              Gra <= 0; Grb <= 0; Grc <= 0; Rin <= 0; Rout <= 0; BAout <= 0;
 			 in_enable <= 16'b0; out_enable <= 16'b0; Mdatain <= 32'h00000000;
-             PC <= 32'h0;
+             PC <= 32'h0;  Out_port <= 32'h0;
 		end
         Reg_load1a: begin
              PC <= 32'b0; PC_tb_enable <= 1; PCout <= 1; control <= 5'd19;
@@ -150,8 +152,7 @@ begin
 			 #5  MARin <= 0; IRin <= 0;
         end
         T3: begin
-            Gra <= 1;
-			#5 Rout <= 1; Out_port <= 1;
+			#5 Gra <= 1; Rout <= 1; Out_port <= 1;
 			#10 Gra <= 0;
 			#5 Rout <= 0; Out_port <= 0;
         end
