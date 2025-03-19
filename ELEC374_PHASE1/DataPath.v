@@ -2,7 +2,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
 	input Zin, PCin, MDRin, IRin, Yin, MARin, LOin, HIin,
 	input Read,
-    input [15:0] in_enable, out_enable,
+//    input [15:0] in_enable, out_enable,
 	input [DATA_WIDTH-1:0] Mdatain,
 	input [4:0] control,
 	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
@@ -22,6 +22,8 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     wire [DATA_WIDTH/4:0] MAR_address_out;
 
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
+	
+	wire [15:0] in_enable, out_enable;
 
     Select_Encode #(DATA_WIDTH) select_encode (
     .IR(IR),
