@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 // Conditional branch instructions
-module conn_FF_tb;
+module con_FF_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin;
@@ -18,6 +18,7 @@ module conn_FF_tb;
               Reg_load1d = 4'b0100, Reg_load1e = 4'b0101, Reg_load1f = 4'b0110, T0 = 4'b0111,
               T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
     reg [3:0] Present_state = Default;
+    wire CON;
 
     DataPath DUT (
         .Clock(Clock),
@@ -149,7 +150,7 @@ begin
 		end
         T2: begin
 			 MDRout <= 1;
-			 #5 MARin <= 1; IRin <= 1; 
+			 #5 MARin <= 1; IRin <= 1;
 			 #10 MDRout <= 0;
 			 #5  MARin <= 0; IRin <= 0;
         end
@@ -173,7 +174,7 @@ begin
             Zlowout <= 1;
             #5 if (CON) begin
                 PCin <= 1;
-                PCin <= PC + 1; // + C sign extended
+                control <= 5'd19;
             end
             #10 Zlowout <= 0;
             #5 PCin <= 0;
