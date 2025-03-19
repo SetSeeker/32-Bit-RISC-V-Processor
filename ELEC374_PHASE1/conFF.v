@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 
-module CON_FF#(parameter DATA_WIDTH = 32)(
+module conFF #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] IR,
     input [DATA_WIDTH-1:0] BusMuxOut,
     input CONin,
@@ -34,8 +34,8 @@ always @ (IR, BusMuxOut) begin
     endcase
     
     //Determine input signals
-    sigDig = BusMuxOut[31];
-    for (i = 0; i < 32; i = i + 1) begin
+    sigDig = BusMuxOut[DATA_WIDTH-1];
+    for (i = 0; i < DATA_WIDTH; i = i + 1) begin
         BusOR = BusOR | BusMuxOut[i];
     end
     

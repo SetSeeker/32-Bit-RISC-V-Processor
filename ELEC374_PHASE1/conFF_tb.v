@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 // Conditional branch instructions
-module con_FF_tb;
+module conFF_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin;
