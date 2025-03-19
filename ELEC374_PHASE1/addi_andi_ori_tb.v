@@ -146,7 +146,7 @@ always @(Present_state) begin
 			#10 Grb <= 0; Rout <= 0; Yin <= 0;
 		end
 		T4: begin // ADD Immediate (addi)
-			Cout <= 1; control <= 5'd3; // ADD control signal
+			Cout <= 1; control <= 5'd3; // ADD 3, AND 5, OR 6
 			#5 Zin <= 1;
 			#15 Zin <= 0; Cout <= 0;
 		end
