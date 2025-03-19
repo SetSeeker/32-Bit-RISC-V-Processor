@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module de_tb;
+module ld_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin;

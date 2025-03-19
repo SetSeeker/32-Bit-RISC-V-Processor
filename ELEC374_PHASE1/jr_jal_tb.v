@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module ldi_tb;
+module jr_jal_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
     reg MARin, Zin, PCin, MDRin, IRin, Yin;
@@ -73,7 +73,7 @@ always @(posedge Clock) // finite state machine; if clock rising-edge
 		T0 : Present_state = T1;
 		T1 : Present_state = T2;
 		T2 : Present_state = T3;
-		T3 : Present_state = T4;
+        T3 : Present_state = T4;
 		T4 : Present_state = T5;
         T5 : Present_state = T6;
         T6 : Present_state = T7;
@@ -119,8 +119,8 @@ begin
         Reg_load1d: begin
             Grb <= 1; BAout <= 1;
             #5 Yin <= 1;
-			#5 Grb <= 0;
-            #10 Yin <= 0; BAout <= 0;
+			#10 Grb <= 0; BAout <= 0;
+            #5 Yin <= 0;
         end
         Reg_load1e: begin
             Cout <= 1; control <= 5'd3;
@@ -134,17 +134,17 @@ begin
 			#5 Rin <= 0; Gra <= 0;
         end
 		T0: begin
-			 PCout <= 1; control <= 5'd19; MARin <= 1;
-			 #5 Zin <= 1; MARin <= 1;
-			 #10 PCout <= 0;
-			 #5 MARin <= 0; Zin <= 0; control <= 5'd0;
+			PCout <= 1; control <= 5'd19; MARin <= 1;
+			#5 Zin <= 1; MARin <= 1;
+			#10 PCout <= 0;
+			#5 MARin <= 0; Zin <= 0; control <= 5'd0;
 		end
 		T1: begin
-			 RAM_read <= 1; Zlowout <= 1;
-			 #5 Read <= 1; PCin <= 1; MDRin <= 1;
-			 #5 //MDRin <= 1;
-			 #5 Zlowout <= 0; RAM_read <= 0;
-			 #5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
+			RAM_read <= 1; Zlowout <= 1;
+			#5 Read <= 1; PCin <= 1; MDRin <= 1;
+			#5 //MDRin <= 1;
+			#5 Zlowout <= 0; RAM_read <= 0;
+			#5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
 		end
         T2: begin
 			 MDRout <= 1;
@@ -152,35 +152,44 @@ begin
 			 #10 MDRout <= 0;
 			 #5  MARin <= 0; IRin <= 0;
         end
-        T3: begin
-            Grb <= 1; BAout <= 1;
-            #5 Yin <= 1;
-			#5 Grb <= 0;
-            #10 Yin <= 0; BAout <= 0;
+        T3: begin // jal instruction
+            PCout <= 1; Gra <= 1;
+            #5 Rin <= 1;
+            #5
+            #5
+            #5 PCout <= 0; Gra <= 0; Rin <= 0;
         end
         T4: begin
-            Cout <= 1; control <= 5'd3;
-            #5 Zin <= 1;
-            #15 Cout <= 0; Zin <= 0;
+			PCout <= 1; control <= 5'd19; MARin <= 1;
+		    #5 Zin <= 1; MARin <= 1;
+		    #10 PCout <= 0;
+		    #5 MARin <= 0; Zin <= 0; control <= 5'd0;
         end
         T5: begin
-            Zlowout <= 1;
-			#5 Rin <= 1; Gra <= 1;
-			#10 Zlowout <= 0;
-			#5 Rin <= 0; Gra <= 0;
+			RAM_read <= 1; Zlowout <= 1;
+			#5 Read <= 1; PCin <= 1; MDRin <= 1;
+			#5 //MDRin <= 1;
+			#5 Zlowout <= 0; RAM_read <= 0;
+			#5 PCout <= 0; Read <= 0; PCin <= 0; MDRin <= 0;
         end
         T6: begin
-            
+			MDRout <= 1;
+			#5 MARin <= 1; IRin <= 1; 
+			#10 MDRout <= 0;
+			#5  MARin <= 0; IRin <= 0;
         end
-        T7: begin
-            
+        T7: begin // jr instruction
+            Gra <= 1; Rout <= 1;
+            #10 PCin <= 1;
+			#5
+            #5 Gra <= 0; Rout <= 0; PCin <= 0;
         end
         endcase
     end
 
     // Waveform dump for simulation viewing (e.g., GTKWave)
     initial begin
-        $dumpfile("de_tb.vcd");
+        $dumpfile("jr_jal_tb.vcd");
         $dumpvars;
     end
 
