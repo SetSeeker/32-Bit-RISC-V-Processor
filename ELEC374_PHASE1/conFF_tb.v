@@ -3,7 +3,7 @@
 module conFF_tb;
 	reg PCout, Zlowout, MDRout, HIout, LOout, Z_high_out,
         In_Port_out, Cout;
-    reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin;
+    reg MARin, Zin, PCin, MDRin, IRin, Yin, CONin, CON;
     // reg CON; should be in Datapath
     reg Read, Write;
     reg RAM_read, RAM_write;
@@ -16,9 +16,9 @@ module conFF_tb;
     reg [4:0] control;
     parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load1c = 4'b0011,
               Reg_load1d = 4'b0100, Reg_load1e = 4'b0101, Reg_load1f = 4'b0110, T0 = 4'b0111,
-              T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
+              T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101,
+				  T7 = 4'b1110;
     reg [3:0] Present_state = Default;
-    wire CON;
 
     DataPath DUT (
         .Clock(Clock),
@@ -55,7 +55,8 @@ module conFF_tb;
         .RAM_write(RAM_write),
         .control(control),
         .Mdatain(Mdatain),
-        .CONin(CONin)
+		  .CON(CON),
+		  .CONin(CONin)
     );
 // add test logic here
 initial
@@ -67,18 +68,19 @@ always @(posedge Clock) // finite state machine; if clock rising-edge
  begin
 	case (Present_state)
         Default : Present_state = Reg_load1a;
-		Reg_load1a : Present_state = Reg_load1b;
-		Reg_load1b : Present_state = Reg_load1c;
-        Reg_load1c : Present_state = Reg_load1d;
-        Reg_load1d : Present_state = Reg_load1e;
-        Reg_load1e : Present_state = Reg_load1f;
-        Reg_load1f : Present_state = T0;
-		T0 : Present_state = T1;
-		T1 : Present_state = T2;
-		T2 : Present_state = T3;
-		T3 : Present_state = T4;
-		T4 : Present_state = T5;
-        T5 : Present_state = T6;
+			Reg_load1a : Present_state = Reg_load1b;
+			Reg_load1b : Present_state = Reg_load1c;
+         Reg_load1c : Present_state = Reg_load1d;
+         Reg_load1d : Present_state = Reg_load1e;
+         Reg_load1e : Present_state = Reg_load1f;
+         Reg_load1f : Present_state = T0;
+			T0 : Present_state = T1;
+			T1 : Present_state = T2;
+			T2 : Present_state = T3;
+			T3 : Present_state = T4;
+			T4 : Present_state = T5;
+         T5 : Present_state = T6;
+		   T6 : Present_state = T7;
 	endcase
  end
 
@@ -91,7 +93,7 @@ begin
 			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
-			 IRin <= 0; Yin <= 0;
+			 IRin <= 0; Yin <= 0; CONin <= 0; CON <= 0;
 			 Read <= 0; Write <= 0; control <= 5'd0;
 			 Clear <= 0; RAM_read <= 0; RAM_write <= 0; PC_tb_enable <= 0;
 
@@ -166,19 +168,24 @@ begin
             #15 PCout <= 0; Yin <= 0;
         end
         T5: begin
-            Cout <= 1; control <= 5'd12;
+            Cout <= 1; control <= 5'd3;
             #5 Zin <= 1;
             #15 Cout <= 0; Zin <= 0;
         end
         T6: begin
+            Zlowout <= 1; control <= 5'd19;
+            #5 Zin <= 1; 
+            #15 Cout <= 0; Zin <= 0;
+        end
+        T7: begin
             Zlowout <= 1;
             #5 if (CON) begin
                 PCin <= 1;
-                control <= 5'd19;
             end
             #10 Zlowout <= 0;
             #5 PCin <= 0;
         end
         endcase
     end
+	 
 endmodule

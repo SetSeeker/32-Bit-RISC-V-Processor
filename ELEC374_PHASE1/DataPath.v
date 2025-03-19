@@ -7,7 +7,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input [4:0] control,
 	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
           In_Port_out, Cout, RAM_read, RAM_write,
-          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable,
+          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CON, CONin,
     input [DATA_WIDTH-1:0] PC_tb_value
 );
 
@@ -35,6 +35,13 @@ module DataPath #(parameter DATA_WIDTH = 32)(
     .Rout_out(out_enable),
     .Cout(Cout),
     .C_sign_extended(C_sign_extended)
+    );
+	 
+    conFF #(DATA_WIDTH) conFF (
+        .IR(IR),
+        .BusMuxOut(BusMuxOut),
+        .CONin(CONin),
+        .CON(CON)
     );
 
 	R0 #(DATA_WIDTH) reg0 (

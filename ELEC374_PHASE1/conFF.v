@@ -1,4 +1,4 @@
-`timescale 1ns/10ps
+`timescale 1ns/10ps   // Time unit and precision
 
 module conFF #(parameter DATA_WIDTH = 32)(
     input [DATA_WIDTH-1:0] IR,
@@ -15,6 +15,7 @@ reg sigDig;
 integer i;
 reg D;
 reg CONout = 0;
+initial CON =0;
 
 always @ (IR, BusMuxOut) begin    
     Ra = IR[26:23];
