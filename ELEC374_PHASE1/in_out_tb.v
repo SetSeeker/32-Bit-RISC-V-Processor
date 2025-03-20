@@ -31,7 +31,6 @@ module in_out_tb;
 		.Z_low_out(Zlowout),
 		.In_Port_out(In_Port_out),
 		.Cout(Cout),
-		.In_port(Inport),
 		.input_port_unit(input_port_unit),
 
 		.output_port_in(output_port_in),
