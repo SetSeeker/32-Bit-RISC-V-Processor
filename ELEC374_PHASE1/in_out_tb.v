@@ -88,8 +88,8 @@ begin
 			LOout <= 0; Z_high_out <= 0; Cout <= 0;
 			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
-			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
-			 IRin <= 0; Yin <= 0; ; output_port_in <= 0;
+			 Zin <= 0; PCin <= 0; MDRin <= 0; 
+			 IRin <= 0; Yin <= 0; output_port_in <= 0;
 			 Read <= 0; Write <= 0; control <= 5'd0;
 			 Clear <= 0; RAM_read <= 0; RAM_write <= 0; PC_tb_enable <= 0;
 
