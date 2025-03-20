@@ -11,7 +11,7 @@ module RAM #(parameter DATA_WIDTH = 32)(
 
     initial begin
         data_out = 32'b0;
-        $readmemh("mem_conFF.hex", memory);
+        $readmemh("mem_init.hex", memory);
     end
 
     always @(*) begin

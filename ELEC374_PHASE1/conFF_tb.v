@@ -139,7 +139,7 @@ begin
 			#5 Rin <= 0; Gra <= 0;
         end
 		T0: begin
-          PCout <= 1; control <= 5'd19;
+             PCout <= 1; control <= 5'd19;
 			 #5 Zin <= 1; MARin <= 1;
 			 #10 PCout <= 0; PC_tb_enable <= 0;//Zin <= 1;
 			 #5 Zin <= 0; control <= 5'd0; MARin <= 0;
@@ -158,10 +158,10 @@ begin
 			 #5  MARin <= 0; IRin <= 0;
         end
         T3: begin
-            Gra <= 1; Rout <= 1;
-            #5 CONin <= 1;
-			   #5 Gra <= 0;
-            #10 CONin <= 0; Rout <= 0;
+            Gra <= 1;
+            #5 Rout <= 1; CONin <= 1;
+			#10 
+            #5 Gra <= 0; CONin <= 0; Rout <= 0;
         end
         T4: begin
             PCout <= 1;
@@ -170,13 +170,13 @@ begin
         end
         T5: begin
             Cout <= 1; control <= 5'd3;
-            #5 Zin <= 1;
-            #15 Cout <= 0; Zin <= 0;
+            #10 Zin <= 1; 
+            #10 Cout <= 0; Zin <= 0; control <= 5'd0;
         end
         T6: begin
             Zlowout <= 1; control <= 5'd19;
-				#5 Zin <= 1; 
-            #15 Zlowout <= 0; Zin <= 0;
+			#10 Zin <= 1; 
+            #10 Zlowout <= 0; Zin <= 0; control <= 5'd0;
         end
         T7: begin
             #5 Zlowout <= 1;
@@ -184,9 +184,22 @@ begin
                 PCin <= 1;
             end
             #5 Zlowout <= 0;
-            #5 PCin <= 0;
+            #5 PCin <= 0; Zin <= 0; 
         end
         endcase
+    end
+
+    // Waveform dump for simulation viewing (e.g., GTKWave)
+    initial begin
+        $dumpfile("conFF_tb.vcd");
+        $dumpvars;
+    end
+
+    // End simulation after sufficient time.
+    initial begin
+        #500;  
+        $display("Simulation complete.");
+        $finish;
     end
 	 
 endmodule
