@@ -4,10 +4,11 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Read,
 //    input [15:0] in_enable, out_enable,
 	input [DATA_WIDTH-1:0] Mdatain,
+    input [DATA_WIDTH-1:0] input_port_unit,
 	input [4:0] control,
 	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
-          In_Port_out, Cout, RAM_read, RAM_write,
-          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CONin, Out_port, In_port,
+          In_Port_out, Cout, RAM_read, RAM_write, output_port_in,
+          Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CONin, In_port,
     input [DATA_WIDTH-1:0] PC_tb_value,
 	 input wire CON
 );
@@ -18,7 +19,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
                           HI, LO, Z_high, Z_low,
 
                           IR, In_Port, C_sign_extended, Y,
-                          PC, BusMuxOut, BusMuxIn_MDR, Data;
+                          PC, BusMuxOut, BusMuxIn_MDR, Data, output_port_unit, BusMuxOut_In_Port;
     
     wire [DATA_WIDTH/4:0] MAR_address_out;
 
@@ -49,19 +50,19 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 
 		 //In port
 	 In_port #(DATA_WIDTH) in_port (
-		.clock(clock),
-		.clear(clear),
+		.clock(Clock),
+		.clear(Clear),
 		.data_in(input_port_unit),
-		.data_out(BusMuxOut)
+		.data_out(BusMuxOut_In_Port)
 	);
 	
 	//Out port
 	 Out_port #(DATA_WIDTH) out_port (
-		.clock(clock),
-		.clear(clear),
-		.enable(output_port),
+		.clock(Clock),
+		.clear(Clear),
+		.enable(output_port_in),
 		.data_in(BusMuxOut),
-		.data_out(output_port)
+		.data_out(output_port_unit)
 	);
 
 	R0 #(DATA_WIDTH) reg0 (
@@ -246,15 +247,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .data_out(LO)
     );
 
-    // In_Port (For I/O Operations)
-    register #(DATA_WIDTH) in_port_register (
-        .clock(Clock),
-        .clear(Clear),
-        .enable(Yin),
-        .data_in(Mdatain),
-        .data_out(In_Port)
-    );
-
     register #(DATA_WIDTH) y_register (
         .clock(Clock),
         .clear(Clear),
@@ -321,7 +313,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 		.Z_high(Z_high),
 		.Z_low(Z_low),
 		.PC(PC),
-		.In_Port(In_Port),
+		.In_Port(BusMuxOut_In_Port),
 		.C_sign_extended(C_sign_extended),
 		.MDR(BusMuxIn_MDR),
 

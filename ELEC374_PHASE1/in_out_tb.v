@@ -7,11 +7,11 @@ module in_out_tb;
     reg RAM_read, RAM_write;
     reg LOin, HIin; 
     reg Clock, Clear;
-    reg Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, Out_port;
+    reg Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, output_port_in;
 
     reg [15:0] in_enable;
     reg [15:0] out_enable;
-    reg [31:0] Mdatain, PC;
+    reg [31:0] Mdatain, PC, input_port_unit;
     reg [4:0] control;
     parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load1c = 4'b0011,
               Reg_load1d = 4'b0100, Reg_load1e = 4'b0101, Reg_load1f = 4'b0110, T0 = 4'b0111,
@@ -31,8 +31,10 @@ module in_out_tb;
 		.Z_low_out(Zlowout),
 		.In_Port_out(In_Port_out),
 		.Cout(Cout),
-		.Out_port(Out_port),
 		.In_port(Inport),
+		.input_port_unit(input_port_unit),
+
+		.output_port_in(output_port_in),
 
         .Gra(Gra),
         .Grb(Grb),
@@ -88,13 +90,13 @@ begin
 			In_Port_out <= 0; LOin <= 0; HIin <= 0; MARin <= 0;
 
 			 MARin <= 0; Zin <= 0; PCin <= 0; MDRin <= 0; 
-			 IRin <= 0; Yin <= 0;
+			 IRin <= 0; Yin <= 0; ; output_port_in <= 0;
 			 Read <= 0; Write <= 0; control <= 5'd0;
 			 Clear <= 0; RAM_read <= 0; RAM_write <= 0; PC_tb_enable <= 0;
 
              Gra <= 0; Grb <= 0; Grc <= 0; Rin <= 0; Rout <= 0; BAout <= 0;
 			 in_enable <= 16'b0; out_enable <= 16'b0; Mdatain <= 32'h00000000;
-             PC <= 32'h0;  Out_port <= 32'h0;
+             PC <= 32'h0; input_port_unit = 32'h00000000;
 		end
         Reg_load1a: begin
              PC <= 32'b0; PC_tb_enable <= 1; PCout <= 1; control <= 5'd19;
@@ -149,13 +151,26 @@ begin
 			 MDRout <= 1;
 			 #5 MARin <= 1; IRin <= 1; 
 			 #10 MDRout <= 0;
-			 #5  MARin <= 0; IRin <= 0;
+			 #5  MARin <= 0; IRin <= 0; input_port_unit = 32'h000000FF;
         end
         T3: begin
-			#5 Gra <= 1; Rout <= 1; Out_port <= 1;
-			#10 Gra <= 0;
-			#5 Rout <= 0; Out_port <= 0;
+			In_Port_out <= 1;
+			#5 Gra <= 1; Rin <= 1;
+			#5 In_Port_out <= 0;
+			#10 In_Port_out <= 0; Gra <= 0; Rin <= 0;
         end
         endcase
+    end
+	// Waveform dump for simulation viewing (e.g., GTKWave)
+    initial begin
+        $dumpfile("in_out_tb.vcd");
+        $dumpvars;
+    end
+
+    // End simulation after sufficient time.
+    initial begin
+        #500;  
+        $display("Simulation complete.");
+        $finish;
     end
 endmodule
