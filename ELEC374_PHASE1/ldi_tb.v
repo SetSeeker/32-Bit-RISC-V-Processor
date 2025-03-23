@@ -180,7 +180,7 @@ begin
 
     // Waveform dump for simulation viewing (e.g., GTKWave)
     initial begin
-        $dumpfile("de_tb.vcd");
+        $dumpfile("ldi_tb.vcd");
         $dumpvars;
     end
 

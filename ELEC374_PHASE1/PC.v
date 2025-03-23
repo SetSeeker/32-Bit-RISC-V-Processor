@@ -1,7 +1,6 @@
 module PC #(parameter DATA_WIDTH = 32, INIT = 32'h0)(
-	input clear, clock, enable, PC_tb_enable,
+	input clear, clock, enable,
 	input [DATA_WIDTH-1:0] data_in,
-    input [DATA_WIDTH-1:0] PC_tb_value,
 	output wire [DATA_WIDTH-1:0] data_out
 );
 
@@ -20,6 +19,6 @@ always @ (posedge clock)
 				q <= data_in;	// load data
 			end
 		end
-    assign data_out = (PC_tb_enable) ? PC_tb_value : q;
+    assign data_out = q;
 
 endmodule

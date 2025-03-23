@@ -9,10 +9,9 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	wire [DATA_WIDTH-1:0] add_result, sub_result, and_result, or_result, shr_result, shra_result, shl_result,
 						  ror_result, rol_result, neg_result, not_result, pc_result;
 
-	reg [DATA_WIDTH-1:0]  result;
+	reg [(DATA_WIDTH*2)-1:0]  result;
 
 	wire cout;
-
 	
 	// Block A (Add/Sub/Mul/Div)
 	collective_add #(DATA_WIDTH) ADD (
@@ -65,27 +64,32 @@ module ALU #(parameter DATA_WIDTH = 32)(
 	);
 
 	shr #(DATA_WIDTH) SHR ( // shift right
-		.data_in(b),
+		.a(a),
+		.b(b),
 		.data_out(shr_result)
 	);
 
 	shra #(DATA_WIDTH) SHRA ( // shift right arithmetic
-		.data_in(b),
+		.a(a),
+		.b(b),
 		.data_out(shra_result)
 	);
 
 	shl #(DATA_WIDTH) SHL ( // shift left
-		.data_in(b),
+		.a(a),
+		.b(b),
 		.data_out(shl_result)
 	);
 
 	ror #(DATA_WIDTH) ROR ( // rotate right
-		.data_in(b),
+		.a(a),
+		.b(b),
 		.data_out(ror_result)
 	);
 
 	rol #(DATA_WIDTH) ROL ( // rotate left
-		.data_in(b),
+		.a(a),
+		.b(b),
 		.data_out(rol_result)
 	);
 

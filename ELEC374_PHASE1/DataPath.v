@@ -9,6 +9,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input PCout, MDRout, HIout, LOout, Z_high_out, Z_low_out,
           In_Port_out, Cout, RAM_read, RAM_write, output_port_in,
           Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CONin, In_port,
+          stop, Run,
     input [DATA_WIDTH-1:0] PC_tb_value,
 	 input wire CON
 );
@@ -198,8 +199,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .clock(Clock),
         .clear(Clear),
         .enable(PCin),
-        .PC_tb_enable(PC_tb_enable),
-        .PC_tb_value(PC_tb_value),
         .data_in(BusMuxOut),
         .data_out(PC)
     );
@@ -344,5 +343,42 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 
 		.bus_out(BusMuxOut)
 	);
+
+    control_unit CU(
+        .BAout(BAout),
+        .control(control),
+        .PCout(PCout),
+        .Zlowout(Z_low_out),
+        .Z_high_out(Z_high_out),
+        .MDRout(MDRout),
+        .MARin(MARin),
+        .PCin(PCin),
+        .MDRin(MDRin),
+        .IRin(IRin),
+        .Read(Read),
+        .RAM_read(RAM_read),
+        .HIin(HIin),
+        .LOin(LOin),
+        .HIout(HIout),
+        .LOout(LOout),
+        .Yin(Yin),
+        .Zin(Zin),
+        .Cout(Cout),
+        .RAM_write(RAM_write),
+        .Gra(Gra),
+        .Grb(Grb),
+        .Grc(Grc),
+        .Rout(Rout),
+        .CONin(CONin),
+        .CON(CON),
+        .output_port_in(output_port_in),
+        .in_port_out(in_port_out),
+        .Run(Run),
+        .Rin(Rin),
+        .IR(IR),
+        .clk(Clock),
+        .clr(Clear),
+        .stop(stop)
+    );
 
 endmodule
