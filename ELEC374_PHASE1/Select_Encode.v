@@ -67,6 +67,7 @@ module Select_Encode #(parameter DATA_WIDTH = 32)(
 
             5'b10100, 5'b10101: begin // jal, jr
                 if (Gra) reg_to_enable = IR[26:23];
+                if (Grb) reg_to_enable = IR[22:19];
 
                 if (Rin)  Rin_out = (1 << reg_to_enable); 
                 if (Rout) Rout_out = (1 << reg_to_enable);

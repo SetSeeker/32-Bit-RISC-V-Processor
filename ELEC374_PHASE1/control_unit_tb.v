@@ -32,7 +32,7 @@ end
 
     // End simulation after sufficient time.
     initial begin
-        #10000;  
+        #12000;  
         $display("Simulation complete.");
         $finish;
     end

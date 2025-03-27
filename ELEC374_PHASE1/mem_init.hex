@@ -39,7 +39,7 @@
  @25 0DB7FFFD // ldi   R11, -3(R6) ; R11 = 0x14 R10, R11, R12, and R13
  @26 0E380001 // ldi   R12, 1(R7)  ; R12 = 0xB9
  @27 0EA00004 // ldi   R13, 4(R4)  ; R13 = 4
- @28 A6000000 // jal   R12         ; address of subroutine subA in R12 - return address in R8
+ @28 A4600000 // jal   R12         ; address of subroutine subA in R12 - return address in R8
  @29 D8000000 // halt              ; upon return, the program halts
  @2A 00000000
  @2B 00000000
