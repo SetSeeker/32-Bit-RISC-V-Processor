@@ -49,10 +49,8 @@ module control_unit (
             ror5 = 8'b00100011, 
             neg3 = 8'b00100100, 
             neg4 = 8'b00100101, 
-            // neg5 = 8'b00100110, 
             not3 = 8'b00100111,
             not4 = 8'b00101000, 
-            // not5 = 8'b00101001, 
             ld3 = 8'b00101010, 
             ld4 = 8'b00101011, 
             ld5 = 8'b00101100, 
@@ -80,9 +78,9 @@ module control_unit (
             br5 = 8'b01000010, 
             br6 = 8'b01000011, 
             br7 = 8'b11111111, 
-            // jr3 = 8'b01000100, 
+            jr3 = 8'b01000100, 
             jal3 = 8'b01000101, 
-            //jal4 = 8'b01000110, 
+            jal4 = 8'b01000110, 
             mfhi3 = 8'b01000111, 
             mflo3 = 8'b01001000, 
             // in3 = 8'b01001001, 
@@ -159,7 +157,7 @@ module control_unit (
             5'b10010 : begin
               next_state = not3;
             end
-            5'b01010 : begin // this is the shra instruction, same sequence as shr
+            5'b01010 : begin // SHRA
               next_state = shr3;
             end 
             5'b01100 : begin
@@ -175,14 +173,11 @@ module control_unit (
             5'b00010 : begin
               next_state = st3;
             end
-            // 5'b10011 : begin
-            //   present_state = br3;
-            // end
-            // 5'b10100 : begin
-            //   present_state = jr3; 
-            // end
+            5'b10101 : begin
+              next_state = jr3; 
+            end
             5'b10100 : begin
-              next_state = jal3; 
+              next_state = jal3;
             end
             5'b11001 : begin
               next_state = mfhi3;
@@ -260,7 +255,10 @@ module control_unit (
       not3:      next_state = not4;
       not4:      next_state = fetch0;
 
-      jal3:      next_state = fetch0;
+      jal3:      next_state = jal4;
+      jal4:      next_state = fetch0;
+
+      jr3:       next_state = fetch0;
 
       ror3:      next_state = ror4;
       ror4:      next_state = ror5;
@@ -727,10 +725,25 @@ module control_unit (
       // JAL instruction
 
       jal3: begin
-            PCout <= 1; Gra <= 1;
-            #5 Rin <= 1;
-            #15 PCout <= 0; Gra <= 0; Rin <= 0;
+            PCout <= 1;
+            #5 Gra <= 1; Rin <= 1;
+            #15 PCout <= 0;  Gra <= 0; Rin <= 0;
       end
+
+      jal4: begin
+            Grb <= 1; Rout <= 1;
+            #5 PCin <= 1;
+            #15  Grb <= 0; Rout <= 0; PCin <= 0;
+      end
+
+       // jr instruction
+
+      jr3: begin
+            Gra <= 1; Rout <= 1;
+            #10 PCin <= 1;
+			      #5
+            #5 Gra <= 0; Rout <= 0; PCin <= 0;
+        end
 
       nop3: begin
         // do nothing
