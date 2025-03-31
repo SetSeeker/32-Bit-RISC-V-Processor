@@ -83,8 +83,8 @@ module control_unit (
             jal4 = 8'b01000110, 
             mfhi3 = 8'b01000111, 
             mflo3 = 8'b01001000, 
-            // in3 = 8'b01001001, 
-            // out3 = 8'b01001010, 
+            in3 = 8'b01001001, 
+            out3 = 8'b01001010, 
             nop3 = 8'b01001011, 
             halt3 = 8'b01001100;
 
@@ -185,12 +185,12 @@ module control_unit (
             5'b11000 : begin
               next_state = mflo3;
             end
-            // 5'b10110 : begin
-            //   present_state = in3;
-            // end
-            // 5'b10111 : begin
-            //   present_state = out3;
-            // end
+            5'b10110 : begin
+              next_state = in3;
+            end
+            5'b10111 : begin
+              next_state = out3;
+            end
             5'b11010 : begin
               next_state = nop3;
             end
@@ -199,6 +199,10 @@ module control_unit (
             end
         endcase
       end
+
+      in3:       next_state = fetch0;
+      
+      out3:      next_state = fetch0;
 
       ldi3:      next_state = ldi4;
       ldi4:      next_state = ldi5;
@@ -404,6 +408,18 @@ module control_unit (
             end
             #5 Zlowout <= 0;
             #5 PCin <= 0; Zin <= 0; 
+      end
+
+      in3: begin
+            #5 in_port_out <= 1; Gra <= 1; Rin <= 1;
+            #5 
+            #10 in_port_out <= 0; Gra <= 0; Rin <= 0;
+      end
+
+      out3: begin
+            #5 output_port_in <= 1; Gra <= 1; Rout <= 1;
+            #5 
+            #10 output_port_in <= 0; Gra <= 0; Rout <= 0;
       end
 
       // ADD instruction

@@ -3,14 +3,15 @@ module control_unit_tb;
 
 reg Clock;
 reg Clear, stop;
-wire [31:0] input_port_unit, out_port_data_out, MuxOut;
+wire [31:0] out_port_data_out, MuxOut;
+reg [31:0] input_port_unit;
 
 DataPath DUT(
 	.Clock(Clock),
     .stop(stop),
 	.Clear(Clear),
 	.input_port_unit(input_port_unit)
-	//.out_port_data_out(out_port_data_out),
+	//.out_port_data_out(out_port_data_out)
 );
 
 initial begin
@@ -21,6 +22,7 @@ end
 
 initial begin
   Clock = 0;
+  input_port_unit <= 32'hC0;
   forever #10 Clock = ~Clock;  // 10 ns period (5 ns high, 5 ns low)
 end
 
@@ -32,7 +34,7 @@ end
 
     // End simulation after sufficient time.
     initial begin
-        #12000;  
+        #127500;  
         $display("Simulation complete.");
         $finish;
     end

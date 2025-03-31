@@ -2,7 +2,6 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	input Clock, Clear,
 	input Zin, PCin, MDRin, IRin, Yin, MARin, LOin, HIin,
 	input Read,
-//    input [15:0] in_enable, out_enable,
 	input [DATA_WIDTH-1:0] Mdatain,
     input [DATA_WIDTH-1:0] input_port_unit,
 	input [4:0] control,
@@ -27,6 +26,10 @@ module DataPath #(parameter DATA_WIDTH = 32)(
 	wire [(DATA_WIDTH*2)-1:0] ALU_result;
 	
 	wire [15:0] in_enable, out_enable;
+
+    wire [DATA_WIDTH-1:0] out_port_data_out;
+    
+    wire [7:0] HEX0, HEX1;
 
     Select_Encode #(DATA_WIDTH) select_encode (
     .IR(IR),
@@ -289,6 +292,18 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .address(MAR_address_out)
     );
 
+    Seven_Seg_Display_Out seg0 (
+        .clk(Clock),
+        .data(output_port_unit[3:0]),
+        .outputt(HEX0)
+    );
+
+    Seven_Seg_Display_Out seg1 (
+        .clk(Clock),
+        .data(output_port_unit[7:4]),
+        .outputt(HEX1)
+    );
+
 	//Bus
 	Bus #(DATA_WIDTH) bus(
 		.R0(R0),
@@ -338,7 +353,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
         .Z_high_out(Z_high_out),
         .Z_low_out(Z_low_out),
         .PC_out(PCout),
-        .In_Port_out(In_Port_out),
+        .In_Port_out(in_port_out),
         .C_sign_extended_out(Cout),
 
 		.bus_out(BusMuxOut)
