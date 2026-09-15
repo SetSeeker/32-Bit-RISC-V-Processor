@@ -1,0 +1,64 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Jan 14 04:37:13 2026
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_Tutorial/tutorial_tb.vcd"
+[dumpfile_mtime] "Wed Jan 14 04:35:29 2026"
+[dumpfile_size] 3254
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_Tutorial/tutorial_tb.gtkw"
+[timestart] 0
+[size] 1370 600
+[pos] -1 -1
+*-14.242616 80000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] tutorial_tb.
+[treeopen] tutorial_tb.DP.
+[sst_width] 255
+[signals_width] 227
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@28
+tutorial_tb.clock
+tutorial_tb.clear
+tutorial_tb.RZout
+tutorial_tb.RAout
+tutorial_tb.RBout
+tutorial_tb.RAin
+tutorial_tb.RBin
+tutorial_tb.RZin
+@24
+tutorial_tb.AddImmediate[7:0]
+tutorial_tb.RegisterAImmediate[7:0]
+@22
+tutorial_tb.present_state[3:0]
+@24
++{RB} tutorial_tb.DP.RB.q[7:0]
++{RA} tutorial_tb.DP.RA.q[7:0]
++{RZ} tutorial_tb.DP.RZ.q[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

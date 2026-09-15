@@ -1,0 +1,24 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Mar 27 19:23:17 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/ldi_tb.vcd"
+[dumpfile_mtime] "Thu Mar 27 19:22:48 2025"
+[dumpfile_size] 37017
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/ldi_tb.gtkw"
+[timestart] 0
+[size] 1280 600
+[pos] -1 -1
+*-16.813877 184300 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[treeopen] ldi_tb.
+[sst_width] 240
+[signals_width] 152
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@22
+ldi_tb.DUT.R4[31:0]
+ldi_tb.DUT.BusMuxOut[31:0]
+@23
+ldi_tb.DUT.PC[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

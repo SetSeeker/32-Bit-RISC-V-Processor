@@ -1,0 +1,138 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Feb  3 13:34:54 2026
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/control_unit_tb.vcd"
+[dumpfile_mtime] "Tue Feb  3 13:34:43 2026"
+[dumpfile_size] 7191966
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/control_unit_tb.gtkw"
+[timestart] 0
+[size] 1333 600
+[pos] 9 124
+*-16.927969 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] control_unit_tb.
+[treeopen] control_unit_tb.DUT.
+[treeopen] control_unit_tb.DUT.alu.
+[sst_width] 255
+[signals_width] 326
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@22
+control_unit_tb.DUT.BusMuxOut[31:0]
+control_unit_tb.input_port_unit[31:0]
+@200
+-OUT_PORT
+@23
+control_unit_tb.DUT.HEX0[7:0]
+control_unit_tb.DUT.HEX1[7:0]
+@22
+control_unit_tb.DUT.out_port.data_in[31:0]
+control_unit_tb.DUT.out_port.data_out[31:0]
+@28
+control_unit_tb.DUT.out_port.enable
+@22
+control_unit_tb.DUT.out_port.q[31:0]
+@200
+-IN_PORT
+@22
+control_unit_tb.DUT.in_port.data_in[31:0]
+control_unit_tb.DUT.in_port.data_out[31:0]
+@200
+-Registers
+@22
+control_unit_tb.DUT.HI[31:0]
+control_unit_tb.DUT.LO[31:0]
+control_unit_tb.DUT.R0[31:0]
+control_unit_tb.DUT.R1[31:0]
+control_unit_tb.DUT.R2[31:0]
+control_unit_tb.DUT.R3[31:0]
+control_unit_tb.DUT.R4[31:0]
+control_unit_tb.DUT.R5[31:0]
+control_unit_tb.DUT.R6[31:0]
+control_unit_tb.DUT.R7[31:0]
+control_unit_tb.DUT.R8[31:0]
+control_unit_tb.DUT.R9[31:0]
+control_unit_tb.DUT.R10[31:0]
+control_unit_tb.DUT.R11[31:0]
+control_unit_tb.DUT.R12[31:0]
+control_unit_tb.DUT.R13[31:0]
+control_unit_tb.DUT.R14[31:0]
+control_unit_tb.DUT.R15[31:0]
+@200
+-PC
+@28
+control_unit_tb.DUT.CON
+@420
+control_unit_tb.DUT.pc_register.DATA_WIDTH
+control_unit_tb.DUT.pc_register.INIT
+@28
+control_unit_tb.DUT.pc_register.clear
+control_unit_tb.DUT.pc_register.clock
+@22
+control_unit_tb.DUT.pc_register.data_in[31:0]
+control_unit_tb.DUT.pc_register.data_out[31:0]
+@28
+control_unit_tb.DUT.pc_register.enable
+@22
+control_unit_tb.DUT.pc_register.q[31:0]
+@200
+-Control_Unit
+@28
+control_unit_tb.DUT.CU.Gra
+control_unit_tb.DUT.CU.Grb
+control_unit_tb.DUT.CU.Grc
+control_unit_tb.DUT.CU.HIout
+@22
+control_unit_tb.DUT.CU.IR[31:0]
+@28
+control_unit_tb.DUT.CU.LOout
+control_unit_tb.DUT.CU.Read
+control_unit_tb.DUT.CU.Run
+control_unit_tb.DUT.CU.Yin
+control_unit_tb.DUT.CU.Zin
+control_unit_tb.DUT.CU.clk
+control_unit_tb.DUT.CU.clr
+@22
+control_unit_tb.DUT.CU.control[4:0]
+@200
+-RAM
+@420
+control_unit_tb.DUT.ram.DATA_WIDTH
+@22
+control_unit_tb.DUT.ram.address[8:0]
+control_unit_tb.DUT.ram.data_in[31:0]
+control_unit_tb.DUT.ram.data_out[31:0]
+@28
+control_unit_tb.DUT.ram.read
+@420
+control_unit_tb.DUT.ram.size
+@28
+control_unit_tb.DUT.ram.write
+[pattern_trace] 1
+[pattern_trace] 0

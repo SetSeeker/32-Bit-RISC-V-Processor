@@ -1,0 +1,18 @@
+{
+"version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Verilog Simulation",
+            "type": "shell",
+            "command": "iverilog -o control_unit_tb.out Seven_Seg_Display_Out.v control_unit_tb.v control_unit.v conFF.v In_port.v Out_port.v R0.v Select_Encode.v PC.v MAR.v RAM.v subtract.v non_restore_div.v collective_add.v adder.v boothMul.v DataPath.v register.v MDR.v Bus.v ALU.v and_op.v or_op.v shr.v shra.v shl.v ror.v rol.v neg.v not_op.v && vvp control_unit_tb.out && gtkwave control_unit_tb.vcd control_unit_tb.gtkw",
+            "options": {
+                "cwd": "${workspaceFolder}/ELEC374_PHASE1" 
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

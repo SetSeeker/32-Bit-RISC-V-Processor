@@ -10,7 +10,7 @@ module DataPath #(parameter DATA_WIDTH = 32)(
           Gra, Grb, Grc, Rin, Rout, BAout, PC_tb_enable, CONin, In_port,
           stop, Run,
     input [DATA_WIDTH-1:0] PC_tb_value,
-	 input wire CON
+	input wire CON
 );
 
     wire [DATA_WIDTH-1:0] R0, R1, R2, R3, R4, 

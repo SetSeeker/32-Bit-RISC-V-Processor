@@ -1,0 +1,72 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Mar 19 01:49:12 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/mfhi_mflo_tb.vcd"
+[dumpfile_mtime] "Wed Mar 19 01:48:35 2025"
+[dumpfile_size] 70757
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/mfhi_mflo_tb.gtkw"
+[timestart] 0
+[size] 1280 600
+[pos] -1 -1
+*-16.325739 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] st_tb.
+[treeopen] st_tb.DUT.
+[sst_width] 240
+[signals_width] 243
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@200
+-Registers
+@22
+st_tb.DUT.R2[31:0]
+st_tb.DUT.R3[31:0]
+@200
+-HI_LO
+@22
+st_tb.DUT.HI[31:0]
+st_tb.DUT.LO[31:0]
+@200
+-PC
+@28
+st_tb.DUT.pc_register.PC_tb_enable
+@22
+st_tb.DUT.pc_register.PC_tb_value[31:0]
+@28
+st_tb.DUT.pc_register.clear
+st_tb.DUT.pc_register.clock
+@22
+st_tb.DUT.pc_register.data_in[31:0]
+st_tb.DUT.pc_register.data_out[31:0]
+@28
+st_tb.DUT.pc_register.enable
+@22
+st_tb.DUT.pc_register.q[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

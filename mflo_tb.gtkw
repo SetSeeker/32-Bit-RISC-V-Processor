@@ -1,0 +1,18 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Mar 19 15:43:19 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/mflo_tb.vcd"
+[dumpfile_mtime] "Wed Mar 19 15:43:15 2025"
+[dumpfile_size] 40290
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/mflo_tb.gtkw"
+[timestart] 0
+[size] 1280 600
+[pos] -1 -1
+*0.000000 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[sst_width] 240
+[signals_width] 78
+[sst_expanded] 1
+[sst_vpaned_height] 159
+[pattern_trace] 1
+[pattern_trace] 0

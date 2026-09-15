@@ -1,0 +1,151 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Mar 11 17:02:20 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/de_tb.vcd"
+[dumpfile_mtime] "Tue Mar 11 16:59:00 2025"
+[dumpfile_size] 49748
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/de_tb.gtkw"
+[timestart] 0
+[size] 1280 600
+[pos] 24 12
+*-16.319550 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] de_tb.
+[treeopen] de_tb.DUT.
+[sst_width] 240
+[signals_width] 258
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@200
+-PC
+@28
+de_tb.DUT.pc_register.PC_tb_enable
+@22
+de_tb.DUT.pc_register.PC_tb_value[31:0]
+@28
+de_tb.DUT.pc_register.clock
+@22
+de_tb.DUT.pc_register.data_in[31:0]
+de_tb.DUT.pc_register.data_out[31:0]
+@28
+de_tb.DUT.pc_register.enable
+@22
+de_tb.DUT.pc_register.q[31:0]
+@200
+-IR
+@28
+de_tb.DUT.ir_register.clock
+@22
+de_tb.DUT.ir_register.data_in[31:0]
+de_tb.DUT.ir_register.data_out[31:0]
+@28
+de_tb.DUT.ir_register.enable
+@22
+de_tb.DUT.ir_register.q[31:0]
+@200
+-MDR
+@22
+de_tb.DUT.mdr.BusMuxIn_MDR[31:0]
+de_tb.DUT.mdr.BusMuxOut[31:0]
+@28
+de_tb.DUT.mdr.Clock
+@420
+de_tb.DUT.mdr.DATA_WIDTH
+@22
+de_tb.DUT.mdr.MDMuxout[31:0]
+@28
+de_tb.DUT.mdr.MDRin
+@22
+de_tb.DUT.mdr.Mdatain[31:0]
+@28
+de_tb.DUT.mdr.Read
+@200
+-MAR
+@28
+de_tb.DUT.mar.clock
+@22
+de_tb.DUT.mar.data_in[31:0]
+de_tb.DUT.mar.data_out[8:0]
+@28
+de_tb.DUT.mar.enable
+@22
+de_tb.DUT.mar.q[31:0]
+@200
+-RAM
+@22
+de_tb.DUT.ram.address[8:0]
+de_tb.DUT.ram.data_in[31:0]
+de_tb.DUT.ram.data_out[31:0]
+@28
+de_tb.DUT.ram.read
+de_tb.DUT.ram.write
+@200
+-Select_Encode
+@28
+de_tb.DUT.select_encode.BAout
+@22
+de_tb.DUT.select_encode.C_sign_extended[31:0]
+@28
+de_tb.DUT.select_encode.Cout
+de_tb.DUT.select_encode.Gra
+de_tb.DUT.select_encode.Grb
+de_tb.DUT.select_encode.Grc
+@22
+de_tb.DUT.select_encode.IR[31:0]
+@28
+de_tb.DUT.select_encode.Rin
+@22
+de_tb.DUT.select_encode.Rin_out[15:0]
+@28
+de_tb.DUT.select_encode.Rout
+@22
+de_tb.DUT.select_encode.Rout_out[15:0]
+de_tb.DUT.select_encode.reg_to_enable[3:0]
+@200
+-ALU
+@22
+de_tb.DUT.Y[31:0]
+@28
+de_tb.DUT.Yin
+@22
+de_tb.DUT.alu.Z_reg[63:0]
+de_tb.DUT.Z_low[31:0]
+@28
+de_tb.DUT.Z_low_out
+@200
+-Registers
+@23
+de_tb.DUT.in_enable[15:0]
+@22
+de_tb.DUT.out_enable[15:0]
+de_tb.DUT.R2[31:0]
+de_tb.DUT.R4[31:0]
+de_tb.DUT.R6[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

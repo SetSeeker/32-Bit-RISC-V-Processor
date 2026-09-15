@@ -1,0 +1,129 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Mar 20 14:13:17 2025
+[*]
+[dumpfile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/conFF_tb.vcd"
+[dumpfile_mtime] "Thu Mar 20 14:12:29 2025"
+[dumpfile_size] 52576
+[savefile] "/Users/simonskripchenko/Documents/ENG 2024-2025/TERM_2/ELEC374/ELEC374/ELEC374_PHASE1/conFF_tb.gtkw"
+[timestart] 44300
+[size] 1280 600
+[pos] -1 -1
+*-16.140415 240000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] conFF_tb.
+[treeopen] conFF_tb.DUT.
+[sst_width] 240
+[signals_width] 264
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@200
+-conFF
+@22
+conFF_tb.DUT.conFF.BusMuxOut[31:0]
+@28
+conFF_tb.DUT.conFF.BusOR
+@22
+conFF_tb.DUT.conFF.C2[3:0]
+@28
+conFF_tb.DUT.conFF.CON
+conFF_tb.DUT.conFF.CONin
+conFF_tb.DUT.conFF.CONout
+conFF_tb.DUT.conFF.D
+@420
+conFF_tb.DUT.conFF.DATA_WIDTH
+@22
+conFF_tb.DUT.conFF.IR[31:0]
+conFF_tb.DUT.conFF.Ra[3:0]
+@28
+conFF_tb.DUT.conFF.brmi
+conFF_tb.DUT.conFF.brnz
+conFF_tb.DUT.conFF.brpl
+conFF_tb.DUT.conFF.brzr
+@420
+conFF_tb.DUT.conFF.i
+@28
+conFF_tb.DUT.conFF.sigDig
+@200
+-SELECT_ENCODE
+@28
+conFF_tb.DUT.select_encode.BAout
+@22
+conFF_tb.DUT.select_encode.C_sign_extended[31:0]
+@28
+conFF_tb.DUT.select_encode.Cout
+@420
+conFF_tb.DUT.select_encode.DATA_WIDTH
+@28
+conFF_tb.DUT.select_encode.Gra
+conFF_tb.DUT.select_encode.Grb
+conFF_tb.DUT.select_encode.Grc
+@22
+conFF_tb.DUT.select_encode.IR[31:0]
+@28
+conFF_tb.DUT.select_encode.Rin
+@22
+conFF_tb.DUT.select_encode.Rin_out[15:0]
+@28
+conFF_tb.DUT.select_encode.Rout
+@22
+conFF_tb.DUT.select_encode.Rout_out[15:0]
+conFF_tb.DUT.select_encode.reg_to_enable[3:0]
+@200
+-PC
+@23
+conFF_tb.DUT.PC[31:0]
+@28
+conFF_tb.DUT.pc_register.PC_tb_enable
+@22
+conFF_tb.DUT.pc_register.PC_tb_value[31:0]
+@28
+conFF_tb.DUT.pc_register.clear
+conFF_tb.DUT.pc_register.clock
+@22
+conFF_tb.DUT.pc_register.data_in[31:0]
+conFF_tb.DUT.pc_register.data_out[31:0]
+@28
+conFF_tb.DUT.pc_register.enable
+@22
+conFF_tb.DUT.pc_register.q[31:0]
+@200
+-ALU
+@28
+conFF_tb.DUT.Zin
+@22
+conFF_tb.DUT.alu.result[31:0]
+conFF_tb.DUT.Y[31:0]
+conFF_tb.DUT.alu.Z_reg[63:0]
+conFF_tb.DUT.alu.add_result[31:0]
+@200
+-Registers
+@22
+conFF_tb.DUT.R1[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -160,13 +160,12 @@ begin
         end
         endcase
     end
-	// Waveform dump for simulation viewing (e.g., GTKWave)
+    
     initial begin
         $dumpfile("in_out_tb.vcd");
         $dumpvars;
     end
 
-    // End simulation after sufficient time.
     initial begin
         #500;  
         $display("Simulation complete.");

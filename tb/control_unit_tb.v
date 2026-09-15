@@ -3,7 +3,7 @@ module control_unit_tb;
 
 reg Clock;
 reg Clear, stop;
-wire [31:0] out_port_data_out, MuxOut;
+wire [31:0] output_port_unit, MuxOut;
 reg [31:0] input_port_unit;
 
 DataPath DUT(
@@ -11,7 +11,6 @@ DataPath DUT(
     .stop(stop),
 	.Clear(Clear),
 	.input_port_unit(input_port_unit)
-	//.out_port_data_out(out_port_data_out)
 );
 
 initial begin
@@ -23,16 +22,14 @@ end
 initial begin
   Clock = 0;
   input_port_unit <= 32'hC0;
-  forever #10 Clock = ~Clock;  // 10 ns period (5 ns high, 5 ns low)
+  forever #10 Clock = ~Clock;
 end
 
-	// Waveform dump for simulation viewing (e.g., GTKWave)
     initial begin
         $dumpfile("control_unit_tb.vcd");
         $dumpvars;
     end
 
-    // End simulation after sufficient time.
     initial begin
         #127500;  
         $display("Simulation complete.");
