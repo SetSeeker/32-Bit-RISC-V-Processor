@@ -1,12 +1,12 @@
 {
-"version": "2.0.0",
+    "version": "2.0.0",
     "tasks": [
         {
             "label": "Run Verilog Simulation",
             "type": "shell",
-            "command": "iverilog -o control_unit_tb.out Seven_Seg_Display_Out.v control_unit_tb.v control_unit.v conFF.v In_port.v Out_port.v R0.v Select_Encode.v PC.v MAR.v RAM.v subtract.v non_restore_div.v collective_add.v adder.v boothMul.v DataPath.v register.v MDR.v Bus.v ALU.v and_op.v or_op.v shr.v shra.v shl.v ror.v rol.v neg.v not_op.v && vvp control_unit_tb.out && gtkwave control_unit_tb.vcd control_unit_tb.gtkw",
+            "command": "iverilog -o control_unit_tb.out control_unit_tb.v ../src/Seven_Seg_Display_Out.v ../src/control_unit.v ../src/conFF.v ../src/In_port.v ../src/Out_port.v ../src/R0.v ../src/Select_Encode.v ../src/PC.v ../src/MAR.v ../src/RAM.v ../src/subtract.v ../src/non_restore_div.v ../src/collective_add.v ../src/adder.v ../src/boothMul.v ../src/DataPath.v ../src/register.v ../src/MDR.v ../src/Bus.v ../src/ALU.v ../src/and_op.v ../src/or_op.v ../src/shr.v ../src/shra.v ../src/shl.v ../src/ror.v ../src/rol.v ../src/neg.v ../src/not_op.v && vvp control_unit_tb.out && gtkwave control_unit_tb.vcd control_unit_tb.gtkw",
             "options": {
-                "cwd": "${workspaceFolder}/ELEC374_PHASE1" 
+                "cwd": "${workspaceFolder}/tb" 
             },
             "group": {
                 "kind": "build",
