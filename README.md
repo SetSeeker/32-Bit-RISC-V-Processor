@@ -1,4 +1,4 @@
-**32-Bit RISC-V Processor**
+# 32-Bit RISC-V Processor
 
 A custom 32-bit RISC-V processor designed in Verilog and optimized for FPGA deployment. This project encompasses the complete core architecture, including data path modeling, control unit logic, and timing optimizations necessary for executing the RISC-V instruction set.
 
